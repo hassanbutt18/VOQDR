@@ -1,0 +1,143 @@
+.applications {
+    padding: 50px 4.8%;
+}
+
+.applications h2 {
+    font-weight: 700;
+    font-size: 2.813rem;
+    line-height: 2.8rem;
+    color: #004762;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.applications-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3%;
+}
+
+.applications-image {
+    width: 48%;
+}
+
+.applications-image img {
+    width: 100%;
+    max-width: 811px;
+    min-width: 0;
+    height: auto;
+}
+
+.applications-card-container {
+    width: 48%;
+}
+
+.applications-card {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 25px 15px;
+    border: 1px solid transparent;
+    border-radius: 20px;
+}
+
+.applications-card:hover {
+    background: #F8FCFE;
+    box-shadow: 0px 0px 40px rgba(70, 135, 159, 0.1);
+}
+
+.app-card-heading {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 8px;
+}
+
+.app-card-heading h3 {
+    font-weight: 600;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    color: #000000;
+}
+
+.app-card-description {
+    font-weight: 500;
+    font-size: 1.1rem;
+    line-height: 1.5rem;
+    color: #949494;
+}
+
+
+@media (min-width: 1536px) {
+    .applications-image {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .app-card-heading h3 {
+        font-size: 1.8rem;
+        line-height: 2.8rem;
+    }
+    
+    .app-card-description {
+        font-size: 1.438rem;
+        line-height: 2rem;
+    }
+}
+
+
+@media (max-width: 1280px) {
+    .app-card-heading h3 {
+        font-size: 1.3rem;
+        line-height: 1.5rem;
+    }
+    
+    .app-card-description {
+        font-size: 1rem;
+        line-height: 1.2rem;
+    }
+}
+
+
+@media (max-width: 1024px) {
+    .applications-container {
+        flex-direction: column;
+    }
+
+    .applications-card-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 3%;
+        flex-wrap: wrap;
+    }
+
+    .applications-card {
+        width: 48%;
+    }
+
+    .app-card-heading h3 {
+        font-size: 1.5rem;
+        line-height: 2rem;
+    }
+    
+    .app-card-description {
+        font-size: 1.1rem;
+        line-height: 1.5rem;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .applications-image {
+        width: 100%;
+    }
+
+    .applications-card-container {
+        margin-top: 20px;
+    }
+
+    .applications-card {
+        width: 100%;
+    }
+}

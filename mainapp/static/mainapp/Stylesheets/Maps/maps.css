@@ -1,0 +1,375 @@
+.map-responsive {
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.map-responsive iframe {
+    height: 87vh;
+    width: 100%;
+}
+
+.group-dropdown-container {
+    position: absolute;
+    z-index: 11;
+    top: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    left: .8%;
+}
+
+.group-dropdown-container i {
+    color: #004762;
+}
+
+.voqdr-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 23.4%;
+    aspect-ratio: 1 / .155;
+    background-color: #F8FCFE;
+    box-shadow: 0px 0px 10px rgba(70, 135, 159, 0.25);
+    border-radius: 20px;
+    padding: 0 1%;
+}
+
+.voqdr-options span {
+    font-weight: 500;
+    font-size: 1.125rem;
+    line-height: 1rem;
+    color: #525252;
+}
+
+.devices-options {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 23.4%;
+    aspect-ratio: 1 / .155;
+    background-color: #F8FCFE;
+    box-shadow: 0px 0px 10px rgba(70, 135, 159, 0.25);
+    border-radius: 20px;
+    padding: 1% 1%;
+}
+
+.devices-options>div:first-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1%;
+    width: 100%;
+}
+
+.devices-options>div:first-child span {
+    font-weight: 500;
+    font-size: 1.125rem;
+    line-height: 1rem;
+    color: #525252;
+}
+
+.device3-chevron-down {
+    display: block !important;
+}
+
+.device3-chevron-up {
+    display: none !important;
+}
+
+.show-chevron {
+    display: block !important;
+}
+
+.hide-chevron {
+    display: none !important;
+}
+
+.refresh-icon {
+    margin-top: 8px;
+    align-self: flex-end;
+    font-weight: 500;
+    font-size: .875rem;
+    line-height: .875rem;
+    color: #004762;
+    text-align: right;
+}
+
+.search-bar {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.search-input {
+    width: 100%;
+    aspect-ratio: 1 / .12;
+    color: #46879F;
+    border: 1px solid #46879F;
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: .875rem;
+    line-height: .875rem;
+    color: #A4A4A4;
+    position: relative;
+}
+
+.search-input::placeholder {
+    color: #A4A4A4;
+}
+
+.search-icon {
+    position: absolute;
+    right: 15px;
+    color: #A4A4A4;
+}
+
+.device1,
+.device2,
+.device3 {
+    width: 100%;
+    background-color: white;
+    padding: 1% 1%;
+    margin-bottom: 8px;
+    min-height: 50px;
+    border-radius: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.hide-device3 {
+    display: none;
+    width: 100%;
+}
+
+.show-device3 {
+    display: block;
+    width: 100%;
+}
+
+.devices-container {
+    width: 100%;
+    height: 200px;
+    overflow-y: scroll;
+}
+
+.device1>svg,
+.device2>svg,
+.device3>svg {
+    position: absolute;
+    left: 0;
+    pointer-events: all;
+}
+
+.device1>div:first-of-type,
+.device2>div:first-of-type,
+.device3>div:first-of-type {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2%;
+    width: 100%;
+}
+
+.device1>div:first-of-type span,
+.device2>div:first-of-type span,
+.device3>div:first-of-type span {
+    font-weight: 500;
+    font-size: 1.125rem;
+    line-height: 1.5rem;
+    color: #525252;
+}
+
+.device3-text {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 2%;
+}
+
+.device3-text span {
+    max-width: 90%;
+    font-weight: 700;
+    font-size: .7rem;
+    line-height: 1.125rem;
+    color: #565656;
+}
+
+.device3-feature-container {
+    margin-top: 15px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    box-shadow: 0px 0px 6px rgba(0, 71, 98, 0.1);
+    border-radius: 10px;
+}
+
+.device3-features {
+    width: 70%;
+}
+
+.device3-features svg {
+    width: 25%;
+}
+
+.device3-additional-features {
+    margin-top: 5px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.device3-additional-features div {
+    width: 40%;
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+}
+
+.device3-feature-container svg,
+.device3-additional-features svg {
+    pointer-events: all;
+}
+
+.device3-features svg:hover rect {
+    fill: #004762;
+}
+
+.device3-additional-features svg:hover rect {
+    fill: #004762;
+}
+
+.device3-additional-features div svg {
+    width: 48%;
+}
+
+
+/* Modal Design */
+
+.overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+    z-index: 12;
+}
+
+.modal-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    width: 40%;
+    aspect-ratio: 1 / .5;
+    background-color: white;
+    border: 1px solid transparent;
+    border-radius: 20px;
+    padding: 30px 0;
+    z-index: 13;
+    background-image: url("../../Assets/Images/ModalBg.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.hidden {
+    display: none;
+}
+
+.close-button {
+    position: absolute;
+    right: 2.3%;
+    top: 2.3%;
+    pointer-events: all;
+    cursor: pointer;
+}
+
+.modal-content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 15px;
+    padding: 0 7.7%;
+}
+
+.modal-question {
+    font-weight: 800;
+    font-size: 1.5rem;
+    line-height: 1.25rem;
+    text-align: center;
+}
+
+.modal-question-description {
+    font-weight: 400;
+    font-size: 1.125rem;
+    line-height: 1.25rem;
+    text-align: center;
+}
+
+.modal-submit-btn {
+    background-color: #46879F;
+    border: 1px solid transparent;
+    border-radius: 40px;
+    color: white;
+    font-size: 1rem;
+    line-height: 1rem;
+    width: 25%;
+    aspect-ratio: 1 / .31;
+}
+
+
+@media (min-width: 1536px) {
+
+}
+
+
+@media (min-height: 1024px) {
+    .devices-container {
+        height: fit-content;
+        overflow: hidden;
+    }
+}
+
+
+@media (max-width: 1280px) {
+
+    .voqdr-options,
+    .devices-options {
+        width: 28%;
+    }
+
+    .modal-container {
+        width: 50%;
+    }
+}
+
+
+@media (max-width: 1024px) {
+
+    .voqdr-options,
+    .devices-options {
+        width: 35%;
+    }
+
+    .modal-container {
+        width: 70%;
+    }
+}

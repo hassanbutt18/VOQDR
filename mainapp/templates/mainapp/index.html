@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'mainapp/Stylesheets/Home/swiper-bundle.min.css' %}">
+    <link rel="stylesheet" href="{% static 'mainapp/Stylesheets/Home/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'mainapp/Stylesheets/Home/home.css' %}">
+    <link rel="stylesheet" href="{% static 'mainapp/Stylesheets/Home/product_feature.css' %}">
+    <link rel="stylesheet" href="{% static 'mainapp/Stylesheets/Home/applications.css' %}">
+    <link rel="stylesheet" href="{% static 'mainapp/Stylesheets/Home/testimonials.css' %}">
+    <link rel="stylesheet" href="{% static 'mainapp/Stylesheets/Home/contact_us.css' %}">
+    <link rel="stylesheet" href="{% static 'mainapp/Stylesheets/Home/footer.css' %}">
+
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+
+    <script src="https://kit.fontawesome.com/0d5a0a2089.js" crossorigin="anonymous"></script>
+    <title>VOQDR</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href={% url 'index' %}>
+                <img src="{% static 'mainapp/Assets/Images/logo.svg' %}" class="logo" alt="Logo">
+            </a>
+            <div class="nav-links">
+                <a href="{% url 'maps' %}" class="nav-items">Map</a>
+                <a href="#buy" class="nav-items">Buy</a>
+                <button class="nav-items"><a href="#signin">Sign in</a></button>
+            </div>
+            <button class="hamburger">
+                <i class="fa-solid fa-bars menuIcon"></i>
+                <i class="fa-solid fa-xmark closeIcon"></i>
+            </button>
+        </nav>
+
+        <div class="main">
+            <div class="main-heading">
+                <h1>Time Tracking Website</h1>
+                <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...
+                </p>
+            </div>
+            <div class="main-image">
+                <img src="{% static 'mainapp/Assets/Images/HomeMainImage.svg' %}" alt="Home Main Image">
+            </div>
+            <div class="modal-container hidden">
+                <svg class="close-button" width="30" height="31" viewBox="0 0 30 31" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_295_2457)">
+                        <path
+                            d="M15 2.99414C8.0875 2.99414 2.5 8.58164 2.5 15.4941C2.5 22.4066 8.0875 27.9941 15 27.9941C21.9125 27.9941 27.5 22.4066 27.5 15.4941C27.5 8.58164 21.9125 2.99414 15 2.99414ZM21.25 19.9816L19.4875 21.7441L15 17.2566L10.5125 21.7441L8.75 19.9816L13.2375 15.4941L8.75 11.0066L10.5125 9.24414L15 13.7316L19.4875 9.24414L21.25 11.0066L16.7625 15.4941L21.25 19.9816Z"
+                            fill="#FB3B3B" />
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_295_2457">
+                            <rect width="30" height="30" fill="white" transform="translate(0 0.494141)" />
+                        </clipPath>
+                    </defs>
+                </svg>
+                <h2>Buy Device</h2>
+                <div class="modal-content-container">
+                    <div class="product-image">
+                        <img src="{% static 'mainapp/Assets/Images/ProductImage.svg' %}" alt="Product" />
+                    </div>
+                    <div class="product-details">
+                        <div>
+                            <h3>Smart Watch</h3>
+                            <div class="product-quantity-container">
+                                <h4>Quantity</h4>
+                                <input type="number" name="Quantity" id="product-quantity">
+                            </div>
+                        </div>
+                        <div class="product-description">
+                            <ul>
+                                <li>Charging Cable Dock Charger 2 pin</li>
+                                <li>Magnetic Charging</li>
+                            </ul>
+                            <p>Unit Price: <span>$1190</span></p>
+                            <p>Sub Total: <span>$1190</span></p>
+                            <p>Total Monthly Price: <span>$1190</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="order-submission-container">
+                    <div class="terms-checkbox">
+                        <input type="checkbox" name="Terms and Condistions" id="terms-checkbox" />
+                        <label for="terms-conditions">I accept the <a href="#">Terms and Conditions</a></label>
+                    </div>
+                    <button class="modal-submit-btn">Checkout</button>
+                </div>
+            </div>
+            <div class="overlay hidden"></div>
+        </div>
+
+        <div class="group-buttons">
+            <button class="modal-open-button">Buy</button>
+            <button>Learn More</button>
+        </div>
+    </header>
+
+    <section class="product-features">
+        <div class="feature-container">
+            <h2>Product Features</h2>
+            <div class="feature-card-container">
+                <div class="feature-card">
+                    <img src="{% static 'mainapp/Assets/Images/Card1.svg' %}" class="feature-image" alt="Feature1">
+                    <div class="feature-content">
+                        <h3>Tracker with very long battery life</h3>
+                        <p class="feature-description">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                            Doloribus id minima incidunt repellendus vitae aspernatur dicta ducimus omnis doloremque
+                            illum animi, quaerat temporibus aliquid sunt deserunt accusantium, delectus non nisi.</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <img src="{% static 'mainapp/Assets/Images/Card2.svg' %}" class="feature-image" alt="Feature2">
+                    <div class="feature-content">
+                        <h3>eSim with global coverage</h3>
+                        <p class="feature-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero,
+                            autem quia ratione beatae itaque optio aperiam excepturi omnis, enim vel est quibusdam
+                            inventore a ad dolore! Esse voluptatum optio sit?</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <img src="{% static 'mainapp/Assets/Images/Card3.svg' %}" class="feature-image" alt="Feature3">
+                    <div class="feature-content">
+                        <h3>GPS+LTE technology</h3>
+                        <p class="feature-description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eius
+                            deleniti, sapiente enim tenetur illum et! Iste, error? Deleniti debitis quam, eligendi
+                            explicabo quas, id molestias aliquid architecto nulla cupiditate recusandae.</p>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+    <section class="applications">
+        <h2>Applications</h2>
+        <div class="applications-container">
+            <div class="applications-image">
+                <img src="{% static 'mainapp/Assets/Images/ApplicationsImage.svg' %}" alt="Applications">
+            </div>
+            <div class="applications-card-container">
+                <div class="applications-card">
+                    <div class="app-card-heading">
+                        <svg width="51" height="51" viewBox="0 0 51 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="0.328125" y="0.994141" width="50" height="50" rx="25" fill="#46879F" />
+                            <g clip-path="url(#clip0_295_1626)">
+                                <path
+                                    d="M32.3503 14.7941H29.1551V11.9941H21.5017V14.7941H18.3065C16.9097 14.7941 15.7617 15.6341 15.7617 16.6561V38.1181C15.7617 39.1541 16.9097 39.9941 18.3065 39.9941H32.3312C33.7471 39.9941 34.8951 39.1541 34.8951 38.1321V16.6561C34.8951 15.6341 33.7471 14.7941 32.3503 14.7941ZM23.4151 37.1941V29.4941H19.5884L27.2417 18.9941V26.6941H31.0684L23.4151 37.1941Z"
+                                    fill="white" />
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_295_1626">
+                                    <rect width="28" height="28" fill="white" transform="translate(11.3281 11.9941)" />
+                                </clipPath>
+                            </defs>
+                        </svg>
+                        <h3>Track Containers</h3>
+                    </div>
+                    <p class="app-card-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt totam
+                        corporis eaque eum cumque amet officia et ullam, porro sint, voluptatum obcaecati est! Dolorem,
+                        adipisci. Nobis perspiciatis repudiandae nostrum iusto?</p>
+                </div>
+                <div class="applications-card">
+                    <div class="app-card-heading">
+                        <svg width="51" height="51" viewBox="0 0 51 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="0.328125" y="0.994141" width="50" height="50" rx="25" fill="#46879F" />
+                            <g clip-path="url(#clip0_295_1644)">
+                                <path
+                                    d="M37.6811 32.4878V31.058C37.6811 29.4495 36.4732 28.1388 34.936 28.1388C33.3987 28.1388 32.1909 29.4495 32.1909 31.058V32.4878C31.2026 32.9048 30.5438 33.9175 30.5438 35.109V37.1346C30.5438 38.6835 31.7517 39.9941 33.1791 39.9941H36.6928C38.1203 39.9941 39.3281 38.6835 39.3281 37.1346V35.109C39.3281 33.9175 38.6693 32.9048 37.6811 32.4878ZM35.485 32.2495H34.3869V31.058C34.3869 30.7601 34.6066 30.5218 34.936 30.5218C35.2654 30.5218 35.485 30.7601 35.485 31.058V32.2495ZM18.7399 25.2197L15.7203 26.3516C13.1399 27.1856 11.3281 29.8069 11.3281 32.7261V34.0367C11.3281 36.0027 12.8105 37.6112 14.6222 37.6112H28.5673C29.1713 37.6112 29.6654 37.075 29.6654 36.4197C29.6654 35.7644 29.1713 35.2282 28.5673 35.2282H14.6222C14.0183 35.2282 13.5242 34.692 13.5242 34.0367V32.7261C13.5242 30.8197 14.6771 29.1516 16.3791 28.6154L19.3987 27.4835C20.332 27.1856 21.1556 26.5303 21.6497 25.6367C21.6497 25.6367 21.6497 25.5771 21.7046 25.5771C22.0889 25.6367 22.4732 25.6963 22.8575 25.6963C23.2419 25.6963 23.6262 25.6367 24.0105 25.5771C24.0105 25.5771 24.0105 25.6367 24.0654 25.6367C24.6144 26.5303 25.383 27.1856 26.2615 27.4835L29.3909 28.675C29.7203 28.7941 30.0497 28.9133 30.3242 29.092C30.4889 29.2112 30.7085 29.2707 30.8732 29.2707C31.2575 29.2707 31.5869 29.092 31.8066 28.675C32.136 28.1388 31.9713 27.3644 31.4222 27.0665C30.983 26.7686 30.4889 26.5303 29.9948 26.4112L26.8654 25.2197C26.536 25.1005 26.2066 24.8622 25.9869 24.5644C27.3595 23.492 28.2928 21.7048 28.2928 19.7388V17.9516C28.2928 14.675 25.8222 11.9941 22.8026 11.9941C19.783 11.9941 17.3124 14.675 17.3124 17.9516V19.7388C17.3124 21.7644 18.2458 23.492 19.6183 24.5644C19.4536 24.8622 19.1242 25.1005 18.7399 25.2197ZM19.5634 19.7388V18.5473C23.9556 18.3686 23.9556 16.1644 23.9556 16.1644C24.3399 17.7729 25.4379 18.309 26.1517 18.4878V19.7388C26.1517 21.7048 24.6693 23.3133 22.8575 23.3133C21.0458 23.3133 19.5634 21.7048 19.5634 19.7388Z"
+                                    fill="white" />
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_295_1644">
+                                    <rect width="28" height="28" fill="white" transform="translate(11.3281 11.9941)" />
+                                </clipPath>
+                            </defs>
+                        </svg>
+
+                        <h3>Track Work Equipment</h3>
+                    </div>
+                    <p class="app-card-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt totam
+                        corporis eaque eum cumque amet officia et ullam, porro sint, voluptatum obcaecati est! Dolorem,
+                        adipisci. Nobis perspiciatis repudiandae nostrum iusto?</p>
+                </div>
+                <div class="applications-card">
+                    <div class="app-card-heading">
+                        <svg width="51" height="51" viewBox="0 0 51 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="0.328125" y="0.994141" width="50" height="50" rx="25" fill="#46879F" />
+                            <g clip-path="url(#clip0_295_1626)">
+                                <path
+                                    d="M32.3503 14.7941H29.1551V11.9941H21.5017V14.7941H18.3065C16.9097 14.7941 15.7617 15.6341 15.7617 16.6561V38.1181C15.7617 39.1541 16.9097 39.9941 18.3065 39.9941H32.3312C33.7471 39.9941 34.8951 39.1541 34.8951 38.1321V16.6561C34.8951 15.6341 33.7471 14.7941 32.3503 14.7941ZM23.4151 37.1941V29.4941H19.5884L27.2417 18.9941V26.6941H31.0684L23.4151 37.1941Z"
+                                    fill="white" />
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_295_1626">
+                                    <rect width="28" height="28" fill="white" transform="translate(11.3281 11.9941)" />
+                                </clipPath>
+                            </defs>
+                        </svg>
+                        <h3>Track Fleets</h3>
+                    </div>
+                    <p class="app-card-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt totam
+                        corporis eaque eum cumque amet officia et ullam, porro sint, voluptatum obcaecati est! Dolorem,
+                        adipisci. Nobis perspiciatis repudiandae nostrum iusto?</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <h2>Testimonials</h2>
+        <div class="testimonial-container">
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <h3>It was a great experience</h3>
+                            <p class="client-criticism">"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet,
+                                consectetur, adipisci
+                                velit..."
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nec convallis ligula. Etiam
+                                mattis condimentum tellus, a elementum elit commodo a. Vivamus vel tortor scelerisque,
+                                aliquam turpis a, fringilla nibh, Nunc vitae cursus arcu, nec luctus tortor. Nullam
+                                dictum ante non ex mattis, non mollis leo fermentum. Suspendisse sit amet varius felis.
+                                In nec gravida lorem.
+                            </p>
+                            <div class="client-info">
+                                <div class="client-image">
+                                    <svg width="75" height="75" viewBox="0 0 75 75" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_285_1148)">
+                                            <path d="M53.0723 53.7192H34.5723V28.6816L50.5685 37.4448L53.0723 53.7192Z"
+                                                fill="#2F2E41" />
+                                            <path
+                                                d="M37.9895 49.3002C44.6229 49.3002 50.0004 43.9227 50.0004 37.2893C50.0004 30.6558 44.6229 25.2783 37.9895 25.2783C31.356 25.2783 25.9785 30.6558 25.9785 37.2893C25.9785 43.9227 31.356 49.3002 37.9895 49.3002Z"
+                                                fill="#FFB6B6" />
+                                            <path
+                                                d="M31.0951 51.0767L30.5525 45.5916L41.3884 43.5654L47.7869 59.1444L36.659 71.9414L28.7305 56.3624L31.0951 51.0767Z"
+                                                fill="#FFB6B6" />
+                                            <path
+                                                d="M63.9013 63.7396C63.7664 63.88 63.6287 64.0191 63.491 64.1568C63.0542 64.5936 62.6091 65.0179 62.1543 65.4296C55.3385 71.6111 46.5934 74.994 37.3281 74.994C28.7861 74.994 20.6864 72.1188 14.1335 66.8261C14.1294 66.8233 14.1266 66.8206 14.1224 66.8164C13.9235 66.6564 13.7274 66.4937 13.5312 66.3282C13.566 66.228 13.6036 66.1293 13.6411 66.0319C15.7485 60.5417 19.9103 57.8557 22.4363 56.6803C23.6882 56.0975 24.5381 55.8847 24.5381 55.8847L27.5036 50.5433L29.5915 54.4381L31.1299 57.3091L37.4422 69.0865L42.8878 55.5272L44.5751 51.3237L45.0077 50.2471L47.0649 51.8481L49.0123 53.3629L52.9335 54.228L56.1146 54.9305L60.435 55.8847C62.1821 57.3077 63.2448 60.0145 63.8387 63.3779C63.861 63.4975 63.8819 63.6185 63.9013 63.7396Z"
+                                                fill="#3B6E81" />
+                                            <path
+                                                d="M31.6728 23.6395C33.1359 21.1819 35.8229 19.4958 38.6722 19.2472C41.5215 18.9987 44.4599 20.1942 46.3263 22.3614C47.4385 23.6528 48.1678 25.2344 49.2519 26.5495C51.5849 29.3795 55.5631 31.0342 56.5822 34.5574C57.027 36.0949 56.8054 37.7363 56.5803 39.3209C56.3875 40.679 56.1946 42.0372 56.0017 43.3953C55.8516 44.4523 55.7077 45.5666 56.104 46.5578C56.569 47.7208 57.6817 48.4825 58.4011 49.5077C59.6253 51.2522 59.5358 53.8063 58.1926 55.4609C57.61 56.1784 56.8377 56.7195 56.2269 57.4132C55.6162 58.1069 55.1632 59.0554 55.419 59.9435C55.909 61.6448 58.5771 62.0528 58.8698 63.799C59.0194 64.6918 58.4028 65.5833 57.5948 65.9915C56.7869 66.3998 55.8358 66.4116 54.9373 66.3024C51.5219 65.8873 48.3597 63.7533 46.6969 60.7413C45.034 57.7294 44.9129 53.9164 46.3813 50.805C47.5874 48.2496 49.8289 45.9915 49.8045 43.1659C49.7912 41.6265 49.0851 40.1887 48.3947 38.8128C46.9816 35.9967 45.5684 33.1805 44.1553 30.3644C43.3983 28.8559 42.5199 27.2303 40.9615 26.5822C39.7571 26.0814 38.3905 26.2756 37.1023 26.4805C35.8141 26.6853 34.4495 26.8847 33.2415 26.3926C32.0335 25.9005 31.1207 24.4383 31.6963 23.2678"
+                                                fill="#2F2E41" />
+                                            <path
+                                                d="M33.778 23.7682C31.4575 23.0043 28.8544 24.2305 27.2834 26.1014C25.7124 27.9723 24.9503 30.3726 24.2243 32.7052C23.8085 34.0414 23.3927 35.3775 22.9768 36.7137C22.5856 37.9706 22.1945 39.2275 21.8033 40.4844C21.3432 41.9629 20.8793 43.5335 21.2569 45.0352C21.5299 46.1208 22.2324 47.1065 22.2475 48.2258C22.2633 49.395 21.5311 50.4215 20.8894 51.399C20.2477 52.3765 19.6454 53.5379 19.9511 54.6665C20.4161 56.3832 22.8029 57.3269 22.672 59.1006C22.6284 59.6926 22.286 60.2401 22.2923 60.8336C22.3002 61.5888 22.8914 62.2414 23.5841 62.5422C24.2768 62.8431 25.056 62.8594 25.8111 62.8462C28.1273 62.8054 30.4393 62.5304 32.7003 62.0265C33.5703 61.8327 34.4549 61.5949 35.179 61.0753C35.9031 60.5557 36.4433 59.6949 36.3491 58.8086C36.2022 57.4276 34.7173 56.6441 33.968 55.4747C33.232 54.3261 33.2491 52.8709 32.9317 51.5441C32.4955 49.7208 31.4183 48.1289 30.6096 46.4375C27.5693 40.0785 28.6336 31.9731 33.2124 26.6145C33.6173 26.1408 34.0596 25.6641 34.2285 25.0643C34.3974 24.4644 34.1796 23.7001 33.5928 23.4902"
+                                                fill="#2F2E41" />
+                                            <path
+                                                d="M63.491 11.8312C56.5027 4.84297 47.211 0.994141 37.3281 0.994141C27.4452 0.994141 18.1535 4.84297 11.1652 11.8312C4.17696 18.8195 0.328125 28.1112 0.328125 37.9941C0.328125 47.0146 3.53433 55.5427 9.40981 62.2764C9.97038 62.9205 10.556 63.5478 11.1652 64.157C11.3085 64.3003 11.4532 64.4436 11.5992 64.5827C11.9887 64.9596 12.3851 65.3282 12.7885 65.6857C13.0333 65.9041 13.2809 66.1183 13.5313 66.3283C13.7274 66.4939 13.9235 66.6566 14.1224 66.8166C14.1266 66.8208 14.1294 66.8235 14.1336 66.8263C20.6865 72.119 28.7861 74.9941 37.3281 74.9941C46.5934 74.9941 55.3385 71.6113 62.1543 65.4298C62.6091 65.0181 63.0543 64.5938 63.491 64.157C63.6287 64.0193 63.7664 63.8802 63.9014 63.7397C64.2769 63.3531 64.6414 62.9594 64.9975 62.5602C71.0301 55.7833 74.3281 47.1426 74.3281 37.9941C74.3281 28.1112 70.4793 18.8195 63.491 11.8312V11.8312ZM64.907 62.2138C64.5593 62.6089 64.2032 62.9983 63.8388 63.3781C63.2712 63.9693 62.6856 64.5423 62.0806 65.0946C61.8511 65.306 61.6188 65.5118 61.3837 65.7163C59.0093 67.7819 56.3664 69.5457 53.5163 70.9506C52.5162 71.4444 51.4911 71.8937 50.4423 72.2956C46.3681 73.8591 41.9462 74.716 37.3281 74.716C32.8714 74.716 28.5984 73.9175 24.6438 72.457C23.0205 71.8589 21.4515 71.1481 19.9451 70.3344C19.7239 70.2147 19.5041 70.0937 19.2858 69.9699C18.1368 69.3189 17.0254 68.6082 15.9585 67.8403C15.1615 67.2686 14.3881 66.6664 13.6412 66.0321C13.3797 65.8109 13.121 65.587 12.8664 65.3574C12.4519 64.9888 12.0457 64.6091 11.6493 64.2196C10.8982 63.4838 10.1804 62.7174 9.49467 61.9203C3.95719 55.4885 0.606321 47.1259 0.606321 37.9941C0.606321 17.7457 17.0797 1.27234 37.3281 1.27234C57.5766 1.27234 74.0499 17.7457 74.0499 37.9941C74.0499 47.2664 70.5961 55.7458 64.907 62.2138Z"
+                                                fill="#3F3D56" />
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_285_1148">
+                                                <rect width="74" height="74" fill="white"
+                                                    transform="translate(0.328125 0.994141)" />
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+                                </div>
+                                <div class="client-details">
+                                    <p class="client-name">Elena Forbes</p>
+                                    <span class="client-description">CEO / Director</span>
+                                </div>
+                            </div>
+                            <p class="date">26-01-2022</p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <h3>It was a great experience</h3>
+                            <p class="client-criticism">"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet,
+                                consectetur, adipisci
+                                velit..."
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nec convallis ligula. Etiam
+                                mattis condimentum tellus, a elementum elit commodo a. Vivamus vel tortor scelerisque,
+                                aliquam turpis a, fringilla nibh, Nunc vitae cursus arcu, nec luctus tortor. Nullam
+                                dictum ante non ex mattis, non mollis leo fermentum. Suspendisse sit amet varius felis.
+                                In nec gravida lorem.
+                            </p>
+                            <div class="client-info">
+                                <div class="client-image">
+                                    <svg width="75" height="75" viewBox="0 0 75 75" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_285_1148)">
+                                            <path d="M53.0723 53.7192H34.5723V28.6816L50.5685 37.4448L53.0723 53.7192Z"
+                                                fill="#2F2E41" />
+                                            <path
+                                                d="M37.9895 49.3002C44.6229 49.3002 50.0004 43.9227 50.0004 37.2893C50.0004 30.6558 44.6229 25.2783 37.9895 25.2783C31.356 25.2783 25.9785 30.6558 25.9785 37.2893C25.9785 43.9227 31.356 49.3002 37.9895 49.3002Z"
+                                                fill="#FFB6B6" />
+                                            <path
+                                                d="M31.0951 51.0767L30.5525 45.5916L41.3884 43.5654L47.7869 59.1444L36.659 71.9414L28.7305 56.3624L31.0951 51.0767Z"
+                                                fill="#FFB6B6" />
+                                            <path
+                                                d="M63.9013 63.7396C63.7664 63.88 63.6287 64.0191 63.491 64.1568C63.0542 64.5936 62.6091 65.0179 62.1543 65.4296C55.3385 71.6111 46.5934 74.994 37.3281 74.994C28.7861 74.994 20.6864 72.1188 14.1335 66.8261C14.1294 66.8233 14.1266 66.8206 14.1224 66.8164C13.9235 66.6564 13.7274 66.4937 13.5312 66.3282C13.566 66.228 13.6036 66.1293 13.6411 66.0319C15.7485 60.5417 19.9103 57.8557 22.4363 56.6803C23.6882 56.0975 24.5381 55.8847 24.5381 55.8847L27.5036 50.5433L29.5915 54.4381L31.1299 57.3091L37.4422 69.0865L42.8878 55.5272L44.5751 51.3237L45.0077 50.2471L47.0649 51.8481L49.0123 53.3629L52.9335 54.228L56.1146 54.9305L60.435 55.8847C62.1821 57.3077 63.2448 60.0145 63.8387 63.3779C63.861 63.4975 63.8819 63.6185 63.9013 63.7396Z"
+                                                fill="#3B6E81" />
+                                            <path
+                                                d="M31.6728 23.6395C33.1359 21.1819 35.8229 19.4958 38.6722 19.2472C41.5215 18.9987 44.4599 20.1942 46.3263 22.3614C47.4385 23.6528 48.1678 25.2344 49.2519 26.5495C51.5849 29.3795 55.5631 31.0342 56.5822 34.5574C57.027 36.0949 56.8054 37.7363 56.5803 39.3209C56.3875 40.679 56.1946 42.0372 56.0017 43.3953C55.8516 44.4523 55.7077 45.5666 56.104 46.5578C56.569 47.7208 57.6817 48.4825 58.4011 49.5077C59.6253 51.2522 59.5358 53.8063 58.1926 55.4609C57.61 56.1784 56.8377 56.7195 56.2269 57.4132C55.6162 58.1069 55.1632 59.0554 55.419 59.9435C55.909 61.6448 58.5771 62.0528 58.8698 63.799C59.0194 64.6918 58.4028 65.5833 57.5948 65.9915C56.7869 66.3998 55.8358 66.4116 54.9373 66.3024C51.5219 65.8873 48.3597 63.7533 46.6969 60.7413C45.034 57.7294 44.9129 53.9164 46.3813 50.805C47.5874 48.2496 49.8289 45.9915 49.8045 43.1659C49.7912 41.6265 49.0851 40.1887 48.3947 38.8128C46.9816 35.9967 45.5684 33.1805 44.1553 30.3644C43.3983 28.8559 42.5199 27.2303 40.9615 26.5822C39.7571 26.0814 38.3905 26.2756 37.1023 26.4805C35.8141 26.6853 34.4495 26.8847 33.2415 26.3926C32.0335 25.9005 31.1207 24.4383 31.6963 23.2678"
+                                                fill="#2F2E41" />
+                                            <path
+                                                d="M33.778 23.7682C31.4575 23.0043 28.8544 24.2305 27.2834 26.1014C25.7124 27.9723 24.9503 30.3726 24.2243 32.7052C23.8085 34.0414 23.3927 35.3775 22.9768 36.7137C22.5856 37.9706 22.1945 39.2275 21.8033 40.4844C21.3432 41.9629 20.8793 43.5335 21.2569 45.0352C21.5299 46.1208 22.2324 47.1065 22.2475 48.2258C22.2633 49.395 21.5311 50.4215 20.8894 51.399C20.2477 52.3765 19.6454 53.5379 19.9511 54.6665C20.4161 56.3832 22.8029 57.3269 22.672 59.1006C22.6284 59.6926 22.286 60.2401 22.2923 60.8336C22.3002 61.5888 22.8914 62.2414 23.5841 62.5422C24.2768 62.8431 25.056 62.8594 25.8111 62.8462C28.1273 62.8054 30.4393 62.5304 32.7003 62.0265C33.5703 61.8327 34.4549 61.5949 35.179 61.0753C35.9031 60.5557 36.4433 59.6949 36.3491 58.8086C36.2022 57.4276 34.7173 56.6441 33.968 55.4747C33.232 54.3261 33.2491 52.8709 32.9317 51.5441C32.4955 49.7208 31.4183 48.1289 30.6096 46.4375C27.5693 40.0785 28.6336 31.9731 33.2124 26.6145C33.6173 26.1408 34.0596 25.6641 34.2285 25.0643C34.3974 24.4644 34.1796 23.7001 33.5928 23.4902"
+                                                fill="#2F2E41" />
+                                            <path
+                                                d="M63.491 11.8312C56.5027 4.84297 47.211 0.994141 37.3281 0.994141C27.4452 0.994141 18.1535 4.84297 11.1652 11.8312C4.17696 18.8195 0.328125 28.1112 0.328125 37.9941C0.328125 47.0146 3.53433 55.5427 9.40981 62.2764C9.97038 62.9205 10.556 63.5478 11.1652 64.157C11.3085 64.3003 11.4532 64.4436 11.5992 64.5827C11.9887 64.9596 12.3851 65.3282 12.7885 65.6857C13.0333 65.9041 13.2809 66.1183 13.5313 66.3283C13.7274 66.4939 13.9235 66.6566 14.1224 66.8166C14.1266 66.8208 14.1294 66.8235 14.1336 66.8263C20.6865 72.119 28.7861 74.9941 37.3281 74.9941C46.5934 74.9941 55.3385 71.6113 62.1543 65.4298C62.6091 65.0181 63.0543 64.5938 63.491 64.157C63.6287 64.0193 63.7664 63.8802 63.9014 63.7397C64.2769 63.3531 64.6414 62.9594 64.9975 62.5602C71.0301 55.7833 74.3281 47.1426 74.3281 37.9941C74.3281 28.1112 70.4793 18.8195 63.491 11.8312V11.8312ZM64.907 62.2138C64.5593 62.6089 64.2032 62.9983 63.8388 63.3781C63.2712 63.9693 62.6856 64.5423 62.0806 65.0946C61.8511 65.306 61.6188 65.5118 61.3837 65.7163C59.0093 67.7819 56.3664 69.5457 53.5163 70.9506C52.5162 71.4444 51.4911 71.8937 50.4423 72.2956C46.3681 73.8591 41.9462 74.716 37.3281 74.716C32.8714 74.716 28.5984 73.9175 24.6438 72.457C23.0205 71.8589 21.4515 71.1481 19.9451 70.3344C19.7239 70.2147 19.5041 70.0937 19.2858 69.9699C18.1368 69.3189 17.0254 68.6082 15.9585 67.8403C15.1615 67.2686 14.3881 66.6664 13.6412 66.0321C13.3797 65.8109 13.121 65.587 12.8664 65.3574C12.4519 64.9888 12.0457 64.6091 11.6493 64.2196C10.8982 63.4838 10.1804 62.7174 9.49467 61.9203C3.95719 55.4885 0.606321 47.1259 0.606321 37.9941C0.606321 17.7457 17.0797 1.27234 37.3281 1.27234C57.5766 1.27234 74.0499 17.7457 74.0499 37.9941C74.0499 47.2664 70.5961 55.7458 64.907 62.2138Z"
+                                                fill="#3F3D56" />
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_285_1148">
+                                                <rect width="74" height="74" fill="white"
+                                                    transform="translate(0.328125 0.994141)" />
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+                                </div>
+                                <div class="client-details">
+                                    <p class="client-name">Elena Forbes</p>
+                                    <span class="client-description">CEO / Director</span>
+                                </div>
+                            </div>
+                            <p class="date">26-01-2022</p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <h3>It was a great experience</h3>
+                            <p class="client-criticism">"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet,
+                                consectetur, adipisci
+                                velit..."
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nec convallis ligula. Etiam
+                                mattis condimentum tellus, a elementum elit commodo a. Vivamus vel tortor scelerisque,
+                                aliquam turpis a, fringilla nibh, Nunc vitae cursus arcu, nec luctus tortor. Nullam
+                                dictum ante non ex mattis, non mollis leo fermentum. Suspendisse sit amet varius felis.
+                                In nec gravida lorem.
+                            </p>
+                            <div class="client-info">
+                                <div class="client-image">
+                                    <svg width="75" height="75" viewBox="0 0 75 75" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_285_1148)">
+                                            <path d="M53.0723 53.7192H34.5723V28.6816L50.5685 37.4448L53.0723 53.7192Z"
+                                                fill="#2F2E41" />
+                                            <path
+                                                d="M37.9895 49.3002C44.6229 49.3002 50.0004 43.9227 50.0004 37.2893C50.0004 30.6558 44.6229 25.2783 37.9895 25.2783C31.356 25.2783 25.9785 30.6558 25.9785 37.2893C25.9785 43.9227 31.356 49.3002 37.9895 49.3002Z"
+                                                fill="#FFB6B6" />
+                                            <path
+                                                d="M31.0951 51.0767L30.5525 45.5916L41.3884 43.5654L47.7869 59.1444L36.659 71.9414L28.7305 56.3624L31.0951 51.0767Z"
+                                                fill="#FFB6B6" />
+                                            <path
+                                                d="M63.9013 63.7396C63.7664 63.88 63.6287 64.0191 63.491 64.1568C63.0542 64.5936 62.6091 65.0179 62.1543 65.4296C55.3385 71.6111 46.5934 74.994 37.3281 74.994C28.7861 74.994 20.6864 72.1188 14.1335 66.8261C14.1294 66.8233 14.1266 66.8206 14.1224 66.8164C13.9235 66.6564 13.7274 66.4937 13.5312 66.3282C13.566 66.228 13.6036 66.1293 13.6411 66.0319C15.7485 60.5417 19.9103 57.8557 22.4363 56.6803C23.6882 56.0975 24.5381 55.8847 24.5381 55.8847L27.5036 50.5433L29.5915 54.4381L31.1299 57.3091L37.4422 69.0865L42.8878 55.5272L44.5751 51.3237L45.0077 50.2471L47.0649 51.8481L49.0123 53.3629L52.9335 54.228L56.1146 54.9305L60.435 55.8847C62.1821 57.3077 63.2448 60.0145 63.8387 63.3779C63.861 63.4975 63.8819 63.6185 63.9013 63.7396Z"
+                                                fill="#3B6E81" />
+                                            <path
+                                                d="M31.6728 23.6395C33.1359 21.1819 35.8229 19.4958 38.6722 19.2472C41.5215 18.9987 44.4599 20.1942 46.3263 22.3614C47.4385 23.6528 48.1678 25.2344 49.2519 26.5495C51.5849 29.3795 55.5631 31.0342 56.5822 34.5574C57.027 36.0949 56.8054 37.7363 56.5803 39.3209C56.3875 40.679 56.1946 42.0372 56.0017 43.3953C55.8516 44.4523 55.7077 45.5666 56.104 46.5578C56.569 47.7208 57.6817 48.4825 58.4011 49.5077C59.6253 51.2522 59.5358 53.8063 58.1926 55.4609C57.61 56.1784 56.8377 56.7195 56.2269 57.4132C55.6162 58.1069 55.1632 59.0554 55.419 59.9435C55.909 61.6448 58.5771 62.0528 58.8698 63.799C59.0194 64.6918 58.4028 65.5833 57.5948 65.9915C56.7869 66.3998 55.8358 66.4116 54.9373 66.3024C51.5219 65.8873 48.3597 63.7533 46.6969 60.7413C45.034 57.7294 44.9129 53.9164 46.3813 50.805C47.5874 48.2496 49.8289 45.9915 49.8045 43.1659C49.7912 41.6265 49.0851 40.1887 48.3947 38.8128C46.9816 35.9967 45.5684 33.1805 44.1553 30.3644C43.3983 28.8559 42.5199 27.2303 40.9615 26.5822C39.7571 26.0814 38.3905 26.2756 37.1023 26.4805C35.8141 26.6853 34.4495 26.8847 33.2415 26.3926C32.0335 25.9005 31.1207 24.4383 31.6963 23.2678"
+                                                fill="#2F2E41" />
+                                            <path
+                                                d="M33.778 23.7682C31.4575 23.0043 28.8544 24.2305 27.2834 26.1014C25.7124 27.9723 24.9503 30.3726 24.2243 32.7052C23.8085 34.0414 23.3927 35.3775 22.9768 36.7137C22.5856 37.9706 22.1945 39.2275 21.8033 40.4844C21.3432 41.9629 20.8793 43.5335 21.2569 45.0352C21.5299 46.1208 22.2324 47.1065 22.2475 48.2258C22.2633 49.395 21.5311 50.4215 20.8894 51.399C20.2477 52.3765 19.6454 53.5379 19.9511 54.6665C20.4161 56.3832 22.8029 57.3269 22.672 59.1006C22.6284 59.6926 22.286 60.2401 22.2923 60.8336C22.3002 61.5888 22.8914 62.2414 23.5841 62.5422C24.2768 62.8431 25.056 62.8594 25.8111 62.8462C28.1273 62.8054 30.4393 62.5304 32.7003 62.0265C33.5703 61.8327 34.4549 61.5949 35.179 61.0753C35.9031 60.5557 36.4433 59.6949 36.3491 58.8086C36.2022 57.4276 34.7173 56.6441 33.968 55.4747C33.232 54.3261 33.2491 52.8709 32.9317 51.5441C32.4955 49.7208 31.4183 48.1289 30.6096 46.4375C27.5693 40.0785 28.6336 31.9731 33.2124 26.6145C33.6173 26.1408 34.0596 25.6641 34.2285 25.0643C34.3974 24.4644 34.1796 23.7001 33.5928 23.4902"
+                                                fill="#2F2E41" />
+                                            <path
+                                                d="M63.491 11.8312C56.5027 4.84297 47.211 0.994141 37.3281 0.994141C27.4452 0.994141 18.1535 4.84297 11.1652 11.8312C4.17696 18.8195 0.328125 28.1112 0.328125 37.9941C0.328125 47.0146 3.53433 55.5427 9.40981 62.2764C9.97038 62.9205 10.556 63.5478 11.1652 64.157C11.3085 64.3003 11.4532 64.4436 11.5992 64.5827C11.9887 64.9596 12.3851 65.3282 12.7885 65.6857C13.0333 65.9041 13.2809 66.1183 13.5313 66.3283C13.7274 66.4939 13.9235 66.6566 14.1224 66.8166C14.1266 66.8208 14.1294 66.8235 14.1336 66.8263C20.6865 72.119 28.7861 74.9941 37.3281 74.9941C46.5934 74.9941 55.3385 71.6113 62.1543 65.4298C62.6091 65.0181 63.0543 64.5938 63.491 64.157C63.6287 64.0193 63.7664 63.8802 63.9014 63.7397C64.2769 63.3531 64.6414 62.9594 64.9975 62.5602C71.0301 55.7833 74.3281 47.1426 74.3281 37.9941C74.3281 28.1112 70.4793 18.8195 63.491 11.8312V11.8312ZM64.907 62.2138C64.5593 62.6089 64.2032 62.9983 63.8388 63.3781C63.2712 63.9693 62.6856 64.5423 62.0806 65.0946C61.8511 65.306 61.6188 65.5118 61.3837 65.7163C59.0093 67.7819 56.3664 69.5457 53.5163 70.9506C52.5162 71.4444 51.4911 71.8937 50.4423 72.2956C46.3681 73.8591 41.9462 74.716 37.3281 74.716C32.8714 74.716 28.5984 73.9175 24.6438 72.457C23.0205 71.8589 21.4515 71.1481 19.9451 70.3344C19.7239 70.2147 19.5041 70.0937 19.2858 69.9699C18.1368 69.3189 17.0254 68.6082 15.9585 67.8403C15.1615 67.2686 14.3881 66.6664 13.6412 66.0321C13.3797 65.8109 13.121 65.587 12.8664 65.3574C12.4519 64.9888 12.0457 64.6091 11.6493 64.2196C10.8982 63.4838 10.1804 62.7174 9.49467 61.9203C3.95719 55.4885 0.606321 47.1259 0.606321 37.9941C0.606321 17.7457 17.0797 1.27234 37.3281 1.27234C57.5766 1.27234 74.0499 17.7457 74.0499 37.9941C74.0499 47.2664 70.5961 55.7458 64.907 62.2138Z"
+                                                fill="#3F3D56" />
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_285_1148">
+                                                <rect width="74" height="74" fill="white"
+                                                    transform="translate(0.328125 0.994141)" />
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+                                </div>
+                                <div class="client-details">
+                                    <p class="client-name">Elena Forbes</p>
+                                    <span class="client-description">CEO / Director</span>
+                                </div>
+                            </div>
+                            <span class="date">26-01-2022</span>
+                        </div>
+                    </div>
+                </div>
+                <svg class="swiper-button-next swiper-navBtn" width="66" height="66" viewBox="0 0 66 66" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_285_1134)">
+                        <path class="nav-path"
+                            d="M34.8594 5.05664C18.0325 5.05664 4.39062 18.6985 4.39062 35.5254C4.39062 52.3523 18.0325 65.9941 34.8594 65.9941C51.6863 65.9941 65.3281 52.3523 65.3281 35.5254C65.3281 18.6985 51.6863 5.05664 34.8594 5.05664ZM44.4062 36.9676L31.2316 50.1423C30.8485 50.5123 30.3354 50.717 29.8028 50.7124C29.2702 50.7078 28.7607 50.4941 28.3841 50.1175C28.0075 49.7409 27.7939 49.2314 27.7893 48.6989C27.7846 48.1663 27.9894 47.6532 28.3594 47.2701L40.1041 35.5254L28.3594 23.7807C27.9894 23.3976 27.7846 22.8845 27.7893 22.3519C27.7939 21.8193 28.0075 21.3099 28.3841 20.9333C28.7607 20.5566 29.2702 20.343 29.8028 20.3384C30.3354 20.3338 30.8485 20.5385 31.2316 20.9085L44.4062 34.0832C44.596 34.2721 44.7461 34.497 44.848 34.7446C44.9498 34.9922 45.0013 35.2577 44.9994 35.5254C45.0007 35.793 44.949 36.0583 44.8472 36.3059C44.7454 36.5534 44.5955 36.7783 44.4062 36.9676Z"
+                            fill="#46879F" />
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_285_1134">
+                            <rect width="65" height="65" fill="white" transform="translate(0.328125 0.994141)" />
+                        </clipPath>
+                    </defs>
+                </svg>
+                <svg class="swiper-button-prev swiper-navBtn" width="66" height="66" viewBox="0 0 66 66" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_285_1136)">
+                        <path class="nav-path"
+                            d="M30.7969 61.9316C47.6237 61.9316 61.2656 48.2898 61.2656 31.4629C61.2656 14.636 47.6237 0.994137 30.7969 0.994137C13.97 0.994137 0.328121 14.636 0.328121 31.4629C0.328121 48.2898 13.97 61.9316 30.7969 61.9316ZM21.25 30.0207L34.4247 16.846C34.8078 16.476 35.3209 16.2713 35.8535 16.2759C36.3861 16.2805 36.8955 16.4941 37.2721 16.8708C37.6487 17.2474 37.8624 17.7568 37.867 18.2894C37.8716 18.822 37.6669 19.3351 37.2969 19.7182L25.5522 31.4629L37.2969 43.2076C37.6669 43.5907 37.8716 44.1038 37.867 44.6364C37.8624 45.1689 37.6487 45.6784 37.2721 46.055C36.8955 46.4316 36.3861 46.6453 35.8535 46.6499C35.3209 46.6545 34.8078 46.4498 34.4247 46.0798L21.25 32.9051C21.0603 32.7161 20.9101 32.4913 20.8083 32.2437C20.7064 31.9961 20.655 31.7306 20.6569 31.4629C20.6555 31.1952 20.7073 30.93 20.8091 30.6824C20.9109 30.4349 21.0607 30.21 21.25 30.0207Z"
+                            fill="#46879F" />
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_285_1136">
+                            <rect width="65" height="65" fill="white"
+                                transform="translate(65.3281 65.9941) rotate(180)" />
+                        </clipPath>
+                    </defs>
+                </svg>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-us">
+        <h2>Contact Us</h2>
+        <div class="contact-input-container">
+            <div class="group-inputs">
+                <div class="input1">
+                    <span>Full Name</span>
+                    <input type="text" />
+                </div>
+                <div class="input2">
+                    <span>Email</span>
+                    <input type="email">
+                </div>
+            </div>
+            <div class="message">
+                <span>Message</span>
+                <textarea name="Message" id="" cols="30" rows="10"></textarea>
+            </div>
+            <button>Submit</button>
+        </div>
+    </section>
+
+    <section class="footer">
+        <span>VOQDR:Copyright &#169; 2022 VOQDR Inc</span>
+        <div>
+            <a href="#">Terms and Conditions</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+</body>
+<script src="{% static 'mainapp/Script/Home/swiper-bundle.min.js' %}"></script>
+<script src="{% static 'mainapp/Script/Home/script.js' %}"></script>
+
+</html>
