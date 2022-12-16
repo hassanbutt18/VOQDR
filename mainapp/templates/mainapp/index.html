@@ -51,53 +51,7 @@
             <div class="main-image">
                 <img src="{% static 'mainapp/Assets/Images/HomeMainImage.svg' %}" alt="Home Main Image">
             </div>
-            <div class="modal-container hidden">
-                <svg class="close-button" width="30" height="31" viewBox="0 0 30 31" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <g clip-path="url(#clip0_295_2457)">
-                        <path
-                            d="M15 2.99414C8.0875 2.99414 2.5 8.58164 2.5 15.4941C2.5 22.4066 8.0875 27.9941 15 27.9941C21.9125 27.9941 27.5 22.4066 27.5 15.4941C27.5 8.58164 21.9125 2.99414 15 2.99414ZM21.25 19.9816L19.4875 21.7441L15 17.2566L10.5125 21.7441L8.75 19.9816L13.2375 15.4941L8.75 11.0066L10.5125 9.24414L15 13.7316L19.4875 9.24414L21.25 11.0066L16.7625 15.4941L21.25 19.9816Z"
-                            fill="#FB3B3B" />
-                    </g>
-                    <defs>
-                        <clipPath id="clip0_295_2457">
-                            <rect width="30" height="30" fill="white" transform="translate(0 0.494141)" />
-                        </clipPath>
-                    </defs>
-                </svg>
-                <h2>Buy Device</h2>
-                <div class="modal-content-container">
-                    <div class="product-image">
-                        <img src="{% static 'mainapp/Assets/Images/ProductImage.svg' %}" alt="Product" />
-                    </div>
-                    <div class="product-details">
-                        <div>
-                            <h3>Smart Watch</h3>
-                            <div class="product-quantity-container">
-                                <h4>Quantity</h4>
-                                <input type="number" name="Quantity" id="product-quantity">
-                            </div>
-                        </div>
-                        <div class="product-description">
-                            <ul>
-                                <li>Charging Cable Dock Charger 2 pin</li>
-                                <li>Magnetic Charging</li>
-                            </ul>
-                            <p>Unit Price: <span>$1190</span></p>
-                            <p>Sub Total: <span>$1190</span></p>
-                            <p>Total Monthly Price: <span>$1190</span></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="order-submission-container">
-                    <div class="terms-checkbox">
-                        <input type="checkbox" name="Terms and Condistions" id="terms-checkbox" />
-                        <label for="terms-conditions">I accept the <a href="#">Terms and Conditions</a></label>
-                    </div>
-                    <button class="modal-submit-btn">Checkout</button>
-                </div>
-            </div>
-            <div class="overlay hidden"></div>
+            
         </div>
 
         <div class="group-buttons">
@@ -418,21 +372,23 @@
     <section class="contact-us">
         <h2>Contact Us</h2>
         <div class="contact-input-container">
-            <div class="group-inputs">
-                <div class="input1">
-                    <span>Full Name</span>
-                    <input type="text" />
+            <form action="">
+                <div class="group-inputs">
+                    <div class="input1">
+                        <span>Full Name</span>
+                        <input type="text" />
+                    </div>
+                    <div class="input2">
+                        <span>Email</span>
+                        <input type="email">
+                    </div>
                 </div>
-                <div class="input2">
-                    <span>Email</span>
-                    <input type="email">
+                <div class="message">
+                    <span>Message</span>
+                    <textarea name="Message" id="" cols="30" rows="10"></textarea>
                 </div>
-            </div>
-            <div class="message">
-                <span>Message</span>
-                <textarea name="Message" id="" cols="30" rows="10"></textarea>
-            </div>
-            <button>Submit</button>
+                <button>Submit</button>
+            </form>
         </div>
     </section>
 
@@ -443,6 +399,54 @@
             <a href="#">Privacy Policy</a>
         </div>
     </section>
+
+    <div class="modal-container hidden">
+        <svg class="close-button" width="30" height="31" viewBox="0 0 30 31" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_295_2457)">
+                <path
+                    d="M15 2.99414C8.0875 2.99414 2.5 8.58164 2.5 15.4941C2.5 22.4066 8.0875 27.9941 15 27.9941C21.9125 27.9941 27.5 22.4066 27.5 15.4941C27.5 8.58164 21.9125 2.99414 15 2.99414ZM21.25 19.9816L19.4875 21.7441L15 17.2566L10.5125 21.7441L8.75 19.9816L13.2375 15.4941L8.75 11.0066L10.5125 9.24414L15 13.7316L19.4875 9.24414L21.25 11.0066L16.7625 15.4941L21.25 19.9816Z"
+                    fill="#FB3B3B" />
+            </g>
+            <defs>
+                <clipPath id="clip0_295_2457">
+                    <rect width="30" height="30" fill="white" transform="translate(0 0.494141)" />
+                </clipPath>
+            </defs>
+        </svg>
+        <h2>Buy Device</h2>
+        <div class="modal-content-container">
+            <div class="product-image">
+                <img src="{% static 'mainapp/Assets/Images/ProductImage.svg' %}" alt="Product" />
+            </div>
+            <div class="product-details">
+                <div>
+                    <h3>Smart Watch</h3>
+                    <div class="product-quantity-container">
+                        <h4>Quantity</h4>
+                        <input type="number" name="Quantity" id="product-quantity">
+                    </div>
+                </div>
+                <div class="product-description">
+                    <ul>
+                        <li>Charging Cable Dock Charger 2 pin</li>
+                        <li>Magnetic Charging</li>
+                    </ul>
+                    <p>Unit Price: <span>$1190</span></p>
+                    <p>Sub Total: <span>$1190</span></p>
+                    <p>Total Monthly Price: <span>$1190</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="order-submission-container">
+            <div class="terms-checkbox">
+                <input type="checkbox" name="Terms and Condistions" id="terms-checkbox" />
+                <label for="terms-conditions">I accept the <a href="#">Terms and Conditions</a></label>
+            </div>
+            <button class="modal-submit-btn">Checkout</button>
+        </div>
+    </div>
+    <div class="overlay hidden"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
