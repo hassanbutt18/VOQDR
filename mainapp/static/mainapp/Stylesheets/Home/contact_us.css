@@ -45,7 +45,7 @@
 
 .input1 input,
 .input2 input {
-    background-color: #F8FCFE;
+    background-color: #F8F6f7;
     border: 1px solid transparent;
     border-radius: 10px;
     width: 100%;
@@ -65,7 +65,7 @@
 }
 
 .message textarea {
-    background-color: #F8FCFE;
+    background-color: #F8F6F7;
     border: 1px solid transparent;
     border-radius: 10px;
     resize: none;
