@@ -269,7 +269,6 @@ nav>a:first-of-type {
         right: 0;
         z-index: 99;
         margin-top: 55px;
-        background-color: #46879F;
     }
 
     .nav-links a {
@@ -287,7 +286,7 @@ nav>a:first-of-type {
 
     .showMenu {
         display: block;
-        margin-top: 55px;
+        margin-top: 53px;
     }
 
     .logo {

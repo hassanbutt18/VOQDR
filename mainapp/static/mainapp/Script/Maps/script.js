@@ -134,6 +134,7 @@ closeModalBtn.addEventListener("click", closeModal);
 overlay.addEventListener("click", () => {
   closeModal();
   CloseEditModal();
+  closeBuyModal();
 });
 
 document.addEventListener("keydown", function (e) {
@@ -192,3 +193,27 @@ var k;
 for(k = 0; k < EditBtn.length; k++) {
   EditBtn[k].addEventListener("click", OpenEditModal);
 }
+
+
+
+// Buy Modal controls
+
+const buyModal = document.querySelector(".buy-modal-container");
+const openBuyModalBtn = document.querySelector(".buy-modal-open-button");
+const openBuyModalNavBtn = document.querySelector(".buy-modal-open-nav-button");
+const closeBuyModalBtn = document.querySelector(".close-buy-modal-button");
+
+const openBuyModal = function () {
+  buyModal.classList.remove("hidden");
+  overlay.classList.remove("hidden");
+};
+
+openBuyModalNavBtn.addEventListener("click", openBuyModal);
+
+const closeBuyModal = function () {
+  buyModal.classList.add("hidden");
+  overlay.classList.add("hidden");
+};
+
+closeBuyModalBtn.addEventListener("click", closeBuyModal);
+overlay.addEventListener("click", closeBuyModal);

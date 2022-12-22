@@ -229,7 +229,7 @@ nav>a:first-of-type {
     z-index: 1;
 }
 
-.modal-container {
+.buy-modal-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -244,13 +244,16 @@ nav>a:first-of-type {
     border-radius: 20px;
     padding: 30px 0;
     z-index: 2;
+    background-image: url("../../Assets/Images/ModalBg.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .hidden {
     display: none;
 }
 
-.close-button {
+.close-buy-modal-button {
     position: absolute;
     right: 2.3%;
     top: 2.3%;
@@ -258,7 +261,7 @@ nav>a:first-of-type {
     cursor: pointer;
 }
 
-.modal-container h2 {
+.buy-modal-container h2 {
     font-weight: 700;
     font-size: 1.875rem;
     line-height: 1.8rem;
@@ -266,7 +269,7 @@ nav>a:first-of-type {
     margin-bottom: 10px;
 }
 
-.modal-content-container {
+.buy-modal-content-container {
     display: flex;
     width: 100%;
     gap: 15px;
@@ -383,7 +386,7 @@ nav>a:first-of-type {
     color: #46879F;
 }
 
-.modal-submit-btn {
+.buy-modal-submit-btn {
     background-color: #46879F;
     border: 1px solid transparent;
     border-radius: 40px;
@@ -450,12 +453,12 @@ nav>a:first-of-type {
         padding: .75rem 2.2rem;
     }
 
-    .modal-container h2 {
+    .buy-modal-container h2 {
         font-size: 1.5rem;
         line-height: 1.5rem;
     }
 
-    .modal-container {
+    .buy-modal-container {
         width: 50%;
     }
 
@@ -504,7 +507,7 @@ nav>a:first-of-type {
         line-height: 1.125rem;
     }
 
-    .modal-container {
+    .buy-modal-container {
         width: 70%;
     }
 
@@ -569,7 +572,6 @@ nav>a:first-of-type {
         right: 0;
         z-index: 99;
         margin-top: 55px;
-        background-color: #46879F;
     }
 
     .nav-links a {
@@ -587,7 +589,7 @@ nav>a:first-of-type {
 
     .showMenu {
         display: block;
-        margin-top: 55px;
+        margin-top: 53px;
     }
 
     .logo {
@@ -636,7 +638,7 @@ nav>a:first-of-type {
         width: 120px;
     }
 
-    .modal-container {
+    .buy-modal-container {
         width: 85%;
     }
 }
@@ -651,11 +653,11 @@ nav>a:first-of-type {
         line-height: .875rem;
     }
 
-    .modal-container {
+    .buy-modal-container {
         width: 95%;
     }
 
-    .modal-container h2 {
+    .buy-modal-container h2 {
         font-size: 1rem;
         line-height: 1.25rem;
     }
@@ -695,7 +697,7 @@ nav>a:first-of-type {
         font-size: .75rem;
     }
 
-    .modal-submit-btn {
+    .buy-modal-submit-btn {
         font-size: .75rem;
         width: 23%;
     }

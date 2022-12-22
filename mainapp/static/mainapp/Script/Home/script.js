@@ -53,30 +53,32 @@ var swiper = new Swiper(".mySwiper", {
   });
 
 
-// Modal controls
+// Buy Modal controls
 
-const modal = document.querySelector(".modal-container");
+const buyModal = document.querySelector(".buy-modal-container");
 const overlay = document.querySelector(".overlay");
-const openModalBtn = document.querySelector(".modal-open-button");
-const closeModalBtn = document.querySelector(".close-button");
+const openBuyModalBtn = document.querySelector(".buy-modal-open-button");
+const openBuyModalNavBtn = document.querySelector(".buy-modal-open-nav-button");
+const closeBuyModalBtn = document.querySelector(".close-buy-modal-button");
 
-const openModal = function () {
-  modal.classList.remove("hidden");
+const openBuyModal = function () {
+  buyModal.classList.remove("hidden");
   overlay.classList.remove("hidden");
 };
 
-openModalBtn.addEventListener("click", openModal);
+openBuyModalBtn.addEventListener("click", openBuyModal);
+openBuyModalNavBtn.addEventListener("click", openBuyModal);
 
-const closeModal = function () {
-  modal.classList.add("hidden");
+const closeBuyModal = function () {
+  buyModal.classList.add("hidden");
   overlay.classList.add("hidden");
 };
 
-closeModalBtn.addEventListener("click", closeModal);
-overlay.addEventListener("click", closeModal);
+closeBuyModalBtn.addEventListener("click", closeBuyModal);
+overlay.addEventListener("click", closeBuyModal);
 
 document.addEventListener("keydown", function (e) {
-  if (e.key === "Escape" && !modal.classList.contains("hidden")) {
-    modalClose();
+  if (e.key === "Escape" && !buyModal.classList.contains("hidden")) {
+    closeBuyModal();
   }
 });
