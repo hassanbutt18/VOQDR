@@ -35,7 +35,7 @@
             <div class="nav-content">
                 <div class="nav-links">
                     <a href="{% url 'maps' %}" class="nav-items">Map</a>
-                    <a href="#buy" class="nav-items">Buy</a>
+                    <a href="#buy" class="nav-items buy-modal-open-btn">Buy</a>
                 </div>
                 <!-- <div class="nav-profile-image">
                     <img src="{% static 'mainapp/Assets/Images/Muhammad_Wasif_Ali.png' %}" alt="Profile Image" />
@@ -64,7 +64,7 @@
         </div>
 
         <div class="group-buttons">
-            <button class="modal-open-button">Buy</button>
+            <button class="buy-modal-open-btn">Buy</button>
             <button>Learn More</button>
         </div>
     </header>
@@ -319,7 +319,7 @@
         </div>
     </section>
 
-    <div class="modal-container hidden">
+    <div class="buy-modal-container hidden">
         <svg class="close-button" width="30" height="31" viewBox="0 0 30 31" fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#clip0_295_2457)">
@@ -334,7 +334,7 @@
             </defs>
         </svg>
         <h2>Buy Device</h2>
-        <div class="modal-content-container">
+        <div class="buy-modal-content-container">
             <div class="product-image">
                 <img src="{% static 'mainapp/Assets/Images/ProductImage.svg' %}" alt="Product" />
             </div>
