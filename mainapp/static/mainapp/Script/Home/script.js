@@ -53,31 +53,30 @@ var swiper = new Swiper(".mySwiper", {
   });
 
 
-// Buy Product Modal controls
+// Modal controls
 
-const buyModal = document.querySelector(".buy-modal-container");
+const modal = document.querySelector(".modal-container");
 const overlay = document.querySelector(".overlay");
-const openBuyModalBtn = document.querySelectorAll(".buy-modal-open-btn");
-console.log(openBuyModalBtn);
-const closeBuyModalBtn = document.querySelector(".close-button");
+const openModalBtn = document.querySelector(".modal-open-button");
+const closeModalBtn = document.querySelector(".close-button");
 
 const openModal = function () {
-  buyModal.classList.remove("hidden");
+  modal.classList.remove("hidden");
   overlay.classList.remove("hidden");
 };
 
-openBuyModalBtn.addEventListener("click", openModal);
+openModalBtn.addEventListener("click", openModal);
 
 const closeModal = function () {
-  buyModal.classList.add("hidden");
+  modal.classList.add("hidden");
   overlay.classList.add("hidden");
 };
 
-closeBuyModalBtn.addEventListener("click", closeModal);
+closeModalBtn.addEventListener("click", closeModal);
 overlay.addEventListener("click", closeModal);
 
 document.addEventListener("keydown", function (e) {
-  if (e.key === "Escape" && !buyModal.classList.contains("hidden")) {
-    closeModal();
+  if (e.key === "Escape" && !modal.classList.contains("hidden")) {
+    modalClose();
   }
 });
