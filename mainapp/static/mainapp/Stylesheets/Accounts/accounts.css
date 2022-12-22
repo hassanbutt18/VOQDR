@@ -181,7 +181,6 @@ select:focus {
     width: max(428px, 31%);
     font-weight: 500;
     font-size: 1rem;
-    line-height: 1rem;
     display: flex;
     align-items: center;
     color: #525252;
@@ -254,7 +253,6 @@ select:focus {
 .select-role {
     font-weight: 500;
     font-size: .875rem;
-    line-height: 1rem;
     letter-spacing: 0.2px;
     color: #414040;
     background-color: #F8FCFE;

@@ -114,9 +114,6 @@ nav>a:first-of-type {
 }
 
 .sign-in-btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     float: right;
     background-color: #46879F;
     border: 1px solid transparent;

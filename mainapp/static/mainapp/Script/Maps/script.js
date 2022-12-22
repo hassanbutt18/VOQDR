@@ -199,7 +199,6 @@ for(k = 0; k < EditBtn.length; k++) {
 // Buy Modal controls
 
 const buyModal = document.querySelector(".buy-modal-container");
-const openBuyModalBtn = document.querySelector(".buy-modal-open-button");
 const openBuyModalNavBtn = document.querySelector(".buy-modal-open-nav-button");
 const closeBuyModalBtn = document.querySelector(".close-buy-modal-button");
 
