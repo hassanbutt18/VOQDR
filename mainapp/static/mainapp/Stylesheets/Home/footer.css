@@ -8,7 +8,7 @@
 }
 
 .footer span {
-    font-weight: 600;
+    font-weight: 500;
     font-size: 1rem;
     line-height: 1.8rem;
     color: #000000;
@@ -22,7 +22,7 @@
 }
 
 .footer div a {
-    font-weight: 600;
+    font-weight: 500;
     font-size: .875rem;
     line-height: 1.2rem;
     text-decoration-line: underline;
@@ -30,22 +30,22 @@
 }
 
 
-@media (max-width: 1124px) {
+@media (max-width: 1024px) {
     .footer {
         flex-direction: column;
-        gap: 10px;
+        gap: 5px;
+        padding: 10px 3%;
     }
 
     .footer div {
         position: static;
+        align-self: flex-end;
     }
-}
 
-
-@media (max-width: 768px) {
     .footer div a {
         font-weight: 500;
-        font-size: 1rem;
+        font-size: .75rem;
+        line-height: .75rem;
     }
 }
 

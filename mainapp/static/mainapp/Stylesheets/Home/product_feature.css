@@ -50,7 +50,7 @@
 }
 
 .feature-content h3 {
-    font-weight: 600;
+    font-weight: 500;
     font-size: 1.875rem;
     line-height: 2.188rem;
     margin-bottom: 15px;
@@ -78,7 +78,8 @@
 
 @media (max-width: 1280px) {
     .feature-content h3 {
-        font-size: 1.3rem;
+        font-size: 1.5rem;
+        line-height: 1.9rem;
     }
 
     .feature-description {
@@ -92,6 +93,23 @@
         margin-top: 10px;
     }
 }
+
+
+@media (max-width: 768px) {
+    .feature-container {
+        padding: 25px 6%;
+    }
+    
+    .feature-container h2{
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+
+    .feature-description {
+        font-weight: 700;
+    }
+}
+
 
 @media (max-width: 640px) {
     .feature-card {

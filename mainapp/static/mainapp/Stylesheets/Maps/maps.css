@@ -17,12 +17,16 @@
 .group-dropdown-container {
     position: absolute;
     z-index: 11;
-    top: 150px;
+    top: 10px;
     display: flex;
     flex-direction: column;
     gap: 10px;
     width: 100%;
     left: .8%;
+}
+
+.dropdown-line {
+    display: none;
 }
 
 .group-dropdown-container i {
@@ -31,6 +35,7 @@
 
 .voqdr-options {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
     width: 23.4%;
@@ -38,15 +43,13 @@
     background-color: #F8FCFE;
     box-shadow: 0px 0px 10px rgba(70, 135, 159, 0.25);
     border-radius: 20px;
-    padding: 0 1%;
+    padding: 0.5% 1%;
 }
 
-.voqdr-options span {
-    font-weight: 500;
-    font-size: 1.125rem;
-    line-height: 1rem;
-    color: #525252;
+i {
+    cursor: pointer;
 }
+
 
 .devices-options {
     display: flex;
@@ -58,29 +61,34 @@
     background-color: #F8FCFE;
     box-shadow: 0px 0px 10px rgba(70, 135, 159, 0.25);
     border-radius: 20px;
-    padding: 1% 1%;
+    padding: .5% 1%;
 }
 
-.devices-options>div:first-child {
+.devices-options>div:first-child,
+.voqdr-options>div:first-child {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 1%;
     width: 100%;
+    height: 100%;
 }
 
-.devices-options>div:first-child span {
+.devices-options>div:first-child span,
+.voqdr-options>div:first-child span {
     font-weight: 500;
     font-size: 1.125rem;
     line-height: 1rem;
     color: #525252;
 }
 
-.device3-chevron-down {
+.devices-chevron-down,
+.organisation-chevron-down {
     display: block !important;
 }
 
-.device3-chevron-up {
+.devices-chevron-up,
+.organisation-chevron-up {
     display: none !important;
 }
 
@@ -113,14 +121,14 @@
 
 .search-input {
     width: 100%;
+    text-indent: 8px;
     aspect-ratio: 1 / .12;
-    color: #46879F;
     border: 1px solid #46879F;
     border-radius: 10px;
-    font-weight: 500;
+    font-weight: 400;
     font-size: .875rem;
     line-height: .875rem;
-    color: #A4A4A4;
+    color: black;
     position: relative;
 }
 
@@ -134,13 +142,11 @@
     color: #A4A4A4;
 }
 
-.device1,
-.device2,
-.device3 {
+.device {
     width: 100%;
     background-color: white;
     padding: 1% 1%;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
     min-height: 50px;
     border-radius: 10px;
     position: relative;
@@ -149,12 +155,25 @@
     justify-content: center;
 }
 
-.hide-device3 {
+.device-container-header,
+.organisation-container-header {
+    min-height: 50px;
+    cursor: pointer;
+}
+
+.device-container-header:hover .devices-header-text,
+.organisation-container-header:hover .organisation-header-text {
+    text-decoration: underline;
+}
+
+.hide-devices,
+.hide-organisations {
     display: none;
     width: 100%;
 }
 
-.show-device3 {
+.show-devices,
+.show-organisations {
     display: block;
     width: 100%;
 }
@@ -165,41 +184,105 @@
     overflow-y: scroll;
 }
 
-.device1>svg,
-.device2>svg,
-.device3>svg {
-    position: absolute;
-    left: 0;
-    pointer-events: all;
-}
-
-.device1>div:first-of-type,
-.device2>div:first-of-type,
-.device3>div:first-of-type {
+.organisation-container {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 2%;
+    flex-direction: column;
+    gap: 5px;
     width: 100%;
+    background-color: white;
+    border: 1px solid #00000017;
+    border-radius: 10px;
+    padding: 1% 1%;
 }
 
-.device1>div:first-of-type span,
-.device2>div:first-of-type span,
-.device3>div:first-of-type span {
+.organisation-container p {
     font-weight: 500;
     font-size: 1.125rem;
     line-height: 1.5rem;
     color: #525252;
+    margin-bottom: 0;
 }
 
-.device3-text {
+.device-header {
+    min-height: 50px;
+    cursor: pointer;
+}
+
+.device-header:hover .device-heading h3 {
+    text-decoration: underline;
+}
+
+
+.battery-indicator {
+    display: inline-block;
+    position: relative;
+    pointer-events: all;
+}
+
+.tooltip1 {
+    display: none;
+    position: absolute;
+    z-index: 2;
+    margin-right: 10px;
+}
+
+.battery-indicator:hover .tooltip1 {
+    display: block;
+}
+
+.device>div:first-of-type,
+.device>div:first-of-type,
+.device>div:first-of-type {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.device>div:first-of-type h3,
+.device>div:first-of-type h3,
+.device>div:first-of-type h3 {
+    font-weight: 500;
+    font-size: 1.125rem;
+    line-height: 1.5rem;
+    color: #525252;
+    display: inline-block;
+    margin-bottom: 0;
+    margin-top: 1px;
+}
+
+.show-single-device {
+    display: block;
+}
+
+.hide-single-device {
+    display: none;
+}
+
+.single-device-chevron-down {
+    display: block !important;
+}
+
+.single-device-chevron-up {
+    display: none !important;
+}
+
+.show-single-device-chevron {
+    display: block !important;
+}
+
+.hide-single-device-chevron {
+    display: none !important;
+}
+
+.device-text {
     width: 100%;
     display: flex;
     justify-content: space-between;
     padding: 0 2%;
 }
 
-.device3-text span {
+.device-text span {
     max-width: 90%;
     font-weight: 700;
     font-size: .7rem;
@@ -207,7 +290,7 @@
     color: #565656;
 }
 
-.device3-feature-container {
+.device-feature-container {
     margin-top: 15px;
     width: 100%;
     display: flex;
@@ -217,47 +300,51 @@
     border-radius: 10px;
 }
 
-.device3-features {
+.device-features {
     width: 70%;
 }
 
-.device3-features svg {
+.device-features svg {
     width: 25%;
 }
 
-.device3-additional-features {
+.device-additional-features {
     margin-top: 5px;
     width: 100%;
-    display: flex;
+    display: none;
     justify-content: flex-end;
 }
 
-.device3-additional-features div {
+.show-additional-options {
+    display: flex;
+}
+
+.device-additional-features div {
     width: 40%;
     display: flex;
     justify-content: space-around;
     gap: 10px;
 }
 
-.device3-feature-container svg,
-.device3-additional-features svg {
+.device-feature-container svg,
+.device-additional-features svg {
     pointer-events: all;
 }
 
-.device3-features svg:hover rect {
+.device-features svg:hover rect {
     fill: #004762;
 }
 
-.device3-additional-features svg:hover rect {
+.device-additional-features svg:hover rect {
     fill: #004762;
 }
 
-.device3-additional-features div svg {
+.device-additional-features div svg {
     width: 48%;
 }
 
 
-/* Modal Design */
+/* Delete Device Modal Design */
 
 .overlay {
     position: fixed;
@@ -290,10 +377,6 @@
     background-image: url("../../Assets/Images/ModalBg.svg");
     background-size: cover;
     background-repeat: no-repeat;
-}
-
-.hidden {
-    display: none;
 }
 
 .close-button {
@@ -339,8 +422,74 @@
 }
 
 
-@media (min-width: 1536px) {
+/* Edit Device Description Modal */
 
+.edit-device-modal {
+    display: flex;
+}
+
+.edit-device-container {
+    align-items: flex-start;
+    justify-content: space-around;
+    height: fit-content;
+}
+
+.edit-device-container h2 {
+    font-weight: 700;
+    font-size: 2rem;
+    line-height: 2rem;
+    color: #004762;
+}
+
+.edit-device-container div:first-of-type {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.edit-modal-description {
+    background-color: #F8FCFE;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.edit-modal-description p {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 2rem;
+    color: #565656;
+    margin-bottom: 0;
+}
+
+.edit-modal-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.edit-cancel-btn {
+    background-color: white;
+    color: #46879F;
+    border: 1px solid #46879F;
+}
+
+.hidden {
+    display: none;
+}
+
+
+.device-content {
+    display: none;
+}
+
+
+@media (min-width: 1536px) {
+    .edit-device-container {
+        height: 100%;
+    }
 }
 
 
@@ -374,5 +523,56 @@
 
     .modal-container {
         width: 70%;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .group-dropdown-container {
+        top: unset;
+        bottom: 0;
+        left: 0;
+        height: fit-content;
+        padding: 1%;
+        gap: 8px;
+        background-color: white;
+    }
+
+    .dropdown-line {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        width: 100%;
+        top: 0;
+    }
+
+    .voqdr-options,
+    .devices-options {
+        background-color: #F8FCFE;
+        border-radius: 10px;
+        box-shadow: none;
+        width: 100%;
+    }
+
+    .modal-container {
+        padding: 10px 0;
+        width: 95%;
+    }
+
+    .modal-question {
+        font-size: 1.25rem;
+        line-height: 1.25rem;
+        margin-bottom: 0;
+    }
+
+    .modal-question-description {
+        font-size: 1rem;
+        margin-bottom: 0;
+    }
+
+    .edit-modal-description p {
+        font-size: .875rem;
+        line-height: 1.125rem;
     }
 }

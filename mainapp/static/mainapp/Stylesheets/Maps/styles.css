@@ -1,6 +1,26 @@
-/* @import url("https://fonts.cdnfonts.com/css/gotham"); */
+@font-face {
+    font-family: 'Gotham';
+    src: url("../Gotham-Font/Gotham-Bold.otf");
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: 'Gotham';
+    src: url("../Gotham-Font/GothamMedium.ttf");
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Gotham';
+    src: url("../Gotham-Font/Gotham-Light.otf");
+    font-weight: 400;
+    font-style: normal;
+}
+
+
 * {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Gotham', 'Montserrat', sans-serif;
     scroll-behavior: smooth;
 }
 
@@ -11,10 +31,7 @@ html {
 
 body {
     background-color: white;
-    overflow-x: hidden;
-    min-height: 110vh;
-    display: flex;
-    flex-direction: column;
+    height: fit-content;
 }
 
 @media (max-width: 768px) {
@@ -22,7 +39,6 @@ body {
     body {
         margin: 0;
         padding: 0;
-        overflow-x: hidden;
     }
 
     body {

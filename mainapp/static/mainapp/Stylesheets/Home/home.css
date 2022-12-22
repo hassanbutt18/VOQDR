@@ -12,6 +12,7 @@ nav {
     text-align: center;
     margin-bottom: 65px;
     background-color: #F8FCFE;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
     padding: 0 2%;
 }
 
@@ -31,30 +32,33 @@ nav {
     display: none;
 }
 
-nav > a:first-of-type {
+nav>a:first-of-type {
     width: 8%;
     aspect-ratio: 1 / .3;
-    min-height: 55px;
+}
+
+.nav-content {
+    display: flex;
+    justify-content: flex-end;
+    gap: 25px;
 }
 
 .nav-links {
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-end;
     align-items: center;
-    width: 18%;
+    width: 14%;
     aspect-ratio: 1 / .15;
-    min-width: 313px;
-    gap: 12%;
+    min-width: 183px;
+    gap: 25px;
     min-height: 50px;
     padding: .25% 0;
 }
 
-.nav-links a,
-.nav-links button {
+.nav-links a {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
     font-size: 1.3rem;
     font-weight: 500;
     text-decoration: none;
@@ -62,18 +66,70 @@ nav > a:first-of-type {
     cursor: pointer;
 }
 
-.nav-links button {
-    width: 44%;
+.nav-profile-image {
+    position: relative;
+    max-width: 80px;
+    width: 50px;
+    min-width: 0;
+    height: inherit;
+}
+
+.nav-profile-image img {
+    width: 100%;
     height: auto;
-    aspect-ratio: 1 / .34;
-    flex-shrink: 0;
+    border: 1px solid #004762;
+    border-radius: 50%;
+}
+
+.account-menu {
+    display: none;
+    position: absolute;
+    width: 125px;
+    padding: 5px 10px;
+    flex-direction: column;
+    text-align: left;
+    background-color: #F8FCFE;
+    border: 1px solid rgba(205, 205, 205, 0.5);
+    border-radius: 8px;
+    right: 0;
+    bottom: -100px;
+    z-index: 1;
+}
+
+.account-menu a {
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    line-height: 1rem;
+    color: #004762;
+    padding: 15px 0;
+}
+
+.account-menu a:hover {
+    text-decoration: underline;
+}
+
+.nav-profile-image:hover .account-menu {
+    display: flex;
+}
+
+.sign-in-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    float: right;
     background-color: #46879F;
     border: 1px solid transparent;
     border-radius: 40px;
+    padding: .875rem 2.4rem;
+}
+
+.sign-in-btn a {
     font-weight: 500;
     font-size: 1.25rem;
     line-height: 1.188rem;
-    color: #FFFFFF;
+    color: white;
+    text-decoration: none;
 }
 
 .nav-links button a {
@@ -101,14 +157,14 @@ nav > a:first-of-type {
 }
 
 .main-heading h1 {
-    font-size: 3.75rem;
+    font-size: 3.5rem;
     font-weight: 700;
     line-height: 3.6rem;
 }
 
 .main-heading p {
     font-weight: 500;
-    font-size: 2.5rem;
+    font-size: 2.3rem;
     line-height: 3.6rem;
     color: #46879F;
     text-align: left;
@@ -259,7 +315,7 @@ nav > a:first-of-type {
 .product-quantity-container input {
     box-sizing: border-box;
     position: absolute;
-    width: 50px;
+    width: 65px;
     height: 40px;
     background-color: #F8FCFE;
     border: 1px solid #F8FCFE;
@@ -309,6 +365,13 @@ nav > a:first-of-type {
     gap: 10px;
 }
 
+.terms-checkbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
 .terms-checkbox label {
     font-weight: 500;
     font-size: .875rem;
@@ -333,18 +396,40 @@ nav > a:first-of-type {
 
 
 @media (min-width: 1920px) {
+    nav > a:first-of-type {
+        display: flex;
+    }
+
+    .nav-content {
+        gap: 40px;
+    }
+    .nav-profile-image {
+        width: 70px;
+    }
 
     .nav-links a,
-    .nav-links button {
-        font-size: 1.8rem;
+    .sign-in-btn a {
+        font-size: 1.7rem;
+    }
+
+    .nav-links {
+        gap: 40px;
     }
 }
 
 
 @media (min-width: 1536px) and (max-width: 1920px) {
+    nav > a:first-of-type {
+        display: flex;
+    }
+
+    .nav-profile-image {
+        max-width: 100px;
+        width: 65px;
+    }
 
     .nav-links a,
-    .nav-links button {
+    .sign-in-btn a {
         font-size: 1.5rem;
     }
 
@@ -361,13 +446,8 @@ nav > a:first-of-type {
         min-width: 200px;
     }
 
-    .nav-links a,
-    .nav-links button {
-        font-size: 1rem;
-    }
-
-    .nav-links button {
-        height: auto;
+    .sign-in-btn {
+        padding: .75rem 2.2rem;
     }
 
     .modal-container h2 {
@@ -394,6 +474,16 @@ nav > a:first-of-type {
 }
 
 @media (max-width: 1024px) {
+    
+    .nav-profile-image {
+        width: 45px;
+        height: 45px;
+    }
+
+    .sign-in-btn {
+        padding: .6rem 2rem;
+    }
+
     .main-heading h1 {
         font-size: 3rem;
         font-weight: 700;
@@ -426,23 +516,49 @@ nav > a:first-of-type {
 
 @media (max-width: 768px) {
     nav {
-        padding: 0 0 0 2%;
+        padding: 0 2% 0 0;
         position: relative;
+        margin-bottom: 25px;
+    }
+
+    nav>a:first-of-type {
+        order: 2;
+        width: 84px;
+        min-height: fit-content;
+    }
+
+    .nav-content {
+        order: 3;
+    }
+
+    .nav-profile-image {
+        width: 40px;
+        height: 40px;
+    }
+
+    .sign-in-btn {
+        padding: .75rem 1.5rem;
+    }
+
+    .sign-in-btn a {
+        font-size: 1rem;
+        line-height: 1rem;
     }
 
     .hamburger {
         display: block;
         height: 55px;
         width: 55px;
-        background-color: #46879F;
-        color: white;
+        background-color: transparent;
+        color: #004762;
         border: 1px solid transparent;
+        order: 1;
     }
 
     .hamburger-enabled {
         color: #46879F;
-        background-color: white;
-        border: 1px solid #46879F;
+        background-color: black;
+        border: 1px solid transparent;
     }
 
     .nav-links {
@@ -452,7 +568,7 @@ nav > a:first-of-type {
         top: 0;
         right: 0;
         z-index: 99;
-        margin-top: 56px;
+        margin-top: 55px;
         background-color: #46879F;
     }
 
@@ -471,11 +587,11 @@ nav > a:first-of-type {
 
     .showMenu {
         display: block;
-        margin-top: 56px;
+        margin-top: 55px;
     }
 
     .logo {
-        width: 137px;
+        width: 100%;
     }
 
     .main {
@@ -489,10 +605,26 @@ nav > a:first-of-type {
         width: 100%;
         padding-left: 0;
         background-size: cover;
+        order: 2;
+        text-align: center;
+    }
+
+    .main-heading h1 {
+        font-size: 1.875rem;
+        line-height: 1.875rem;
+        margin-top: 15px;
+    }
+
+    .main-heading p {
+        font-size: 1.375rem;
+        line-height: 2rem;
+        font-weight: 700;
+        text-align: center;
     }
 
     .main-image {
         width: 100%;
+        order: 1;
     }
 
     .group-buttons {
@@ -501,7 +633,7 @@ nav > a:first-of-type {
 
     .group-buttons button:first-child,
     .group-buttons button:last-child {
-        width: 110px;
+        width: 120px;
     }
 
     .modal-container {
@@ -510,6 +642,15 @@ nav > a:first-of-type {
 }
 
 @media (max-width: 480px) {
+    .nav-profile-image {
+        width: 36px;
+    }
+
+    .sign-in-btn a {
+        font-size: .875rem;
+        line-height: .875rem;
+    }
+
     .modal-container {
         width: 95%;
     }
@@ -542,14 +683,14 @@ nav > a:first-of-type {
     .product-quantity-container {
         float: right;
     }
-    
+
     .product-quantity-container h4 {
         font-size: .75rem;
         margin-bottom: 0;
     }
 
     .product-quantity-container input {
-        width: 35px;
+        width: 45px;
         height: 35px;
         font-size: .75rem;
     }

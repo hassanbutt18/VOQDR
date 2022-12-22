@@ -70,6 +70,7 @@
     height: 74px;
     width: 74px;
     border-radius: 50%;
+    border: 1px solid black;
 }
 
 .client-details {
@@ -91,7 +92,7 @@
 }
 
 .client-description {
-    font-weight: 600;
+    font-weight: 500;
     font-size: .875rem;
     line-height: 1rem;
     color: #494949;
@@ -170,8 +171,13 @@
 
 
 @media (max-width: 768px) {
-    .testimonial {
-        padding: 30px 16px;
+    .testimonials {
+        padding: 20px 0px;
+    }
+
+    .testimonials h2 {
+        font-size: 2rem;
+        margin-bottom: 10px;
     }
 
     .testimonial-container {
@@ -189,6 +195,28 @@
         padding: 15px 15px;
     }
 
+    .testimonial-card h3 {
+        font-size: 1.5rem;
+        line-height: 1.5rem;
+        margin-bottom: 20px;
+    }
+
+    .client-criticism {
+        font-size: .875rem;
+        line-height: 1.25rem;
+        font-weight: 500;
+    }
+
+    .client-name {
+        font-size: .875rem;
+        line-height: 1rem;
+    }
+
+    .client-description {
+        font-size: .75rem;
+        line-height: .875rem;
+    }
+
     .swiper-navBtn {
         display: none;
     }
@@ -199,6 +227,7 @@
     }
 
     .date {
+        display: none;
         right: 15px;
         bottom: 15px;
         margin-bottom: 0;

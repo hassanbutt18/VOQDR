@@ -11,3 +11,7 @@ def index(request):
 def maps_vodcur(request):
     template = loader.get_template('mainapp/maps.html')
     return HttpResponse(template.render())
+
+def my_account(request):
+    template = loader.get_template('mainapp/account.html')
+    return HttpResponse(template.render())
