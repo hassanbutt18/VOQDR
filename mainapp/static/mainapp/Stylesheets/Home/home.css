@@ -40,6 +40,7 @@ nav>a:first-of-type {
 .nav-content {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
     gap: 25px;
 }
 
@@ -118,7 +119,7 @@ nav>a:first-of-type {
     background-color: #46879F;
     border: 1px solid transparent;
     border-radius: 40px;
-    padding: .875rem 2.4rem;
+    padding: 5px 21px;
 }
 
 .sign-in-btn a {
@@ -447,7 +448,7 @@ nav>a:first-of-type {
     }
 
     .sign-in-btn {
-        padding: .75rem 2.2rem;
+        padding: 5px 21px;
     }
 
     .buy-modal-container h2 {
@@ -481,7 +482,7 @@ nav>a:first-of-type {
     }
 
     .sign-in-btn {
-        padding: .6rem 2rem;
+        padding: 5px 21px;
     }
 
     .main-heading h1 {
@@ -537,7 +538,7 @@ nav>a:first-of-type {
     }
 
     .sign-in-btn {
-        padding: .75rem 1.5rem;
+        padding: 5px 21px;
     }
 
     .sign-in-btn a {
