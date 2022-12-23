@@ -15,3 +15,23 @@ def maps_vodcur(request):
 def my_account(request):
     template = loader.get_template('mainapp/account.html')
     return HttpResponse(template.render())
+
+def signin(request):
+    template = loader.get_template('mainapp/signin.html')
+    return HttpResponse(template.render())
+
+def signup(request):
+    template = loader.get_template('mainapp/signup.html')
+    return HttpResponse(template.render())
+
+def forgot_password(request):
+    template = loader.get_template('mainapp/forgot_password.html')
+    return HttpResponse(template.render())
+
+def verify_code(request):
+    template = loader.get_template('mainapp/verify_code.html')
+    return HttpResponse(template.render())
+
+def reset_password(request):
+    template = loader.get_template('mainapp/reset_password.html')
+    return HttpResponse(template.render())
