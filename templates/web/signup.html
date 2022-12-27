@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{% static 'web/Stylesheets/Home/styles.css'%}">
     <link rel="stylesheet" href="{% static 'web/Stylesheets/SignUp/signup_styles.css' %}">
     <link rel="icon" type="image/x-icon" href="{% static 'web/Assets/Images/logo.svg' %}">
+    <script src="https://kit.fontawesome.com/0d5a0a2089.js" crossorigin="anonymous"></script>
     <title>Voqdr</title>
 </head>
 
@@ -41,23 +42,13 @@
                         </div>
                         <div class="password-input">
                             <span>Password</span>
-                            <input type="password" />
-                            <svg class="hide-password-icon" width="22" height="18" viewBox="0 0 22 18" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M3 1L19 17M13 11.2361C12.4692 11.7111 11.7684 12 11 12C9.34315 12 8 10.6569 8 9C8 8.23165 8.28885 7.53076 8.76389 7M18.6078 12.6077C19.1791 12.1103 19.6902 11.6099 20.1303 11.1469C21.2899 9.92683 21.2899 8.07317 20.1303 6.8531C18.1745 4.79533 14.8155 2 11 2C10.1086 2 9.24217 2.15256 8.4127 2.41264M5.5 3.80338C4.04144 4.73444 2.79764 5.87678 1.86971 6.8531C0.710098 8.07317 0.710098 9.92683 1.86971 11.1469C3.82549 13.2047 7.18448 16 11 16C12.8681 16 14.6267 15.3299 16.1648 14.4044"
-                                    stroke="#004762" stroke-width="1.5" stroke-linecap="round" />
-                            </svg>
+                            <input type="password" id="password-field"/>
+                            <i class="fa-regular fa-eye-slash hide-password-icon"></i>
                         </div>
                         <div class="password-input">
                             <span>Confirm Password</span>
-                            <input type="password" />
-                            <svg class="hide-password-icon" width="22" height="18" viewBox="0 0 22 18" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M3 1L19 17M13 11.2361C12.4692 11.7111 11.7684 12 11 12C9.34315 12 8 10.6569 8 9C8 8.23165 8.28885 7.53076 8.76389 7M18.6078 12.6077C19.1791 12.1103 19.6902 11.6099 20.1303 11.1469C21.2899 9.92683 21.2899 8.07317 20.1303 6.8531C18.1745 4.79533 14.8155 2 11 2C10.1086 2 9.24217 2.15256 8.4127 2.41264M5.5 3.80338C4.04144 4.73444 2.79764 5.87678 1.86971 6.8531C0.710098 8.07317 0.710098 9.92683 1.86971 11.1469C3.82549 13.2047 7.18448 16 11 16C12.8681 16 14.6267 15.3299 16.1648 14.4044"
-                                    stroke="#004762" stroke-width="1.5" stroke-linecap="round" />
-                            </svg>
+                            <input type="password" id="confirm-password-field"/>
+                            <i class="fa-regular fa-eye-slash hide-password-icon"></i>
                         </div>
                     </div>
                 </form>
@@ -159,5 +150,7 @@
         </div>
     </div>
 </body>
+
+<script src="{% static 'web/Script/SignUp/script.js' %}"></script>
 
 </html>

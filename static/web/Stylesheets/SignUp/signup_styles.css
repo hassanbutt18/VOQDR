@@ -115,10 +115,15 @@ button {
     margin-top: 8px;
 }
 
+.password-input input {
+    padding-right: 15%;
+}
+
 .hide-password-icon {
     position: absolute;
-    right: 12px;
-    bottom: 20px;
+    right: 4%;
+    bottom: 18px;
+    color: #004762;
 }
 
 .sign-up-button-container {
@@ -273,10 +278,6 @@ button {
         line-height: .75rem;
     }
 
-    .hide-password-icon {
-        bottom: 15px;
-    }
-
     .sign-up-button {
         font-size: .875rem;
         padding: 5px 35px;
@@ -320,6 +321,10 @@ button {
     .password-input a {
         font-size: .875rem;
         line-height: .875rem;
+    }
+
+    .password-input input {
+        padding-right: 12%;
     }
 
     .sign-up-button {

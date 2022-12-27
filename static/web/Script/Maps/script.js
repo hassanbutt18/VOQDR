@@ -32,25 +32,21 @@ menuItems.forEach(function (menuItem) {
   menuItem.addEventListener("click", toggleMenu);
 });
 
-
-
 // Organisation Container controls
 
-const orgContainer = document.querySelector(".hide-organisations")
+const orgContainer = document.querySelector(".hide-organisations");
 const orgHeader = document.querySelector(".organisation-container-header");
 const orgHeaderChevronUp = document.querySelector(".organisation-chevron-up");
 const orgHeaderChevronDown = document.querySelector(
   ".organisation-chevron-down"
 );
 
-
-function toggleOrganisations () {
-  if(orgContainer.classList.contains("show-organisations")) {
+function toggleOrganisations() {
+  if (orgContainer.classList.contains("show-organisations")) {
     orgContainer.classList.remove("show-organisations");
     orgHeaderChevronDown.classList.remove("hide-chevron");
     orgHeaderChevronUp.classList.remove("show-chevron");
-  }
-  else {
+  } else {
     orgContainer.classList.add("show-organisations");
     orgHeaderChevronDown.classList.add("hide-chevron");
     orgHeaderChevronUp.classList.add("show-chevron");
@@ -58,7 +54,6 @@ function toggleOrganisations () {
 }
 
 orgHeader.addEventListener("click", toggleOrganisations);
-
 
 // Device Container controls
 
@@ -69,7 +64,6 @@ const devicesHeaderChevronUp = document.querySelector(".devices-chevron-up");
 const devicesHeaderChevronDown = document.querySelector(
   ".devices-chevron-down"
 );
-
 
 function toggleDevices() {
   if (deviceContainer.classList.contains("show-devices")) {
@@ -87,15 +81,13 @@ function toggleDevices() {
 
 devicesHeader.addEventListener("click", toggleDevices);
 
-
-
 // Device List Controls
 
 const devices = document.getElementsByClassName("device-header");
 var i;
 
 for (i = 0; i < devices.length; i++) {
-  devices[i].addEventListener("click", function() {
+  devices[i].addEventListener("click", function () {
     const chevronDown = this.children[1];
     const chevronUp = this.children[2];
     var panel = this.nextElementSibling;
@@ -107,11 +99,9 @@ for (i = 0; i < devices.length; i++) {
       panel.style.display = "block";
       chevronDown.classList.add("hide-single-device-chevron");
       chevronUp.classList.add("show-single-device-chevron");
-    } 
+    }
   });
 }
-
-
 
 // Delete Device Modal controls
 
@@ -123,7 +113,6 @@ const openModal = function () {
   modal.classList.remove("hidden");
   overlay.classList.remove("hidden");
 };
-
 
 const closeModal = function () {
   modal.classList.add("hidden");
@@ -143,25 +132,32 @@ document.addEventListener("keydown", function (e) {
   }
 });
 
-
-const deviceAdditionalOptions = document.getElementsByClassName("additional-option-btn");
+const deviceAdditionalOptions = document.getElementsByClassName(
+  "additional-option-btn"
+);
 var j;
 
-for(j = 0; j < deviceAdditionalOptions.length; j++) {
-  deviceAdditionalOptions[j].addEventListener("click", function() {
-    if(this.parentElement.parentElement.nextElementSibling.classList.contains("show-additional-options")) {
-      this.parentElement.parentElement.nextElementSibling.classList.remove("show-additional-options");
-    }
-    else{
-      this.parentElement.parentElement.nextElementSibling.classList.add("show-additional-options");
-      const ShowModal = this.parentElement.parentElement.nextElementSibling.childNodes[1].children[1];
+for (j = 0; j < deviceAdditionalOptions.length; j++) {
+  deviceAdditionalOptions[j].addEventListener("click", function () {
+    if (
+      this.parentElement.parentElement.nextElementSibling.classList.contains(
+        "show-additional-options"
+      )
+    ) {
+      this.parentElement.parentElement.nextElementSibling.classList.remove(
+        "show-additional-options"
+      );
+    } else {
+      this.parentElement.parentElement.nextElementSibling.classList.add(
+        "show-additional-options"
+      );
+      const ShowModal =
+        this.parentElement.parentElement.nextElementSibling.childNodes[1]
+          .children[1];
       ShowModal.addEventListener("click", openModal);
     }
-  })
+  });
 }
-
-
-
 
 // Edit Device Description Modal
 
@@ -171,12 +167,12 @@ const CancelEditModal = document.querySelector(".edit-cancel-btn");
 const OpenEditModal = function () {
   EditModal.classList.remove("hidden");
   overlay.classList.remove("hidden");
-}
+};
 
 const CloseEditModal = function () {
   EditModal.classList.add("hidden");
   overlay.classList.add("hidden");
-}
+};
 
 CancelEditModal.addEventListener("click", CloseEditModal);
 
@@ -186,15 +182,12 @@ document.addEventListener("keydown", function (e) {
   }
 });
 
-
 const EditBtn = document.getElementsByClassName("edit-btn");
 var k;
 
-for(k = 0; k < EditBtn.length; k++) {
+for (k = 0; k < EditBtn.length; k++) {
   EditBtn[k].addEventListener("click", OpenEditModal);
 }
-
-
 
 // Buy Modal controls
 
@@ -216,3 +209,23 @@ const closeBuyModal = function () {
 
 closeBuyModalBtn.addEventListener("click", closeBuyModal);
 overlay.addEventListener("click", closeBuyModal);
+
+// Maps Script
+
+var map = L.map("maps").setView([31.4503609, 74.2549209], 13);
+
+L.tileLayer("http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}", {
+  maxZoom: 20,
+  subdomains: ["mt0", "mt1", "mt2", "mt3"],
+}).addTo(map);
+
+var circle = L.circleMarker([31.4503609, 74.2549209], {
+  color: "rgba(217,40,99,.4)",
+  fillColor: "#d92863",
+  fillOpacity: 1,
+  radius: 50,
+}).addTo(map);
+
+circle.bindPopup(
+  "<strong>Device:</strong> nrf-352656101124371 <br/><br/> <strong>Last seen:</strong> Dec 23, 11:05 AM"
+);

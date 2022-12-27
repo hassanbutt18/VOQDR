@@ -9,6 +9,8 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+        integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
     <link rel="stylesheet" href="{% static 'web/Stylesheets/Maps/styles.css' %}">
     <link rel="stylesheet" href="{% static 'web/Stylesheets/Maps/home.css' %}">
     <link rel="stylesheet" href="{% static 'web/Stylesheets/Maps/maps.css' %}">
@@ -733,9 +735,12 @@
 
         <div class="overlay hidden"></div>
 
-        <iframe
+        <div id="maps">
+
+        </div>
+        <!-- <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3402.851986406448!2d74.29406611547465!3d31.473257556615444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391903c5f511542b%3A0x5b3cce9100d5959a!2sCrymzee%20Networks!5e0!3m2!1sen!2s!4v1671014656525!5m2!1sen!2s"
-            width="600" height="450" allowfullscreen></iframe>
+            width="600" height="450" allowfullscreen></iframe> -->
     </section>
 
     <section class="footer">
@@ -750,6 +755,8 @@
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script>
 </body>
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+    integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
 
 <script src="{% static 'web/Script/Maps/script.js' %}"></script>
 

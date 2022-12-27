@@ -9,9 +9,16 @@
     align-items: center;
 }
 
-.map-responsive iframe {
+#maps {
     height: 87vh;
     width: 100%;
+    z-index: 2;
+}
+
+.leaflet-top,
+.leaflet-right,
+.leaflet-left {
+    display: none;
 }
 
 .group-dropdown-container {

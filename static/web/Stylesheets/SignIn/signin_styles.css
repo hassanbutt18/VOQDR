@@ -111,9 +111,14 @@ button {
     margin-top: 8px;
 }
 
+.password-input input {
+    padding-right: 15%;
+}
+
 .hide-password-icon {
     position: absolute;
-    right: 12px;
+    right: 4%;
+    color: #004762;
 }
 
 .sign-in-button-container {
@@ -190,13 +195,13 @@ button {
         font-size: 2.8rem;
         line-height: 3rem;
     }
-    
+
     .email-input span,
     .password-input span {
         font-size: 1rem;
         line-height: 1rem;
     }
-    
+
     .email-input input,
     .password-input input {
         height: 35px;
@@ -242,13 +247,13 @@ button {
         font-size: 2rem;
         line-height: 1.8rem;
     }
-    
+
     .email-input span,
     .password-input span {
         font-size: .875rem;
         line-height: .75rem;
     }
-    
+
     .email-input input,
     .password-input input {
         height: 33px;
@@ -286,16 +291,21 @@ button {
     .sign-in-image {
         display: none;
     }
-    
+
     .sign-in-container h1 {
         font-size: 2.8rem;
         line-height: 3rem;
     }
-    
+
     .email-input span,
     .password-input span {
         font-size: 1rem;
         line-height: 1rem;
+    }
+
+
+    .password-input input {
+        padding-right: 10%;
     }
 
     .password-input a {
