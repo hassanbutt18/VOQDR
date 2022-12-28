@@ -29,21 +29,44 @@
         </svg>
         <div class="sign-in-page-content">
             <div class="sign-in-container">
+                {% if msg %}
+                        <div class="alert alert-danger text-danger" role="alert">
+                              {{ msg }}
+                        </div>
+                {% endif %}
                 <h1>Sign In</h1>
-                <form action="" id="sign-in-form">
+                <form  method="post" action="" id="sign-in-form">
+
+                    {% csrf_token %}
                     <div class="sign-in-inputs">
                         <div class="email-input">
                             <span>Email Address</span>
-                            <input type="email" />
+                            <input type="email" name="email"/>
                         </div>
                         <div class="password-input">
                             <span>Password</span>
-                            <input type="password" id="password-field"/>
+                            <input type="password" name="password" id="password-field"/>
                             <i class="fa-regular fa-eye-slash hide-password-icon"></i>
                             <a href="{% url 'forgot_password' %}">Forgot Password?</a>
                         </div>
                     </div>
                 </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 <div class="sign-in-button-container">
                     <a href="#"><button type="submit" form="sign-in-form" value="submit" class="sign-in-button">Sign
                             In</button></a>

@@ -30,24 +30,30 @@
         <div class="sign-up-page-content">
             <div class="sign-up-container">
                 <h1>Sign Up</h1>
-                <form action="" id="sign-up-form">
+                {% if msg %}
+                     <div class="alert alert-danger text-danger" role="alert">
+                     {{ msg }}
+                    </div>
+                {% endif %}
+                <form action="" id="sign-up-form" method="post">
+                      {% csrf_token %}
                     <div class="sign-up-inputs">
                         <div class="organisation-input">
                             <span>Organisation</span>
-                            <input type="text" />
+                            <input type="text" name="organization"/>
                         </div>
                         <div class="email-input">
                             <span>Email Address</span>
-                            <input type="email" />
+                            <input type="email" name="email"/>
                         </div>
                         <div class="password-input">
                             <span>Password</span>
-                            <input type="password" id="password-field"/>
+                            <input type="password" name="password" id="password-field"/ >
                             <i class="fa-regular fa-eye-slash hide-password-icon"></i>
                         </div>
                         <div class="password-input">
                             <span>Confirm Password</span>
-                            <input type="password" id="confirm-password-field"/>
+                            <input type="password"  name="confirmpassword" id="confirm-password-field"/>
                             <i class="fa-regular fa-eye-slash hide-password-icon"></i>
                         </div>
                     </div>

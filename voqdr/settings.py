@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # local apps
 
     'web.apps.WebConfig',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -127,6 +128,7 @@ USE_TZ = True
 
 # STATIC_URL = "/static/"
 # STATIC_ROOT = os.path.join(str(BASE_DIR),"web/static/")
+AUTH_USER_MODEL = 'users.User'
 
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [
