@@ -93,6 +93,7 @@ def forgot_password(request):
             secret_key = str(randint(1000, 9999))
             print("That is my secret key", secret_key)
             verification_token = get_otp_verified_token(email=email)
+            print("That is my verification code and token",verification_token)
             update_code = User.objects.filter(id=user.id).update(code=secret_key, token=verification_token)
             if update_code:
                 status = send_mail(
