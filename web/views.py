@@ -3,7 +3,7 @@ from random import randint
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.template import loader
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.urls import reverse
 
@@ -38,13 +38,17 @@ def my_account(request):
 
 # @csrf_exempt
 def signin(request):
+
     if request.method == "POST":
+        if request.user.is_authenticated:
+            return redirect('maps')
         email = request.POST['email']
         password = request.POST['password']
         user = authenticate(request, email=email, password=password)
         if user:
             login(request, user)
-            return redirect('maps')
+            # return redirect('maps')
+            return render(request, 'web/maps.html')
         else:
             msg = 'Incorrect Password, try again'
             context = {"msg": msg}
@@ -58,17 +62,18 @@ def signup(request):
         email = request.POST['email']
         password = request.POST['password']
         confirmpassword = request.POST['confirmpassword']
-        if not organization:
-            context = {"msg": "Provide valid organization name"}
+
+        if organization == '':
+            context = {"msg": "Enter a valid information!!!"}
             return render(request, 'web/signup.html', context)
         if not email:
-            context = {"msg": "Provide valid email address"}
+            context = {"msg": "Enter a valid information!!!"}
             return render(request, 'web/signup.html', context)
         if not password:
             context = {"msg": "Provide valid password"}
             return render(request, 'web/signup.html', context)
         if not confirmpassword:
-            context = {"msg": "Kindly provide valid password"}
+            context = {"msg": "Enter a valid information!!!"}
             return render(request, 'web/signup.html', context)
         user = User.objects.filter(email=email)
         if user:
@@ -165,3 +170,8 @@ def reset_password(request, pk):
         user.save()
         return redirect('signin')
     return render(request, 'web/reset_password.html')
+
+
+def logout(request):
+    logout(request)
+    return redirect('signin')
