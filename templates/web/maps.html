@@ -42,7 +42,7 @@
                 {% if request.user.is_authenticated %}
                     <a href="{% url 'logout' %}"><button class="sign-in-btn text-white">Logout</button></a>
                 {% else %}
-                    <p>I am in here</p>
+
                     <a href="{% url 'signin' %}"><button class="sign-in-btn text-white">Sign In</button></a>
                 {% endif %}
 
