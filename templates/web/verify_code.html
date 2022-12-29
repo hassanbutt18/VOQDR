@@ -29,10 +29,11 @@
         <div class="verify-code-page-content">
             <div class="verify-code-container">
                 <h1>Verification Code</h1>
-                {% if msg %}
-                   <div class="alert alert-danger text-danger" role="alert">
-                        {{ msg }}
-                   </div>
+                  {% if msg %}
+                    <div class="alert">
+                      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                      <strong>Error!</strong> {{ msg }}
+                    </div>
                 {% endif %}
                 <form action="" id="verify-code-form" method="post">
                      {% csrf_token %}
