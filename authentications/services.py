@@ -9,11 +9,12 @@ def otp_number():
     return str(9999)
 
 
-def get_otp_verified_token(phone_number):
-    token_str = otp_number() + phone_number
+def get_otp_verified_token(email):
+    token_str = otp_number() + email
     token_str_bytes = token_str.encode('ascii')
     base64_bytes = base64.b64encode(token_str_bytes)
     base64_message = base64_bytes.decode('ascii')
+
     return base64_message
 
 

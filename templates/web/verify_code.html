@@ -29,12 +29,18 @@
         <div class="verify-code-page-content">
             <div class="verify-code-container">
                 <h1>Verification Code</h1>
-                <form action="" id="verify-code-form">
+                {% if msg %}
+                   <div class="alert alert-danger text-danger" role="alert">
+                        {{ msg }}
+                   </div>
+                {% endif %}
+                <form action="" id="verify-code-form" method="post">
+                     {% csrf_token %}
                     <div class="verify-code-inputs">
                         <div class="email-input">
                             <span>Enter your code sent to your email</span>
-                            <input type="text" />
-                            <a href="#">Resend Code</a>
+                            <input type="text" name="code"/>
+                            <a href="{% url 'forgot_password' %}">Resend Code</a>
                         </div>
                     </div>
                 </form>
