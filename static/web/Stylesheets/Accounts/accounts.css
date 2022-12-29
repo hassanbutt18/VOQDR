@@ -121,7 +121,6 @@ select:focus {
 .payments-btn {
     background-color: white;
     border: 1px solid #46879F;
-    max-width: 158px;
     padding: 18px 38px;
     border-radius: 40px;
     font-weight: 700;
