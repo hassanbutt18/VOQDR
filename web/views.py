@@ -11,6 +11,7 @@ from authentications.models import OTP
 from authentications.services import get_otp_verified_token
 from users.models import User
 from voqdr.services import otp_number
+from django.contrib.auth.decorators import login_required
 
 
 # user = User.objects.count()
@@ -171,6 +172,6 @@ def reset_password(request, pk):
     return render(request, 'web/reset_password.html')
 
 
-def logout(request):
+def Logout(request):
     logout(request)
     return redirect('signin')
