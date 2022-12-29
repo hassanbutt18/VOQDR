@@ -30,11 +30,7 @@
         <div class="sign-up-page-content">
             <div class="sign-up-container">
                 <h1>Sign Up</h1>
-                {% if msg %}
-                     <div class="alert alert-danger text-danger" role="alert">
-                     {{ msg }}
-                    </div>
-                {% endif %}
+
                 <form action="" id="sign-up-form" method="post">
                       {% csrf_token %}
                     <div class="sign-up-inputs">

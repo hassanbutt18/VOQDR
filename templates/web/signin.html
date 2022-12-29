@@ -29,12 +29,12 @@
         </svg>
         <div class="sign-in-page-content">
             <div class="sign-in-container">
-                {% if msg %}
-                        <div class="alert alert-danger text-danger" role="alert">
-                              {{ msg }}
-                        </div>
-                {% endif %}
                 <h1>Sign In</h1>
+                 {% if msg %}
+                     <div class="alert alert-danger text-danger" role="alert">
+                     {{ msg }}
+                    </div>
+                {% endif %}
                 <form  method="post" action="" id="sign-in-form">
 
                     {% csrf_token %}
