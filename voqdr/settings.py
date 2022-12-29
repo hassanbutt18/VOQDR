@@ -127,6 +127,7 @@ USE_TZ = True
 #   os.path.join(BASE_DIR, "web/static/")
 # ]
 
+
 # STATIC_URL = "/static/"
 # STATIC_ROOT = os.path.join(str(BASE_DIR),"web/static/")
 AUTH_USER_MODEL = 'users.User'
