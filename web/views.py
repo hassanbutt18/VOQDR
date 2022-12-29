@@ -40,11 +40,10 @@ def my_account(request):
 def signin(request):
 
     if request.method == "POST":
-        if request.user.is_authenticated:
-            return redirect('maps')
         email = request.POST['email']
         password = request.POST['password']
         user = authenticate(request, email=email, password=password)
+        print("here",user)
         if user:
             login(request, user)
             # return redirect('maps')
