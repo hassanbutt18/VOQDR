@@ -43,7 +43,8 @@ button {
 .sign-up-container {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    gap: 25px;
     align-items: center;
     width: 23%;
 }
@@ -63,7 +64,7 @@ button {
 .sign-up-inputs {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 25px;
 }
 
 .email-input,
@@ -94,9 +95,10 @@ button {
     background-color: #F8FCFE;
     border: 1px solid #00000017;
     border-radius: 10px;
-    height: 50px;
-    margin-top: 8px;
+    height: 45px;
+    margin-top: 4px;
     text-indent: 10px;
+    font-size: 1rem;
 }
 
 .email-input input:focus,
@@ -122,7 +124,7 @@ button {
 .hide-password-icon {
     position: absolute;
     right: 4%;
-    bottom: 18px;
+    bottom: 16px;
     color: #004762;
 }
 
@@ -138,15 +140,15 @@ button {
     border-radius: 40px;
     color: white;
     font-weight: 700;
-    font-size: 1.625rem;
-    line-height: 1.5rem;
-    padding: 20px 70px;
+    font-size: 1.3rem;
+    line-height: 1.3rem;
+    padding: 12px 45px;
     margin-bottom: 5px;
 }
 
 .sign-up-button-container span {
     font-weight: 500;
-    font-size: 1rem;
+    font-size: .875rem;
     line-height: 1rem;
     color: #606060;
 }
@@ -196,10 +198,6 @@ button {
         gap: 6%;
     }
 
-    .sign-up-container {
-        justify-content: space-around;
-    }
-
     .sign-up-container h1 {
         font-size: 2.8rem;
         line-height: 3rem;
@@ -212,12 +210,6 @@ button {
         line-height: 1rem;
     }
     
-    .email-input input,
-    .password-input input,
-    .organisation-input input {
-        height: 50px;
-    }
-
     .password-input a {
         font-size: .875rem;
         line-height: .875rem;
@@ -251,7 +243,7 @@ button {
 
     .sign-up-container {
         justify-content: center;
-        gap: 50px;
+        gap: 30px;
     }
 
     .sign-up-container h1 {
@@ -271,6 +263,10 @@ button {
     .organisation-input input {
         height: 40px;
         margin-top: 3px;
+    }
+
+    .hide-password-icon {
+        bottom: 14px;
     }
 
     .password-input a {
@@ -293,13 +289,6 @@ button {
 @media (max-width: 768px) {
     .sign-up-container {
         width: 95%;
-    }
-
-    .email-input input,
-    .password-input input,
-    .organisation-input input {
-        height: 50px;
-        margin-top: 3px;
     }
 
     .sign-up-image {

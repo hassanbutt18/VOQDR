@@ -43,8 +43,9 @@ button {
 .verify-code-container {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
+    gap: 65px;
     width: 23%;
 }
 
@@ -83,8 +84,8 @@ button {
     background-color: #F8FCFE;
     border: 1px solid #00000017;
     border-radius: 10px;
-    height: 50px;
-    margin-top: 8px;
+    height: 45px;
+    margin-top: 4px;
     text-indent: 10px;
 }
 
@@ -114,9 +115,9 @@ button {
     border-radius: 40px;
     color: white;
     font-weight: 700;
-    font-size: 1.625rem;
-    line-height: 1.5rem;
-    padding: 20px 70px;
+    font-size: 1.3rem;
+    line-height: 1.3rem;
+    padding: 12px 45px;
     margin-bottom: 5px;
 }
 
@@ -175,10 +176,6 @@ button {
         gap: 6%;
     }
 
-    .verify-code-container {
-        justify-content: space-around;
-    }
-
     .top-circle {
         width: 160px;
         height: 150px;
@@ -197,10 +194,6 @@ button {
     .email-input span {
         font-size: 1rem;
         line-height: 1rem;
-    }
-    
-    .email-input input {
-        height: 50px;
     }
 
     .email-input a {
@@ -276,11 +269,6 @@ button {
     .verify-code-container {
         width: 95%;
         min-width: unset;
-    }
-
-    .email-input input {
-        height: 50px;
-        margin-top: 3px;
     }
 
     .email-input a {
