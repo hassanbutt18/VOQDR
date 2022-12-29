@@ -81,7 +81,7 @@ def signup(request):
             else:
                 user = User.objects.create_user(email=email, password=password, organization=organization)
                 context = {"msg": "You have successfully registered"}
-                return render(request, 'web/signup.html', context)
+                return redirect('signin')
     return render(request, 'web/signup.html')
 
 
