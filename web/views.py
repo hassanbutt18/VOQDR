@@ -103,9 +103,9 @@ def forgot_password(request):
                     [email],
                     fail_silently=False,
                 )
-                user_id = user.token
-                print("here", user_id)
-                return redirect('verify_code', pk=user_id)
+                update_code = update_code.token
+                print("here", update_code)
+                return redirect('verify_code', pk=verification_token)
                 # return render(request, 'web/verify_code.html')
                 # print("Here ",status)
                 # return render(request, 'web/verify_code.html')
