@@ -154,16 +154,16 @@ def reset_password(request, pk):
         password = request.POST['mypassword']
         confirm_password = request.POST['confirm_password']
         if not password and not confirm_password:
-            msg = 'Error! Please enter both password fields.'
+            msg = 'Please enter both password fields.'
             return render(request, 'web/reset_password.html', context={"msg": msg})
         if not password or not confirm_password:
-            msg = 'Error! Please enter both password fields.'
+            msg = 'Please enter both password fields.'
             return render(request, 'web/reset_password.html', context={"msg": msg})
         elif password != confirm_password:
-            msg = "Error! Password fields didn't match."
+            msg = "Password fields didn't match."
             return render(request, 'web/reset_password.html', context={"msg": msg})
         elif len(password) < 8:
-            msg = 'Error! Password should be at least 8 characters.'
+            msg = 'Password should be at least 8 characters.'
             return render(request, 'web/reset_password.html', context={"msg": msg})
         user = User.objects.filter(token=pk).first()
         user.set_password(password)
