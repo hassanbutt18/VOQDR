@@ -164,5 +164,5 @@ def reset_password(request, pk):
         user = User.objects.filter(token=pk).first()
         user.set_password(password)
         user.save()
-        return render(request, 'web/maps.html')
+        return redirect('maps')
     return render(request, 'web/reset_password.html')
