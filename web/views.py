@@ -102,7 +102,7 @@ def forgot_password(request):
             update_code = User.objects.filter(id=user.id).update(code=secret_key, token=verification_token)
             if update_code:
                 status = send_mail(
-                    'OTP code send',
+                    'Use the following code to get to the next step and reset your password.',
                     secret_key,
                     'testaliaxghar@gmail.com',
                     [email],
