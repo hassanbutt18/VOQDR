@@ -104,7 +104,7 @@ def forgot_password(request):
                 status = send_mail(
                     'OTP code send',
                     secret_key,
-                    'hassanbutt0030@gmail.com',
+                    'testaliaxghar@gmail.com',
                     [email],
                     fail_silently=False,
                 )
