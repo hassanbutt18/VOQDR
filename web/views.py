@@ -22,6 +22,7 @@ def otp_number():
     return str(randint(1000, 9999))
 
 
+
 def index(request):
     return render(request, 'web/index.html')
 
