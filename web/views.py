@@ -23,32 +23,29 @@ def otp_number():
 
 
 def index(request):
-    template = loader.get_template('web/index.html')
-    return HttpResponse(template.render())
+    return render(request, 'web/index.html')
 
 
 def maps_vodcur(request):
-    template = loader.get_template('web/maps.html')
-    return HttpResponse(template.render())
+    return render(request, 'web/maps.html')
 
 
 def my_account(request):
-    template = loader.get_template('web/account.html')
-    return HttpResponse(template.render())
+    return render(request, 'web/account.html')
 
 
 # @csrf_exempt
 def signin(request):
-
+    if request.user.is_authenticated:
+        return redirect('/')
     if request.method == "POST":
         email = request.POST['email']
         password = request.POST['password']
         user = authenticate(request, email=email, password=password)
-        print("here",user)
+        print("here", user)
         if user:
             login(request, user)
-            # return redirect('maps')
-            return render(request, 'web/maps.html')
+            return redirect('maps')
         else:
             msg = 'Incorrect Password, try again'
             context = {"msg": msg}
@@ -98,7 +95,7 @@ def forgot_password(request):
             secret_key = str(randint(1000, 9999))
             print("That is my secret key", secret_key)
             verification_token = get_otp_verified_token(email=email)
-            print("That is my verification code and token",verification_token)
+            print("That is my verification code and token", verification_token)
             update_code = User.objects.filter(id=user.id).update(code=secret_key, token=verification_token)
             if update_code:
                 status = send_mail(
@@ -110,12 +107,6 @@ def forgot_password(request):
                 )
 
                 return redirect('verify_code', pk=verification_token)
-                # return render(request, 'web/verify_code.html')
-                # print("Here ",status)
-                # return render(request, 'web/verify_code.html')
-                # return redirect(path)
-                # redirect(reverse('web:verify_code', kwargs={"token":otp.verification_token}))
-                # return render(request, 'web/verify_code.html', context={"token":otp.verification_token})
     user = User.objects.filter(id=request.user.id)
     if user:
         return render(request, 'web/forgot_password.html')
