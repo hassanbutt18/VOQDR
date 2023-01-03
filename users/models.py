@@ -15,8 +15,10 @@ class UserRolesChoices(models.TextChoices):
 class User(AbstractBaseUser):
     email = models.EmailField(unique=True, null=True, blank=True)
     organization = models.TextField(unique=False, null=True, blank=True)
+    name = models.TextField(null=True ,blank=True)
     code = models.TextField(null=True ,blank=True)
     token = models.TextField(null=True, blank=True)
+    image = models.ImageField(null=True ,blank=True)
 
     objects = CustomUserManager()
 

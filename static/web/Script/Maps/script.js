@@ -32,6 +32,8 @@ menuItems.forEach(function (menuItem) {
   menuItem.addEventListener("click", toggleMenu);
 });
 
+
+
 // Organisation Container controls
 
 const orgContainer = document.querySelector(".hide-organisations");
@@ -54,6 +56,8 @@ function toggleOrganisations() {
 }
 
 orgHeader.addEventListener("click", toggleOrganisations);
+
+
 
 // Device Container controls
 
@@ -81,6 +85,8 @@ function toggleDevices() {
 
 devicesHeader.addEventListener("click", toggleDevices);
 
+
+
 // Device List Controls
 
 const devices = document.getElementsByClassName("device-header");
@@ -102,6 +108,8 @@ for (i = 0; i < devices.length; i++) {
     }
   });
 }
+
+
 
 // Delete Device Modal controls
 
@@ -159,6 +167,8 @@ for (j = 0; j < deviceAdditionalOptions.length; j++) {
   });
 }
 
+
+
 // Edit Device Description Modal
 
 const EditModal = document.querySelector(".edit-device-modal");
@@ -189,6 +199,8 @@ for (k = 0; k < EditBtn.length; k++) {
   EditBtn[k].addEventListener("click", OpenEditModal);
 }
 
+
+
 // Buy Modal controls
 
 const buyModal = document.querySelector(".buy-modal-container");
@@ -210,22 +222,97 @@ const closeBuyModal = function () {
 closeBuyModalBtn.addEventListener("click", closeBuyModal);
 overlay.addEventListener("click", closeBuyModal);
 
+
+
 // Maps Script
 
-var map = L.map("maps").setView([31.4503609, 74.2549209], 13);
+// Initializing Maps
+var map = L.map("maps", {center: [31.46, 74.2549209], zoom: 11});
 
-L.tileLayer("http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}", {
-  maxZoom: 20,
-  subdomains: ["mt0", "mt1", "mt2", "mt3"],
+
+
+// Adding Tiles(roads, buildings, locations, etc.)
+
+L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  maxZoom: 19,
+  attribution:
+    '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 }).addTo(map);
 
-var circle = L.circleMarker([31.4503609, 74.2549209], {
-  color: "rgba(217,40,99,.4)",
-  fillColor: "#d92863",
-  fillOpacity: 1,
-  radius: 50,
-}).addTo(map);
 
-circle.bindPopup(
+
+// Making custom marker icon
+
+var markerIcon = L.icon({
+  iconUrl: "/static/web/Assets/Images/MapMarker.png",
+  iconAnchor: [10, 30],
+});
+
+
+
+// Adding markers to the map
+
+var marker = L.marker([31.46, 74.28], { icon: markerIcon });
+
+var popup = L.popup().setContent(
   "<strong>Device:</strong> nrf-352656101124371 <br/><br/> <strong>Last seen:</strong> Dec 23, 11:05 AM"
 );
+
+
+var circleRadius = L.circleMarker([31.4503609, 74.2549209], {
+  fillColor: "rgba(217, 40, 99, 0.4)",
+  fillOpacity: 1,
+  color: "transparent",
+  radius: 75,
+});
+
+var circleOuterRadius = L.circleMarker([31.4503609, 74.2549209], {
+  fillColor: "rgba(217, 40, 99, 0.15)",
+  fillOpacity: 1,
+  color: "transparent",
+  radius: 100,
+});
+
+var circle = L.circleMarker([31.4503609, 74.2549209], {
+  fillColor: "#d92863",
+  fillOpacity: 1,
+  color: "transparent",
+  radius: 50,
+  zIndex: 3,
+});
+
+
+circle.bindPopup(
+    "<strong>Device:</strong> nrf-352656101124371 <br/><br/> <strong>Last seen:</strong> Dec 23, 11:05 AM"
+  );
+
+var markerGroup = L.featureGroup([marker, circleRadius, circleOuterRadius, circle]).addTo(map);
+
+
+
+// Method to get your current position
+
+// navigator.geolocation.getCurrentPosition(getPosition);
+
+// function getPosition (position) {
+//   console.log(position);
+// }
+
+
+
+
+// Displaying route on the map from one location to another
+// using the plugin leaflet routing machine
+
+L.Routing.control({
+  waypoints: [
+    L.latLng(marker._latlng.lat, marker._latlng.lng),
+    L.latLng(circle._latlng.lat, circle._latlng.lng),
+  ],
+  lineOptions: {
+    styles: [{ color: "#d92863", weight: 3 }],
+  },
+  createMarker: function () {
+    return null;
+  },
+}).addTo(map);
