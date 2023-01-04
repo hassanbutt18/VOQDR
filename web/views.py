@@ -4,7 +4,7 @@ from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.template import loader
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.urls import reverse
 
 from authentications.models import OTP
@@ -55,37 +55,34 @@ def signin(request):
 
 
 def signup(request):
+    msg = None
+    success = False
+    context = {}
     if request.method == "POST":
-        organization = request.POST['organization']
-        email = request.POST['email']
-        password = request.POST['password']
-        confirmpassword = request.POST['confirmpassword']
-
-        if organization == '':
-            context = {"msg": "Enter a valid information!!!"}
-            return render(request, 'web/signup.html', context)
-        if not email:
-            context = {"msg": "Enter a valid information!!!"}
-            return render(request, 'web/signup.html', context)
-        if not password:
-            context = {"msg": "Provide valid password"}
-            return render(request, 'web/signup.html', context)
-        if not confirmpassword:
-            context = {"msg": "Enter a valid information!!!"}
-            return render(request, 'web/signup.html', context)
-        user = User.objects.filter(email=email)
-        if user:
-            context = {"msg": "You are already exist continue to login"}
-            return render(request, 'web/signup.html', context)
+        organization = request.POST.get('organization', None)
+        email = request.POST.get('email', None)
+        password = request.POST.get('password', None)
+        confirmpassword = request.POST.get('confirmpassword', None)
+        if organization is None:
+            msg = "Enter a valid organization!"
+        elif email is None:
+            msg = "Enter a valid email!"
+        elif password is None:
+            msg = "Provide valid password"
+        elif confirmpassword is None:
+            msg = "Enter a confirm password!"
+        elif password != confirmpassword:
+            msg = "Password does not match"
+        elif User.objects.filter(email=email).exists():
+            msg = "You are already exist continue to login"
         else:
-            if password != confirmpassword:
-                context = {"msg": "Password does not match"}
-                return render(request, 'web/signup.html', context)
-            else:
-                user = User.objects.create_user(email=email, password=password, organization=organization)
-                context = {"msg": "You have successfully registered"}
+            user = User.objects.create_user(email=email, password=password, organization=organization)
+            if user:
                 return redirect('signin')
-    return render(request, 'web/signup.html')
+        context["msg"] = msg
+        context["success"] = success
+        return JsonResponse(context)
+    return render(request, 'web/signup.html', {})
 
 
 def forgot_password(request):

@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{% static 'web/Stylesheets/SignUp/signup_styles.css' %}">
     <link rel="icon" type="image/x-icon" href="{% static 'web/Assets/Images/logo.svg' %}">
     <script src="https://kit.fontawesome.com/0d5a0a2089.js" crossorigin="anonymous"></script>
+    <script src="{% static 'web/Script/common.js' %}"></script>
     <title>Voqdr</title>
 </head>
 
@@ -30,31 +31,29 @@
         <div class="sign-up-page-content">
             <div class="sign-up-container">
                 <h1>Sign Up</h1>
-                {% if msg %}
-                    <div class="alert">
-                      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                      <strong>Error!</strong> {{ msg }}
-                    </div>
-                {% endif %}
-                <form action="" id="sign-up-form" method="post">
+                <form action="" id="sign-up-form" method="post" >
                       {% csrf_token %}
+                    <div class="alert hide">
+                      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                      <strong>Error!</strong> <span class="error-text"></span>
+                    </div>
                     <div class="sign-up-inputs">
                         <div class="organisation-input">
                             <span>Organisation</span>
-                            <input type="text" name="organization"/>
+                            <input type="text" required name="organization"/>
                         </div>
                         <div class="email-input">
                             <span>Email Address</span>
-                            <input type="email" name="email"/>
+                            <input type="email" required name="email"/>
                         </div>
                         <div class="password-input">
                             <span>Password</span>
-                            <input type="password" name="password" id="password-field"/ >
+                            <input type="password" required name="password" id="password-field"/ >
                             <i class="fa-regular fa-eye-slash hide-password-icon"></i>
                         </div>
                         <div class="password-input">
                             <span>Confirm Password</span>
-                            <input type="password"  name="confirmpassword" id="confirm-password-field"/>
+                            <input type="password" required name="confirmpassword" id="confirm-password-field"/>
                             <i class="fa-regular fa-eye-slash hide-password-icon"></i>
                         </div>
                     </div>
@@ -157,7 +156,5 @@
         </div>
     </div>
 </body>
-
-<script src="{% static 'web/Script/SignUp/script.js' %}"></script>
-
+<script src="{% static 'web/Script/SignUp/script.js' %}"></script>s
 </html>
