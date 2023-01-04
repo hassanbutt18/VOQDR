@@ -102,7 +102,7 @@ def forgot_password(request):
                 status = send_mail(
                     'Use the following code to get to the next step and reset your password.',
                     secret_key,
-                    'testaliaxghar@gmail.com',
+                    'voqdr.site@gmail.com',
                     [email],
                     fail_silently=False,
                 )
