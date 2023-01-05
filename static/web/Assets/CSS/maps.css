@@ -1,0 +1,713 @@
+nav {
+    margin-bottom: 0;
+}
+
+.map-responsive {
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#maps {
+    height: 87vh;
+    width: 100%;
+    z-index: 2;
+}
+
+.leaflet-top,
+.leaflet-right,
+.leaflet-left {
+    display: none;
+}
+
+.group-dropdown-container {
+    position: absolute;
+    z-index: 11;
+    top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 23.4%;
+    left: .8%;
+}
+
+.dropdown-line {
+    display: none;
+}
+
+.group-dropdown-container i {
+    color: #004762;
+}
+
+.voqdr-options {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    aspect-ratio: 1 / .155;
+    background-color: #F8FCFE;
+    box-shadow: 0px 0px 10px rgba(70, 135, 159, 0.25);
+    border-radius: 20px;
+    padding: 0.5% 1%;
+}
+
+i {
+    cursor: pointer;
+}
+
+
+.devices-options {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    aspect-ratio: 1 / .155;
+    background-color: #F8FCFE;
+    box-shadow: 0px 0px 10px rgba(70, 135, 159, 0.25);
+    border-radius: 20px;
+    padding: .5% 1%;
+}
+
+.devices-options>div:first-child,
+.voqdr-options>div:first-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1%;
+    width: 100%;
+    height: 100%;
+}
+
+.devices-options>div:first-child span,
+.voqdr-options>div:first-child span {
+    font-weight: 500;
+    font-size: 1.125rem;
+    line-height: 1rem;
+    color: #525252;
+}
+
+.devices-chevron-down,
+.organisation-chevron-down {
+    display: block !important;
+}
+
+.devices-chevron-up,
+.organisation-chevron-up {
+    display: none !important;
+}
+
+.show-chevron {
+    display: block !important;
+}
+
+.hide-chevron {
+    display: none !important;
+}
+
+.refresh-icon {
+    margin-top: 8px;
+    align-self: flex-end;
+    font-weight: 500;
+    font-size: .875rem;
+    line-height: .875rem;
+    color: #004762;
+    text-align: right;
+}
+
+.search-bar {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.search-input {
+    width: 100%;
+    text-indent: 8px;
+    aspect-ratio: 1 / .12;
+    border: 1px solid #46879F;
+    border-radius: 10px;
+    font-weight: 400;
+    font-size: .875rem;
+    line-height: .875rem;
+    color: black;
+    position: relative;
+}
+
+.search-input::placeholder {
+    color: #A4A4A4;
+}
+
+.search-icon {
+    position: absolute;
+    right: 15px;
+    color: #A4A4A4;
+}
+
+.device {
+    width: 100%;
+    background-color: white;
+    padding: 1% 1%;
+    margin-bottom: 5px;
+    min-height: 50px;
+    border-radius: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.device-container-header,
+.organisation-container-header {
+    min-height: 50px;
+    cursor: pointer;
+}
+
+.device-container-header:hover .devices-header-text,
+.organisation-container-header:hover .organisation-header-text {
+    text-decoration: underline;
+}
+
+.hide-devices,
+.hide-organisations {
+    display: none;
+    width: 100%;
+}
+
+.show-devices,
+.show-organisations {
+    display: block;
+    width: 100%;
+}
+
+.devices-container {
+    width: 100%;
+    height: 200px;
+    overflow-y: scroll;
+}
+
+.organisation-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+    background-color: white;
+    border: 1px solid #00000017;
+    border-radius: 10px;
+    padding: 1% 1%;
+}
+
+.organisation-container p {
+    font-weight: 500;
+    font-size: 1.125rem;
+    line-height: 1.5rem;
+    color: #525252;
+    margin-bottom: 0;
+}
+
+.device-header {
+    min-height: 50px;
+    cursor: pointer;
+}
+
+.device-header:hover .device-heading h3 {
+    text-decoration: underline;
+}
+
+
+.battery-indicator {
+    display: inline-block;
+    position: relative;
+    pointer-events: all;
+}
+
+.tooltip1 {
+    display: none;
+    position: absolute;
+    z-index: 2;
+    margin-right: 10px;
+}
+
+.battery-indicator:hover .tooltip1 {
+    display: block;
+}
+
+.device>div:first-of-type,
+.device>div:first-of-type,
+.device>div:first-of-type {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.device>div:first-of-type h3,
+.device>div:first-of-type h3,
+.device>div:first-of-type h3 {
+    font-weight: 500;
+    font-size: 1.125rem;
+    line-height: 1.5rem;
+    color: #525252;
+    display: inline-block;
+    margin-bottom: 0;
+    margin-top: 1px;
+}
+
+.show-single-device {
+    display: block;
+}
+
+.hide-single-device {
+    display: none;
+}
+
+.single-device-chevron-down {
+    display: block !important;
+}
+
+.single-device-chevron-up {
+    display: none !important;
+}
+
+.show-single-device-chevron {
+    display: block !important;
+}
+
+.hide-single-device-chevron {
+    display: none !important;
+}
+
+.device-text {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 2%;
+}
+
+.device-text span {
+    max-width: 90%;
+    font-weight: 700;
+    font-size: .7rem;
+    line-height: 1.125rem;
+    color: #565656;
+}
+
+.device-feature-container {
+    margin-top: 15px;
+    width: 96%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    box-shadow: 0px 0px 6px rgba(0, 71, 98, 0.1);
+    border-radius: 10px;
+}
+
+.device-features {
+    width: 70%;
+    padding: 4px 0px;
+}
+
+.device-features svg {
+    width: 20%;
+}
+
+.device-additional-features {
+    margin-top: 5px;
+    width: 100%;
+    display: none;
+    justify-content: flex-end;
+}
+
+.show-additional-options {
+    display: flex;
+}
+
+.device-additional-features div {
+    max-width: 130px;
+    margin-right: 2%;
+    padding: 5px;
+    display: flex;
+    justify-content: space-evenly;
+    gap: 8px;
+    background-color: #F8FCFE;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    filter: drop-shadow(0px 0px 6px rgba(0, 71, 98, 0.1));
+}
+
+.device-feature-container svg,
+.device-additional-features svg {
+    pointer-events: all;
+}
+
+.device-features svg:hover rect {
+    fill: #004762;
+}
+
+.device-additional-features svg:hover rect {
+    fill: #004762;
+}
+
+.device-additional-features div svg {
+    width: 48%;
+}
+
+
+/* Delete Device Modal Design */
+
+.overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+    z-index: 12;
+}
+
+.modal-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 46%;
+    aspect-ratio: 1 / .5;
+    background-color: white;
+    border: 1px solid transparent;
+    border-radius: 20px;
+    padding: 30px 0;
+    z-index: 13;
+    background-image: url("../Images/ModalBg.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.close-button {
+    position: absolute;
+    right: 2.3%;
+    top: 2.3%;
+    pointer-events: all;
+    cursor: pointer;
+}
+
+.modal-content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 15px;
+    padding: 0 7.7%;
+}
+
+.modal-question {
+    font-weight: 800;
+    font-size: 1.5rem;
+    line-height: 1.25rem;
+    text-align: center;
+}
+
+.modal-question-description {
+    font-weight: 400;
+    font-size: 1.125rem;
+    line-height: 1.25rem;
+    text-align: center;
+}
+
+.modal-submit-btn {
+    background-color: #46879F;
+    border: 1px solid transparent;
+    border-radius: 40px;
+    color: white;
+    font-size: 1rem;
+    line-height: 1rem;
+    width: 25%;
+    aspect-ratio: 1 / .31;
+}
+
+
+/* Edit Device Description Modal */
+
+.edit-device-modal {
+    display: flex;
+}
+
+.edit-device-container {
+    align-items: flex-start;
+    justify-content: space-around;
+    height: fit-content;
+}
+
+.edit-device-container h2 {
+    font-weight: 700;
+    font-size: 2rem;
+    line-height: 2rem;
+    color: #004762;
+}
+
+.edit-device-container > div:first-of-type {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+#edit-device-info {
+    width: 100%;
+}
+
+.edit-modal-description {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: #F8FCFE;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.edit-modal-description span {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.edit-modal-device-text {
+    border: 1px solid #00000017;
+    border-radius: 10px;
+    height: 40px;
+    width: 100%;
+    text-indent: 4px;
+    font-size: 1.1rem;
+    line-height: 1rem;
+    margin-bottom: 10px;
+}
+
+.edit-modal-text {
+    resize: none;
+    text-indent: 4px;
+    font-size: 1rem;
+    line-height: 1rem;
+    width: 100%;
+    height: 80px;
+    border: 1px solid #00000017;
+    border-radius: 10px;
+}
+
+.edit-modal-text:focus,
+.edit-modal-device-text:focus {
+    outline-color: #004762;
+}
+
+.edit-modal-description p {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 2rem;
+    color: #565656;
+    margin-bottom: 0;
+}
+
+.edit-modal-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.edit-cancel-btn {
+    background-color: white;
+    color: #46879F;
+    border: 1px solid #46879F;
+}
+
+.hidden {
+    display: none;
+}
+
+
+.device-content {
+    display: none;
+}
+
+
+
+
+@media (min-width: 1536px) {
+    .edit-device-container {
+        height: 100%;
+    }
+}
+
+
+@media (max-width: 1280px) {
+    .buy-modal-container h2 {
+        font-size: 1.5rem;
+        line-height: 1.5rem;
+    }
+
+    .buy-modal-container {
+        width: 50%;
+    }
+
+    .product-details>div:first-child h3 {
+        font-size: 1.5rem;
+        line-height: 1.5rem;
+    }
+
+    .product-image {
+        width: 28%;
+    }
+
+    .product-description p {
+        font-size: 1rem;
+    }
+}
+
+
+@media (min-height: 1024px) {
+    .devices-container {
+        height: fit-content;
+        overflow: hidden;
+    }
+
+    .buy-modal-container {
+        width: 70%;
+    }
+
+    .product-description p {
+        margin-bottom: 0;
+    }
+}
+
+
+@media (max-width: 1280px) {
+
+    .modal-container {
+        width: 50%;
+    }
+}
+
+
+@media (max-width: 1024px) {
+
+    .modal-container {
+        width: 70%;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .group-dropdown-container {
+        top: unset;
+        bottom: 0;
+        left: 0;
+        height: fit-content;
+        padding: 1%;
+        gap: 8px;
+        background-color: white;
+        width: 100%;
+    }
+
+    .dropdown-line {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        width: 100%;
+        top: 0;
+    }
+
+    .voqdr-options,
+    .devices-options {
+        background-color: #F8FCFE;
+        border-radius: 10px;
+        box-shadow: none;
+        width: 100%;
+    }
+
+    .modal-container {
+        padding: 10px 0;
+        width: 95%;
+    }
+
+    .modal-question {
+        font-size: 1.25rem;
+        line-height: 1.25rem;
+        margin-bottom: 0;
+    }
+
+    .modal-question-description {
+        font-size: 1rem;
+        margin-bottom: 0;
+    }
+
+    .edit-modal-description p {
+        font-size: .875rem;
+        line-height: 1.125rem;
+    }
+
+    .buy-modal-container {
+        width: 95%;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .buy-modal-container h2 {
+        font-size: 1rem;
+        line-height: 1.25rem;
+    }
+
+    .product-details>div:first-child h3 {
+        font-size: .875rem;
+        line-height: .8rem;
+    }
+
+    .product-description p {
+        font-size: .75rem;
+        line-height: 1.25rem;
+    }
+
+    .product-description ul {
+        margin-bottom: 5px;
+        max-width: 130px;
+    }
+
+    .product-description ul li {
+        font-size: .75rem;
+        line-height: 1rem;
+    }
+
+    .product-quantity-container {
+        float: right;
+    }
+
+    .product-quantity-container h4 {
+        font-size: .75rem;
+        margin-bottom: 0;
+    }
+
+    .product-quantity-container input {
+        width: 45px;
+        height: 35px;
+        font-size: .75rem;
+    }
+
+    .buy-modal-submit-btn {
+        font-size: .75rem;
+        width: 23%;
+    }
+}

@@ -1,0 +1,162 @@
+.main {
+    position: relative;
+}
+
+.main {
+    display: flex;
+    justify-content: center;
+
+}
+
+.main-heading {
+    width: 48%;
+    text-align: left;
+    padding-left: 6.7%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    background-image: url("../Images/main_bg.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: left;
+}
+
+.main-heading h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 3.6rem;
+}
+
+.main-heading p {
+    font-weight: 500;
+    font-size: 2.3rem;
+    line-height: 3.6rem;
+    color: #46879F;
+    text-align: left;
+}
+
+.main-image {
+    width: 48%;
+    display: flex;
+
+}
+
+.main-image img {
+    width: 100%;
+    max-width: 850px;
+    min-width: 0;
+    height: auto;
+}
+
+.group-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2.6%;
+    margin-top: 50px;
+    margin-bottom: 80px;
+}
+
+.group-buttons button:first-child {
+    width: 14%;
+    aspect-ratio: 1 / .31;
+    background-color: #46879F;
+    border: 1px solid white;
+    border-radius: 80px;
+    font-weight: 700;
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+    color: #FFFFFF;
+}
+
+.group-buttons button:last-child {
+    width: 14%;
+    aspect-ratio: 1 / .31;
+    color: #46879F;
+    border: 1px solid #46879F;
+    border-radius: 80px;
+    font-weight: 700;
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+    background-color: white;
+}
+
+
+@media (min-width: 1536px) and (max-width: 1920px) {
+    .group-buttons button:first-child,
+    .group-buttons button:last-child {
+        font-size: 1.875rem;
+        line-height: 1.8rem;
+    }
+}
+
+
+@media (max-width: 1024px) {
+    .main-heading h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        line-height: 3rem;
+    }
+
+    .main-heading p {
+        font-weight: 500;
+        font-size: 2rem;
+        line-height: 3rem;
+        color: #46879F;
+        text-align: left;
+    }
+
+    .group-buttons button:first-child,
+    .group-buttons button:last-child {
+        font-size: 1.125rem;
+        line-height: 1.125rem;
+    }
+
+}
+
+
+@media (max-width: 768px) {
+    .main {
+        flex-direction: column;
+        align-items: center;
+        padding: 30px 16px;
+        gap: 10px;
+    }
+
+    .main-heading {
+        width: 100%;
+        padding-left: 0;
+        background-size: cover;
+        order: 2;
+        text-align: center;
+    }
+
+    .main-heading h1 {
+        font-size: 1.875rem;
+        line-height: 1.875rem;
+        margin-top: 15px;
+    }
+
+    .main-heading p {
+        font-size: 1.375rem;
+        line-height: 2rem;
+        font-weight: 700;
+        text-align: center;
+    }
+
+    .main-image {
+        width: 100%;
+        order: 1;
+    }
+
+    .group-buttons {
+        margin: 10px 0px;
+    }
+
+    .group-buttons button:first-child,
+    .group-buttons button:last-child {
+        width: 120px;
+    }
+
+}

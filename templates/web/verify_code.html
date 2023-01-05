@@ -5,15 +5,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% extends './layouts/authentication_pages.html' %}
+
     {% load static %}
-    <link rel="stylesheet" href="{% static 'web/Stylesheets/Home/styles.css' %}">
-    <link rel="stylesheet" href="{% static 'web/Stylesheets/Verify-Code/verify_code.css' %}">
-    <link rel="icon" type="image/x-icon" href="{% static 'web/Assets/Images/logo.svg' %}">
-    <title>Voqdr</title>
+
+    {% block links %}
+    <link rel="stylesheet" href="{% static 'web/Assets/CSS/verify_code.css' %}">
+    {% endblock %}
+
+    <title>{% block title %}Voqdr{% endblock %}</title>
 </head>
 
 <body>
-    <div class="verify-code-page container">
+    {% block body %}
+    <div class="verify-code-page">
         <svg class="top-circle" width="302" height="279" viewBox="0 0 302 279" fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <path opacity="0.5"
@@ -141,6 +147,8 @@
             </div>
         </div>
     </div>
+
+    {% endblock %}
 </body>
 
 </html>

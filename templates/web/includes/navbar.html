@@ -1,0 +1,27 @@
+{% load static %}
+<nav>
+    <a href="{% url 'index' %}">
+        <img src="{% static 'web/Assets/Images/logo.svg' %}" class="logo" alt="Logo" />
+    </a>
+    <div class="nav-content">
+        <div class="nav-links">
+            <a href="{% url 'maps' %}" class="nav-items {% if nbar == 'map' %}active{% endif %}">Map</a>
+            <a href="#" class="nav-items buy-modal-open-nav-button">Buy</a>
+        </div>
+        {% if request.user.is_authenticated %}
+            <div class="nav-profile-image">
+                <img src="../../static/web/Assets/Images/Muhammad_Wasif_Ali.png" alt="Profile Image" />
+                <div class="account-menu">
+                    <a href="{% url 'account' %}">My Account</a>
+                    <a href="{% url 'logout_view' %}">Sign Out</a>
+                </div>
+            </div>
+        {% else %}
+            <a href="{% url 'signin' %}"><button class="sign-in-btn text-white">Sign In</button></a>
+        {% endif %}
+    </div>
+    <button class="hamburger">
+        <i class="fa-solid fa-bars menuIcon"></i>
+        <i class="fa-solid fa-xmark closeIcon"></i>
+    </button>
+</nav>

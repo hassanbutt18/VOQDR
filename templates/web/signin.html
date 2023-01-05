@@ -5,16 +5,22 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% extends './layouts/authentication_pages.html' %}
+
     {% load static %}
-    <link rel="stylesheet" href="{% static 'web/Stylesheets/Home/styles.css' %}">
-    <link rel="stylesheet" href="{% static 'web/Stylesheets/SignIn/signin_styles.css' %}">
-    <link rel="icon" type="image/x-icon" href="{% static 'web/Assets/Images/logo.svg' %}">
-    <script src="https://kit.fontawesome.com/0d5a0a2089.js" crossorigin="anonymous"></script>
-    <title>Voqdr</title>
+
+    {% block links %}
+    
+    <link rel="stylesheet" href="{% static 'web/Assets/CSS/signin_styles.css' %}">
+
+    {% endblock %}
+
+    <title>{% block title %}Voqdr{% endblock %}</title>
 </head>
 
 <body>
-    <div class="sign-in-page container">
+    {% block body %}
+    <div class="sign-in-page">
         <svg class="top-circle" width="302" height="279" viewBox="0 0 302 279" fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <path opacity="0.5"
@@ -52,22 +58,6 @@
                         </div>
                     </div>
                 </form>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 <div class="sign-in-button-container">
                     <a href="#"><button type="submit" form="sign-in-form" value="submit" class="sign-in-button">Sign
                             In</button></a>
@@ -166,8 +156,12 @@
             </div>
         </div>
     </div>
+
+    {% endblock %}
 </body>
 
-<script src="{% static 'web/Script/SignIn/script.js' %}"></script>
+{% block scripts %}
+<script src="{% static 'web/Assets/JS/signin.js' %}"></script>
+{% endblock %}
 
 </html>
