@@ -28,7 +28,8 @@ def index(request):
 
 
 def maps_vodcur(request):
-    return render(request, 'web/maps.html')
+    context={'nbar':'map'}
+    return render(request, 'web/maps.html', context)
 
 
 def my_account(request):
