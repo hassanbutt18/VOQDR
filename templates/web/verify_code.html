@@ -12,6 +12,7 @@
 
     {% block links %}
     <link rel="stylesheet" href="{% static 'web/Assets/CSS/verify_code.css' %}">
+    <script src="{% static 'web/Assets/JS/verifyCode.js' %}"></script>
     {% endblock %}
 
     <title>{% block title %}Voqdr{% endblock %}</title>
@@ -35,25 +36,23 @@
         <div class="verify-code-page-content">
             <div class="verify-code-container">
                 <h1>Verification Code</h1>
-                  {% if msg %}
-                    <div class="alert">
-                      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                      <strong>Error!</strong> {{ msg }}
-                    </div>
-                {% endif %}
-                <form action="" id="verify-code-form" method="post">
+                <form action="" id="verify-code-form" method="" onsubmit="verifyCodeForm(event)">
                      {% csrf_token %}
+                     <div class="alert hide">
+                        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                        <span class="error-text">{{msg}}</span>
+                      </div>
                     <div class="verify-code-inputs">
                         <div class="email-input">
                             <span>Enter your code sent to your email</span>
-                            <input type="text" name="code"/>
-                            <a href="{% url 'forgot_password' %}">Resend Code</a>
+                            <input type="text" name="code" required />
+                            <a href="javascript:void(0)" onclick="resendCode(event);" class="resend-btn">Resend Code</a>
                         </div>
                     </div>
+                    <div class="verify-code-button-container">
+                        <button type="submit" form="verify-code-form" value="submit" class="verify-code-button mt-4">Submit</button>
+                    </div>
                 </form>
-                <div class="verify-code-button-container">
-                    <a href="#"><button type="submit" form="verify-code-form" value="submit" class="verify-code-button">Submit</button></a>
-                </div>
             </div>
             <div class="verify-code-image">
                 <svg width="708" height="556" viewBox="0 0 708 556" fill="none" xmlns="http://www.w3.org/2000/svg">

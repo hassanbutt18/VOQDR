@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{% static 'web/Assets/CSS/signup_styles.css' %}">
     {% endblock %}
 
-    <title>{% block title %}Voqdr{% endblock %}</title>
+    <title>{% block title %}VOQDR{% endblock %}</title>
 </head>
 
 <body>
@@ -34,11 +34,11 @@
         <div class="sign-up-page-content">
             <div class="sign-up-container">
                 <h1>Sign Up</h1>
-                <form action="" id="sign-up-form" method="post" >
+                <form action="" id="sign-up-form" method="" onsubmit="signupForm(event)">
                       {% csrf_token %}
                     <div class="alert hide">
-                      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                      <strong>Error!</strong> <span class="error-text"></span>
+                        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                        <span class="error-text"></span>
                     </div>
                     <div class="sign-up-inputs">
                         <div class="organisation-input">
@@ -60,11 +60,12 @@
                             <i class="fa-regular fa-eye-slash hide-password-icon"></i>
                         </div>
                     </div>
+                    <div class="sign-up-button-container mt-4">
+                        <button type="submit" form="sign-up-form" value="submit" class="sign-up-button cursor-pointer">Register</button>
+                        <span>Already have an account? <a href="{% url 'signin' %}">Sign In</a></span>
+                    </div>
                 </form>
-                <div class="sign-up-button-container">
-                    <a href="#"><button type="submit" form="sign-up-form" value="submit" class="sign-up-button">Register</button></a>
-                    <span>Already have an account? <a href="{% url 'signin' %}">Sign In</a></span>
-                </div>
+                
             </div>
             <div class="sign-up-image">
                 <svg width="708" height="556" viewBox="0 0 708 556" fill="none" xmlns="http://www.w3.org/2000/svg">
