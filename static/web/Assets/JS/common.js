@@ -22,13 +22,13 @@ async function requestAPI(url, data, headers, method) {
 function beforeLoad(button, text){
     button.innerHTML = text;
     button.disabled = true;
-    button.classList.replace("cursor-pointer", "cursor-not-allowed");
+    button.style.cursor ='not-allowed';
 }
 
 function afterLoad(button, text){
     button.innerHTML = text;
     button.disabled = false;
-    button.classList.replace("cursor-not-allowed","cursor-pointer");
+    button.style.cursor ='pointer';
 }
 
 function showMsg(element, msg, color, type){

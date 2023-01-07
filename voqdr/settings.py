@@ -15,6 +15,8 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+MEDIA_BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -39,7 +41,7 @@ INSTALLED_APPS = [
 
     # local apps
 
-    'web.apps.WebConfig',
+    'web',
     'users',
     'authentications'
 ]
@@ -80,8 +82,14 @@ WSGI_APPLICATION = 'voqdr.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': BASE_DIR / 'db.sqlite3',
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "voqdr",
+        "USER": "root",
+        "PASSWORD": "",
+        "HOST": "127.0.0.1",
+        "PORT": "3306"
     }
 }
 
@@ -127,6 +135,8 @@ USE_TZ = True
 #   os.path.join(BASE_DIR, "web/static/")
 # ]
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(MEDIA_BASE_DIR,'media')
 
 # STATIC_URL = "/static/"
 # STATIC_ROOT = os.path.join(str(BASE_DIR),"web/static/")
@@ -138,6 +148,12 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = os.path.join(str(BASE_DIR), "/static")
 
+
+BASE_URL = 'http://127.0.0.1:8000/'
+LOGO = '/static/web/Assets/Images/logo.svg'
+if DEBUG:
+    LOGO = 'http://dev.crymzee.com:7000/static/web/Assets/Images/logo.svg'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
@@ -148,3 +164,6 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'voqdr.site@gmail.com'
 EMAIL_HOST_PASSWORD = 'riasjaexfzmnztsy'
+
+
+PROJECT_NAME = 'VOQDR'

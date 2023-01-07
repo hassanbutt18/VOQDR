@@ -7,13 +7,23 @@ from django.template import loader
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, JsonResponse
 from django.urls import reverse
+from voqdr.emailManager import EmailManager
+from voqdr.helpers import *
 
 from authentications.models import OTP
 from authentications.services import *
-from users.models import User
+from users.models import InvitedOrganization, SharedOrganization, User
 from voqdr.services import otp_number
 from django.contrib.auth.decorators import login_required
 
+from web.models import ProductFeature
+
+
+
+# title ='Lorem ipsum is a placeholder text commonly'
+# description = 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.'
+# image = None
+# ProductFeature.objects.create(title=title,description=description,image=image)
 
 # Create your views here.
 
@@ -23,16 +33,42 @@ def otp_number():
 
 
 def index(request):
-    return render(request, 'web/index.html')
+    context = {}
+    product_features = ProductFeature.objects.all()[:3]
+    # print(product_features)
+    context['product_features'] = product_features
+    return render(request, 'web/index.html', context)
 
-
+@login_required(login_url='/signin/')
 def maps_vodcur(request):
     context={'nbar':'map'}
     return render(request, 'web/maps.html', context)
 
-
+@login_required(login_url='/signin/')
 def my_account(request):
-    return render(request, 'web/account.html')
+    msg = None
+    success = False
+    context = {}
+    if request.method == 'POST':
+        request_data = request.POST.copy()
+        if 'image' in request.FILES:
+            request_data["image"] = request.FILES['image']
+        request_data = queryDict_to_dict(request_data)
+        del request_data["csrfmiddlewaretoken"]
+        user = request.user
+        user.organization = request_data["organization"]
+        user.email = request_data["email"]
+        if request_data["image"]:
+            user.image = request_data["image"]
+            user.save(update_fields=['organization', 'email', 'image'])
+        else:
+            user.save(update_fields=['organization', 'email'])
+        msg = "Profile updated succesfully"
+        success = True
+        context['msg'] = msg
+        context['success'] = success
+        return JsonResponse(context)
+    return render(request, 'web/account.html', context)
 
 
 # @csrf_exempt
@@ -192,6 +228,57 @@ def reset_password(request, pk):
     return render(request, 'web/reset_password.html', context)
 
 
+def invite_organization(request):
+    msg = None
+    success = False
+    context = {}
+    user = request.user
+    if request.method == "POST":
+        request_data = json.loads(request.body.decode('utf-8'))
+        invitation = InvitedOrganization.objects.create(invite_by=user, invite_to=request_data['email'],role=request_data['role'])
+        if invitation:
+            token = get_dict_token({'invite_by':user.id,'invite_to':request_data['email'], 'role':request_data['role']})
+            try:
+                EmailManager.send_email_invite(request_data['email'], request_data['role'], user.organization, token, request)
+            except Exception as e:
+                print(e)
+        context['msg'] = msg
+        context['success'] = success
+        return JsonResponse(context)
+    return render(request, 'web/account.html', context)
+
 def Logout(request):
     logout(request)
     return redirect('signin')
+
+
+def invitation_approval(request, token, status):
+    data = {}
+    if status == 0:
+        status = False
+    else:
+        status = True
+    decrypt_token = decrypt_dict(token)
+    del decrypt_token[-1]
+    for i in decrypt_token:
+        key, value = i.split('=')
+        data[key] = value
+    if status:
+        try:
+            org = SharedOrganization.objects.get(invite_to=data['invite_to'])
+            if org:
+                org.role = data['role']
+                org.is_verified = True
+                org.save(update_fields=['role', 'is_verified'])
+        except Exception as e:
+            org = SharedOrganization.objects.create(invite_to=data['invite_to'], invite_by_id=data['invite_by'], role=data['role'], is_verified=True)
+        finally:
+            invitation = InvitedOrganization.objects.filter(invite_to=data['invite_to'], invite_by_id=data['invite_by'])
+            if invitation:
+                invitation.delete()
+    else:
+        invitation = InvitedOrganization.objects.filter(invite_to=data['invite_to'], invite_by_id=data['invite_by'])
+        if invitation:
+            invitation.delete()
+    
+    return redirect('/')

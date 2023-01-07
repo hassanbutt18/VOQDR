@@ -1,20 +1,14 @@
+import base64
 import json
 import re
 from django.http.response import JsonResponse
 from django.core.mail import send_mail
 from datetime import datetime
-import random
-import string
 from django.conf import settings
 from datetime import datetime, date, timedelta
 import uuid
 import os
 from django.core import serializers
-from django.http import HttpResponse, QueryDict
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from users.models import User, UserRoles, Store
-from chat.models import Dialog
 
 SUCCESS_CODE = 1
 
@@ -146,3 +140,20 @@ def getBoolean(attr):
 
 
 
+def get_dict_token(dict):
+    token_str = ''
+    for x, y in dict.items():
+        token_str += F'{x}={y}___'
+    token_str =token_str+str(datetime.now().strftime("%S"))
+    token_str_bytes = token_str.encode('ascii')
+    base64_bytes = base64.b64encode(token_str_bytes)
+    base64_message = base64_bytes.decode('ascii')
+    return base64_message
+
+
+def decrypt_dict(token):
+    token_str_bytes = token.encode('ascii')
+    base64_bytes = base64.b64decode(token_str_bytes)
+    base64_message = base64_bytes.decode('ascii')
+    data = base64_message.split('___')
+    return data

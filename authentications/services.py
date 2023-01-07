@@ -31,3 +31,4 @@ def decrypt_token(token):
     base64_message = base64_bytes.decode('ascii')
     code, email = base64_message.split('email=')
     return code, email
+

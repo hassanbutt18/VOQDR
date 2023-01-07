@@ -10,7 +10,7 @@
         </div>
         {% if request.user.is_authenticated %}
             <div class="nav-profile-image">
-                <img src="../../static/web/Assets/Images/Muhammad_Wasif_Ali.png" alt="Profile Image" />
+                <img src="{{request.user.profile_image}}" alt="Profile Image" />
                 <div class="account-menu">
                     <a href="{% url 'account' %}">My Account</a>
                     <a href="{% url 'logout_view' %}">Sign Out</a>

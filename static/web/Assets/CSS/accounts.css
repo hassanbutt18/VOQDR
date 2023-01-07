@@ -41,7 +41,7 @@ form {
     height: 95px;
 }
 
-.account-image > img {
+.account-image .profile-image {
     width: 100%;
     border: 1px solid black;
     border-radius: 50%;
@@ -347,6 +347,33 @@ select:focus {
 .user-table svg {
     width: 40px;
     height: 40px;
+}
+
+
+.hide {
+    display: none;
+}
+
+.alert {
+  padding: 10px;
+  color: white;
+}
+
+/* The close button */
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* When moving the mouse over the close button */
+.closebtn:hover {
+  color: black;
 }
 
 
