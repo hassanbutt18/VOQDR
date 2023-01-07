@@ -27,7 +27,7 @@ async function resetPasswordForm(event) {
   showMsg(error, "", "bg-danger", "hide");
   let formData = new FormData(form);
   let data = formDataToObject(formData);
-  console.log(data)
+
   let headers = {
     "Content-Type": "application/json",
     "X-CSRFToken": data.csrfmiddlewaretoken,
@@ -46,9 +46,11 @@ async function resetPasswordForm(event) {
     let url = String(window.location.pathname);
     let token = url.split("/reset_password/")[1];
     data.token = token;
+    
     beforeLoad(button, "Processing");
     response = await requestAPI(`/reset_password/${token}`, JSON.stringify(data), headers, "POST");
     afterLoad(button, button_text);
+    
     response.json().then(function (res) {
       if (!res.success) {
         showMsg(error, res.msg, "bg-danger", "show");

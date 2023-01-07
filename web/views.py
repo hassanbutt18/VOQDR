@@ -139,7 +139,6 @@ def verify_code(request, token):
         request_data = json.loads(request.body.decode('utf-8'))
         code = request_data.get('code')
         user = User.objects.filter(token=request_data.get('token')).first()
-        print(user.token, "here is the code")
         if user is None:
             msg = "User not found"
         elif code != user.code:
@@ -152,7 +151,6 @@ def verify_code(request, token):
         context['token'] = request_data.get('token')
 
         return JsonResponse(context)
-    print("I am in here")
 
     return render(request, 'web/verify_code.html', context)
 
@@ -165,7 +163,6 @@ def verify_codes(request):
         token = request.POST['token']
         otp = OTP.objects.filter(token=token, type='forgot').order_by('-pk').first()
         if otp.code == code:
-            print("I am in here dear")
             return render(request, 'web/verify_code.html', context={"token": otp.verification_token})
     return render(request, 'web/verify_code.html')
 
@@ -177,17 +174,20 @@ def reset_password(request, pk):
 
     if request.method == "POST":
         request_data = json.loads(request.body.decode('utf-8'))
-        print(request_data)
 
         user = User.objects.filter(token=request_data.get('token')).first()
-        user.set_password(request_data.get('password'))
-        user.save()
-        # password = request.POST['mypassword']
-        # user.set_password(password)
-        # user.save()
+
+        if user:
+            try:
+                user.set_password(request_data.get('newpassword'))
+                user.save()
+                msg = "Password changed successfully!"
+                success = True
+            except Exception as e:
+                print(e)
         
-        context['msg'] = "Password changes successfully"
-        context['success'] = True
+        context['msg'] = msg
+        context['success'] = success
         return JsonResponse(context)
     return render(request, 'web/reset_password.html', context)
 

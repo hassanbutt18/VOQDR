@@ -46,6 +46,7 @@ button {
     justify-content: space-evenly;
     align-items: center;
     width: 23%;
+    min-width: 245px;
 }
 
 .sign-in-container h1 {
@@ -277,6 +278,7 @@ button {
 @media (max-width: 768px) {
     .sign-in-container {
         width: 95%;
+        min-width: 0;
     }
 
     .email-input input,
