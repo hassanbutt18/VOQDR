@@ -8,7 +8,7 @@ async function profileForm(event) {
   let button_text = button.innerText;
   showMsg(error, "", "bg-danger", "hide");
   let formData = new FormData(form);
-  console.log();
+  let data = formDataToObject(formData) 
   let headers = {
     // "Content-Type": "application/json",
     "X-CSRFToken": data.csrfmiddlewaretoken,
@@ -58,3 +58,41 @@ async function addUserForm(event) {
     //   }
     });
   }
+
+
+async function changeOrganization(event){
+  let organization = event.currentTarget.value;
+  let form = event.target.closest('form');
+  let organization_name = form.querySelector('input[name="organization"]');
+  let address = form.querySelector('input[name="address"]');
+  response = await requestAPI(`/get-organization-details/${organization}/`, null, {}, 'GET' );
+  response.json().then(function (res) {
+    organization_name.value = res.organization;
+    address.value = res.address;
+  });
+}
+
+async function editOrgForm(event) {
+  event.preventDefault();
+  let form = event.currentTarget;
+  let button = form.querySelector('button[type="submit"]');
+  let button_text = button.innerText;
+  let formData = new FormData(form);
+  let data = formDataToObject(formData) 
+  console.log(data);
+  let headers = {
+    "Content-Type": "application/json",
+    "X-CSRFToken": data.csrfmiddlewaretoken,
+  };
+
+  beforeLoad(button, "Processing");
+  response = await requestAPI(`/edit-organization-details/${data.organization_id}`, JSON.stringify(data), headers, 'POST' );
+  afterLoad(button, button_text);
+  console.log(response);
+  // response.json().then(function (res) {
+  //   if (!res.success) {
+  //   } else {
+  //     location.pathname = `${location.pathname}`;
+  //   }
+  // });
+}

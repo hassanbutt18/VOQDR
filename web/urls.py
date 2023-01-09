@@ -14,5 +14,7 @@ urlpatterns = [
     path('signin/', views.signin, name='signin'),
     path('accounts/', views.my_account, name='account'),
     path('map/', views.maps_vodcur, name='maps'),
+    path('edit-organization-details/<str:pk>', views.edit_organization_details, name='edit_organization_details'),
+    path('get-organization-details/<str:pk>/', views.get_organization_details, name='get_organization_details'),
     path('', views.index, name='index'),
 ]

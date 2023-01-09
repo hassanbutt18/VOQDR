@@ -18,7 +18,6 @@ class Application(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-
 class ApplicationImage(models.Model):
     image = models.ImageField(upload_to='applications/', null=True ,blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

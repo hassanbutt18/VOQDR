@@ -52,7 +52,6 @@ class EmailManager:
     BASE_URL = settings.BASE_URL
     if request:
       BASE_URL = helpers.get_base_url(request)
-    print(BASE_URL)
     try:
       email_subject = 'VOQDR Organization Invitation.'    
       text_content = settings.PROJECT_NAME + email_subject
@@ -73,6 +72,31 @@ class EmailManager:
       return True
     except Exception as e:
       return str(e)
-    
-  
 
+  @staticmethod
+  def send_approval_status_email(invited_by, invited_to, status, role):
+    msg = None
+    if status is False:
+      msg = "Declined"
+    else:
+      msg = "Approved"
+
+    try:
+      email_subject = 'VOQDR Organization Invitation Status.'
+      text_content = settings.PROJECT_NAME + email_subject
+      text_template = get_template("email_templates/approval-status-email.html")
+      context_obj = {
+        'project_name': settings.PROJECT_NAME,
+        'LOGO': settings.LOGO,
+        'invited_to': invited_to,
+        'status': msg,
+        'role': role
+      }
+
+      template_content = text_template.render(context_obj)
+      msg = EmailMultiAlternatives(email_subject, text_content, settings.EMAIL_HOST_USER, [invited_by])
+      msg.attach_alternative(template_content, 'text/html')
+      msg.send()
+      return True
+    except Exception as e:
+      return str(e)

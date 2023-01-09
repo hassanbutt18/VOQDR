@@ -16,16 +16,10 @@ from users.models import InvitedOrganization, SharedOrganization, User
 from voqdr.services import otp_number
 from django.contrib.auth.decorators import login_required
 
-from web.models import ProductFeature
+from web.models import Application, ProductFeature, Testimonial
 
 
 
-# title ='Lorem ipsum is a placeholder text commonly'
-# description = 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.'
-# image = None
-# ProductFeature.objects.create(title=title,description=description,image=image)
-
-# Create your views here.
 
 def otp_number():
     return str(randint(1000, 9999))
@@ -35,8 +29,11 @@ def otp_number():
 def index(request):
     context = {}
     product_features = ProductFeature.objects.all()[:3]
-    # print(product_features)
+    applications = Application.objects.all()[:3]
+    testimonials = Testimonial.objects.all()[:3]
     context['product_features'] = product_features
+    context['applications'] = applications
+    context['testimonials'] = testimonials
     return render(request, 'web/index.html', context)
 
 @login_required(login_url='/signin/')
@@ -49,20 +46,24 @@ def my_account(request):
     msg = None
     success = False
     context = {}
+    user = request.user
+    shared_organizations_queryset = SharedOrganization.objects.filter(invite_by=user, is_verified=True)
+    shared_org_emails = [obj.invite_to for obj in shared_organizations_queryset]
+    context["shared_organizations"] = User.objects.filter(email__in=shared_org_emails)
     if request.method == 'POST':
+        context = {}
         request_data = request.POST.copy()
         if 'image' in request.FILES:
             request_data["image"] = request.FILES['image']
         request_data = queryDict_to_dict(request_data)
         del request_data["csrfmiddlewaretoken"]
-        user = request.user
-        user.organization = request_data["organization"]
+        user.name = request_data["name"]
         user.email = request_data["email"]
         if request_data["image"]:
             user.image = request_data["image"]
-            user.save(update_fields=['organization', 'email', 'image'])
+            user.save(update_fields=['name', 'email', 'image'])
         else:
-            user.save(update_fields=['organization', 'email'])
+            user.save(update_fields=['name', 'email'])
         msg = "Profile updated succesfully"
         success = True
         context['msg'] = msg
@@ -228,6 +229,11 @@ def reset_password(request, pk):
     return render(request, 'web/reset_password.html', context)
 
 
+def Logout(request):
+    logout(request)
+    return redirect('signin')
+
+
 def invite_organization(request):
     msg = None
     success = False
@@ -235,26 +241,29 @@ def invite_organization(request):
     user = request.user
     if request.method == "POST":
         request_data = json.loads(request.body.decode('utf-8'))
-        invitation = InvitedOrganization.objects.create(invite_by=user, invite_to=request_data['email'],role=request_data['role'])
-        if invitation:
-            token = get_dict_token({'invite_by':user.id,'invite_to':request_data['email'], 'role':request_data['role']})
-            try:
-                EmailManager.send_email_invite(request_data['email'], request_data['role'], user.organization, token, request)
-            except Exception as e:
-                print(e)
+        token = get_dict_token({'invite_by':user.id,'invite_to':request_data['email'], 'role':request_data['role']})
+        try:
+            org = InvitedOrganization.objects.get(invite_to=request_data['email'], invite_by=user)
+            if org:
+                org.role = request_data['role']
+                org.save(update_fields=['role'])
+        except Exception as e:
+            invitation = InvitedOrganization.objects.create(invite_by=user, invite_to=request_data['email'],role=request_data['role'])
+        try:
+            EmailManager.send_email_invite(request_data['email'], request_data['role'], user.organization, token, request)
+            msg = 'Invitation sent successfully'
+            success = True
+        except Exception as e:
+            print(e)
         context['msg'] = msg
         context['success'] = success
         return JsonResponse(context)
     return render(request, 'web/account.html', context)
 
-def Logout(request):
-    logout(request)
-    return redirect('signin')
-
 
 def invitation_approval(request, token, status):
     data = {}
-    if status == 0:
+    if status == '0':
         status = False
     else:
         status = True
@@ -263,15 +272,19 @@ def invitation_approval(request, token, status):
     for i in decrypt_token:
         key, value = i.split('=')
         data[key] = value
+    invited_by = User.objects.filter(id=data['invite_by']).first()    
     if status:
         try:
-            org = SharedOrganization.objects.get(invite_to=data['invite_to'])
+            org = SharedOrganization.objects.get(invite_to=data['invite_to'], invite_by_id=data['invite_by'])
             if org:
                 org.role = data['role']
                 org.is_verified = True
                 org.save(update_fields=['role', 'is_verified'])
         except Exception as e:
-            org = SharedOrganization.objects.create(invite_to=data['invite_to'], invite_by_id=data['invite_by'], role=data['role'], is_verified=True)
+            if User.objects.filter(email=data['invite_to']):
+                org = SharedOrganization.objects.create(invite_to=data['invite_to'], invite_by_id=data['invite_by'], role=data['role'], is_verified=True)
+            else:
+                org = SharedOrganization.objects.create(invite_to=data['invite_to'], invite_by_id=data['invite_by'], role=data['role'])
         finally:
             invitation = InvitedOrganization.objects.filter(invite_to=data['invite_to'], invite_by_id=data['invite_by'])
             if invitation:
@@ -280,5 +293,41 @@ def invitation_approval(request, token, status):
         invitation = InvitedOrganization.objects.filter(invite_to=data['invite_to'], invite_by_id=data['invite_by'])
         if invitation:
             invitation.delete()
-    
+    try:
+        EmailManager.send_approval_status_email(invited_by.email, data['invite_to'], status, data['role'])
+    except Exception as e:
+        print(e)
     return redirect('/')
+
+
+
+def get_organization_details(request, pk):
+    msg = None
+    success = False
+    context = {}
+    try:
+        organization = User.objects.get(pk=pk)
+    except Exception as e:
+        organization = None
+    if organization:
+        context['organization'] = organization.organization
+        context['address'] = organization.address
+    return JsonResponse(context)
+
+
+def edit_organization_details(request, pk):
+    msg = None
+    success = False
+    context = {}
+    request_data = json.loads(request.body.decode('utf-8'))
+    try:
+        organization = User.objects.get(pk=pk)
+        if organization:
+            organization.organization = request_data.get('organization')
+            organization.address = request_data.get('address')
+            organization.save(update_fields=["organization", "address"])
+            success = True
+    except Exception as e:
+        print(e)
+    print(request_data)
+    return JsonResponse(context)

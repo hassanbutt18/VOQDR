@@ -25,15 +25,6 @@
             <div class="account-info">
                 <form action="" onsubmit="profileForm(event)">
                     {% csrf_token %}
-                    <!-- <div class="account-image">
-                        <img src="{{request.user.profile_image}}" alt="Profile Image">
-                        <label for="image-input" class="image-uploader">
-                            <img src="{% static 'web/Assets/Images/ImageEditBtn.svg' %}" alt="Edit Button"
-                                class="edit-btn" />
-                            <input type="file" id="image-input" name="image">
-                        </label>
-                    </div> -->
-
                     <div class="account-image">
                         <label for="image-input" class="image-uploader">
                             <img class="profile-image" src="{{request.user.profile_image}}" alt="Profile Image">
@@ -44,7 +35,7 @@
                     <div class="group-inputs">
                         <div class="input1">
                             <span>Name</span>
-                            <input type="text" required value="{{request.user.organization}}" name="organization" />
+                            <input type="text" required value="{{request.user.name}}" name="name" />
                         </div>
                         <div class="input2">
                             <span>Email</span>
@@ -55,7 +46,7 @@
                         <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
                         <span class="error-text"></span>
                     </div>
-                    <button class="submit-btn" value="submit" type="submit">Save Changes</button>
+                    <button class="submit-btn pt-3 pb-3" value="submit" type="submit">Save Changes</button>
                 </form>
                 <button class="payments-btn">Manage Payments</button>
                 <span>Go to Stripe to manage payment</span>
@@ -68,23 +59,28 @@
                     </svg>
                 </div>
                 <div class="organisation-content-container">
-                    <form class="organisation-form" action="">
-                        <select class="form-select select-org" name="organisation" id="select-org">
-                            <option value="Crmyzee">Crymzee</option>
-                            <option value="CrymzeeNetworks">Crymzee Networks</option>
-                            <option value="CrymzeeNetworksPrivateLimited">Crymzee Networks Private Limited</option>
+                    <form class="organisation-form" action="" onsubmit="editOrgForm(event);">
+                        {% csrf_token %}
+                        <select class="form-select select-org" name="organization_id" onchange="changeOrganization(event);" id="select-org">
+                            <option value="{{request.user.id}}">{{request.user.organization|title}}</option>
+                            {% if shared_organizations %}
+                            {% for obj in shared_organizations %}
+                            <option value="{{obj.id}}">{{obj.organization|title}}</option>
+                            {% endfor %}
+                            {% endif %}
+                        
                         </select>
                         <div class="organisation-group-inputs">
                             <div class="input1 org-input">
                                 <span>Organisation Name</span>
-                                <input type="text" />
+                                <input type="text" required name="organization" class="org-name" value="{{request.user.organization|title}}" />
                             </div>
                             <div class="input2 org-input">
                                 <span>Organisation Address</span>
-                                <input type="text">
+                                <input type="text" name="address" value="{{request.user.address|title}}">
                             </div>
                         </div>
-                        <button class="submit-btn">Save Changes</button>
+                        <button type="submit" class="submit-btn pt-3 pb-3">Save Changes</button>
                     </form>
 
                     <div class="add-user-container">
@@ -109,7 +105,7 @@
                                 <span class="error-text"></span>
                             </div>
                         </form>
-                        <button type="submit" form="add-user-form" value="Submit" class="add-user-btn">Add User</button>
+                        <button type="submit" form="add-user-form" value="Submit" class="add-user-btn pt-3 pb-3">Add User</button>
                     </div>
 
                     <div>
@@ -130,7 +126,7 @@
                                             d="M15.8942 15.6564H7.10611C6.92591 15.6564 6.77344 15.8089 6.77344 15.9891C6.77344 16.1693 6.92591 16.3217 7.10611 16.3217H15.8942C16.0744 16.3217 16.2269 16.1693 16.2269 15.9891C16.2269 15.8089 16.0744 15.6564 15.8942 15.6564ZM6.7873 12.7455L6.77344 14.3118C6.77344 14.395 6.80116 14.492 6.87047 14.5475C6.93977 14.6029 7.02294 14.6445 7.10611 14.6445L8.67245 14.6307C8.75562 14.6307 8.83878 14.5891 8.90809 14.5336L14.2863 9.15541C14.4111 9.03066 14.4111 8.80888 14.2863 8.68413L12.7338 7.13165C12.6091 7.0069 12.3873 7.0069 12.2625 7.13165L11.1814 8.21284L6.88433 12.5099C6.81502 12.5792 6.7873 12.6623 6.7873 12.7455ZM13.5794 8.91977L12.9695 9.52967L11.8883 8.44848L12.4982 7.83858L13.5794 8.91977ZM7.45265 12.8841L11.417 8.91977L12.4982 10.001L8.53383 13.9653H7.45265V12.8841Z"
                                             fill="white" />
                                     </svg>
-                                    <svg width="23" height="23" viewBox="0 0 23 23" fill="none"
+                                    <svg data-bs-toggle="modal" data-bs-target="#delOrganization" width="23" height="23" viewBox="0 0 23 23" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <rect x="0.5" y="0.677734" width="22" height="22" rx="11" fill="#FB3B3B" />
                                         <path
@@ -151,16 +147,49 @@
             </div>
         </div>
     </section>
-      <!-- Modal -->
+      <!-- Edit Organisation Modal -->
       <div class="modal fade" id="editOrganization" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+              <h5 class="modal-title" id="staticBackdropLabel">Edit User</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              ...
+              <form action="" id="edit-organization-form" class="align-items-start">
+                <div class="mb-3 w-100">
+                    <label for="name" class="col-form-label">Name:</label>
+                    <input type="text" class="form-control" name="name" id=""/>
+                </div>
+                <div class="mb-3 w-100">
+                    <label for="role" class="col-form-label">Role:</label>
+                    <select name="role" class="form-control" id="">
+                        <option value="viewer">Viewer</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" form="edit-organization-form" class="btn btn-primary">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Delete Organisation Modal -->
+      <div class="modal fade" id="delOrganization" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">Delete User</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="">
+
+              </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

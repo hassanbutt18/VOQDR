@@ -50,7 +50,7 @@ class User(AbstractBaseUser):
 
 
 class SharedOrganization(models.Model):
-    invite_by = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='shared_by_organization')
+    invite_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='shared_by_organization')
     invite_to = models.EmailField(null=True, blank=True)
     role = models.CharField(max_length=15, default=UserRoles.VIEWER)
     is_verified = models.BooleanField(default=False)
@@ -58,16 +58,25 @@ class SharedOrganization(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.user
+        return self.invite_to
 
 
 
 class InvitedOrganization(models.Model):
-    invite_by = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='invite_by_organization')
+    invite_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='invite_by_organization')
     invite_to = models.EmailField(null=True, blank=True)
     role = models.CharField(max_length=15, default=UserRoles.VIEWER)
     is_verified = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
-        return self.email
+        return self.invite_to
+
+
+
+class OrganizationPermissions(models.Model):
+    invite_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='invited_by_organization')
+    invite_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name='shared_organization')
+    role = models.CharField(max_length=15, default=UserRoles.VIEWER)
+    def __str__(self):
+        return self.invite_to
