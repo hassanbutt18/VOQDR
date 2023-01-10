@@ -1,0 +1,22 @@
+<!-- Delete Organisation Modal -->
+
+<div class="modal fade" id="delOrganization" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content text-center">
+        <form action="">
+            {% csrf_token %}
+            <div class="modal-header w-100">
+                <h5 class="modal-title" id="staticBackdropLabel">Delete User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p class="mb-0">Are you sure you want to remove this user?</p>
+              </div>
+              <div class="modal-footer justify-content-center">
+                    <button id="data-id" class="btn btn-danger" type="submit">Remove</button>
+              </div>
+        </form>
+      </div>
+    </div>
+</div>
+<input type="hidden" class="delOrganization" data-bs-toggle="modal" data-bs-target="#delOrganization">

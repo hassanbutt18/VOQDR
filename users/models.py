@@ -1,7 +1,9 @@
+import os
 from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
-
+from django.dispatch import receiver
 from users.managers import CustomUserManager
+from django.contrib.auth.models import PermissionsMixin
 
 
 class UserRoles():
@@ -13,7 +15,7 @@ class UserRolesChoices(models.TextChoices):
     ADMIN = UserRoles.ADMIN, UserRoles.ADMIN
 
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True, null=True, blank=True)
     organization = models.TextField(unique=False, null=True, blank=True)
     name = models.CharField(max_length=100, null=True, blank=True)
@@ -80,3 +82,65 @@ class OrganizationPermissions(models.Model):
     role = models.CharField(max_length=15, default=UserRoles.VIEWER)
     def __str__(self):
         return self.invite_to
+
+    @staticmethod
+    def create_organization_permissions(instance):
+        try:
+            invite_to = User.objects.get(email=instance.invite_to)
+        except Exception as e:
+            invite_to = None
+        if invite_to:
+            try:
+                org = OrganizationPermissions.objects.get(invite_by=instance.invite_by, invite_to=invite_to)
+                if org:
+                    org.role = instance.role
+                    org.save(update_fields=['role'])
+            except Exception as e:
+                print(e)
+                OrganizationPermissions.objects.create(invite_by=instance.invite_by, invite_to=invite_to, role=instance.role)
+
+
+@receiver(models.signals.post_save, sender=User)
+def new_organization_permissions(sender, instance, created, **kwargs):
+    if created:
+        created_user_shared = SharedOrganization.objects.filter(invite_to=instance.email)
+        if created_user_shared:
+            for i in created_user_shared:
+                i.is_verified = True
+                i.save(update_fields=['is_verified'])
+
+
+
+
+@receiver(models.signals.pre_save, sender=User)
+def auto_update_file_on_change(sender, instance, **kwargs):
+    if not instance.pk:
+        return False
+    try:
+        old_image_file = sender.objects.get(pk=instance.pk).image
+    except sender.DoesNotExist:
+        return False
+    if old_image_file:
+        new_image_file = instance.image
+        if not old_image_file == new_image_file:
+            if os.path.isfile(old_image_file.path):
+                os.remove(old_image_file.path)
+
+
+@receiver(models.signals.post_delete, sender=User)
+def auto_delete_file_on_delete(sender, instance, **kwargs):
+    if instance.image:
+        if os.path.isfile(instance.image.path):
+            os.remove(instance.image.path)
+
+
+
+
+@receiver(models.signals.post_save, sender=SharedOrganization)
+def organization_permissions(sender, instance, created, **kwargs):
+    if created:
+        OrganizationPermissions.create_organization_permissions(instance)
+    else:
+        OrganizationPermissions.create_organization_permissions(instance)
+
+    
