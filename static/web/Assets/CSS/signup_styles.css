@@ -141,17 +141,23 @@ button {
     font-size: 1.3rem;
     line-height: 1.3rem;
     padding: 12px 45px;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
 }
 
-.sign-up-button-container span {
+.sign-up-button-container > div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sign-up-button-container > div span {
     font-weight: 500;
     font-size: .875rem;
     line-height: 1rem;
     color: #606060;
 }
 
-.sign-up-button-container span a {
+.sign-up-button-container > div a {
     color: #004762;
     text-decoration: none;
 }

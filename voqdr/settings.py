@@ -15,6 +15,7 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
 MEDIA_BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
@@ -26,7 +27,7 @@ SECRET_KEY = 'django-insecure-nuv&7*8@y0dj=e2h))z^f@)m3gos%izkb^qsdq+-j5z*ojuy&z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*','https://0c1b-2400-adc5-12c-4700-6037-943e-e69f-9fbe.in.ngrok.io/']
 
 
 # Application definition
@@ -141,6 +142,11 @@ MEDIA_ROOT = os.path.join(MEDIA_BASE_DIR,'media')
 # STATIC_URL = "/static/"
 # STATIC_ROOT = os.path.join(str(BASE_DIR),"web/static/")
 AUTH_USER_MODEL = 'users.User'
+
+# Server static folder root
+root = Path(__file__).resolve().parent
+print("That is my root",root)
+
 
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [

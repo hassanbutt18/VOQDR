@@ -57,7 +57,10 @@
                     <div class="sign-in-button-container">
                         <button type="submit" form="sign-in-form" value="submit" class="sign-in-button mt-4">Sign
                             In</button>
-                        <span>Don't have an account? <a href="{% url 'signup' %}">Sign Up</a></span>
+                        <div>
+                            <span>Don't have an account? </span>
+                            <a href="{% url 'signup' %}">Sign Up</a>
+                        </div>
                     </div>
                 </form>
             </div>
