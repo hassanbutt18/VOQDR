@@ -19,16 +19,16 @@ const closeBuyModal = function () {
 };
 
 closeBuyModalBtn.addEventListener("click", closeBuyModal);
-overlay.addEventListener("click", closeBuyModal);
+// overlay.addEventListener("click", closeBuyModal);
 
-document.addEventListener("keydown", function (e) {
-  if (e.key === "Escape" && !buyModal.classList.contains("hidden")) {
-    closeBuyModal();
-  }
-});
+// document.addEventListener("keydown", function (e) {
+//   if (e.key === "Escape" && !buyModal.classList.contains("hidden")) {
+//     closeBuyModal();
+//   }
+// });
 
 
-// Only for additional button on index.html page
+// Only for additional button to open buy modal on index.html page
 
 const homeModalOpenBtn = document.querySelector(".buy-modal-open-button");
 

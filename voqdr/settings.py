@@ -149,10 +149,10 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(str(BASE_DIR), "/static")
 
 
-BASE_URL = 'http://127.0.0.1:8000/'
-LOGO = '/static/web/Assets/Images/logo.svg'
+BASE_URL = 'http://dev.crymzee.com:7000/'
+LOGO = '/static/web/Assets/Images/logo.png'
 if DEBUG:
-    LOGO = 'http://dev.crymzee.com:7000/static/web/Assets/Images/logo.svg'
+    LOGO = 'http://dev.crymzee.com:7000/static/web/Assets/Images/logo.png'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

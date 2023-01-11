@@ -13,10 +13,9 @@ from voqdr.helpers import *
 from authentications.models import OTP
 from authentications.services import *
 from users.models import InvitedOrganization, OrganizationPermissions, SharedOrganization, User, UserRoles, organization_permissions
-from voqdr.services import otp_number
 from django.contrib.auth.decorators import login_required
 
-from web.models import Application, ProductFeature, Testimonial
+from web.models import Application, ProductFeature, Testimonial, ApplicationImage, ContactUs
 
 
 
@@ -30,9 +29,11 @@ def index(request):
     context = {}
     product_features = ProductFeature.objects.all()[:3]
     applications = Application.objects.all()[:3]
+    application_image = ApplicationImage.objects.all()[:1]
     testimonials = Testimonial.objects.all()[:3]
     context['product_features'] = product_features
     context['applications'] = applications
+    context['application_image'] = application_image
     context['testimonials'] = testimonials
     return render(request, 'web/index.html', context)
 
@@ -47,8 +48,6 @@ def my_account(request):
     success = False
     context = {}
     user = request.user
-    # shared_organizations_queryset = SharedOrganization.objects.filter(invite_by=user, is_verified=True)
-    # shared_org_emails = [obj.invite_to for obj in shared_organizations_queryset]
     context["shared_organizations"] = user.invited_by_organization.all()
     if request.method == 'POST':
         context = {}
@@ -106,7 +105,7 @@ def signup(request):
     if request.method == "POST":
         request_data = json.loads(request.body.decode('utf-8'))
         if User.objects.filter(email=request_data.get('email')).exists():
-            msg = "You are already exist, continue to sign in"
+            msg = "You already exist, continue to sign in."
         else:
             del request_data["csrfmiddlewaretoken"]
             del request_data["confirmpassword"]
@@ -294,7 +293,6 @@ def invitation_approval(request, token, status):
                 invitation.delete()
     else:
         invitation = InvitedOrganization.objects.filter(invite_to=data['invite_to'], invite_by_id=data['invite_by'])
-        print("I am here in status 0")
         if invitation:
             invitation.delete()
     try:
@@ -339,7 +337,6 @@ def edit_organization_details(request, pk):
         except Exception as e:
             print(e)
     else:
-        print(2)
         try:
             permissions = OrganizationPermissions.objects.get(invite_by=request.user, invite_to_id=pk)
             if permissions.role == UserRoles.ADMIN:
@@ -374,6 +371,23 @@ def remove_shared_organization(request, pk):
         
     except Exception as e:
         org = None
+    context['msg'] = msg
+    context['success'] = success
+    return JsonResponse(context)
+
+
+def contact_us(request):
+    msg = None
+    success = False
+    context = {}    
+    request_data = json.loads(request.body.decode('utf-8'))
+    try:
+        EmailManager.send_contact_us_email(request_data.get('name'), request_data.get('email'), request_data.get('message'))
+        ContactUs.objects.create(name=request_data.get('name'), email=request_data.get('email'), message=request_data.get('message'))
+        msg = "Email sent successfully!"
+        success = True
+    except Exception as e:
+        print(e)
     context['msg'] = msg
     context['success'] = success
     return JsonResponse(context)

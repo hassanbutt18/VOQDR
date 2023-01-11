@@ -99,12 +99,12 @@
                                     </select>
                                 </div>
                             </div>
+                            <button type="submit" form="add-user-form" value="Submit" class="add-user-btn pt-3 pb-3">Add User</button>
                             <div class="alert hide">
                                 <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
                                 <span class="error-text"></span>
                             </div>
                         </form>
-                        <button type="submit" form="add-user-form" value="Submit" class="add-user-btn pt-3 pb-3">Add User</button>
                     </div>
 
                     <div>
@@ -128,7 +128,7 @@
                                             fill="white" />
                                     </svg> -->
                                     {% if obj.role == 'admin' %}
-                                    <svg onclick="deleteOrganizationModal(event, '{{obj.invite_to.id}}', 'delOrganization');" width="23" height="23" viewBox="0 0 23 23" fill="none"
+                                    <svg class="cursor-pointer" onclick="deleteOrganizationModal(event, '{{obj.invite_to.id}}', 'delOrganization');" width="23" height="23" viewBox="0 0 23 23" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <rect x="0.5" y="0.677734" width="22" height="22" rx="11" fill="#FB3B3B" />
                                         <path

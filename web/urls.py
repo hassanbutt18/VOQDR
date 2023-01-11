@@ -17,5 +17,6 @@ urlpatterns = [
     path('edit-organization-details/<str:pk>', views.edit_organization_details, name='edit_organization_details'),
     path('get-organization-details/<str:pk>/', views.get_organization_details, name='get_organization_details'),
     path('remove-shared-organization/<str:pk>/', views.remove_shared_organization, name='remove_shared_organization'),
+    path('contact-us/', views.contact_us, name='contact_us'),
     path('', views.index, name='index'),
 ]

@@ -52,9 +52,9 @@
                 {% if product_features %}
                 {% for feature in product_features %}
                 <div class="feature-card">
-                    <img src="{% static 'web/Assets/Images/Card1.svg' %}" class="feature-image" alt="Feature1">
+                    <img src="{{feature.image.url}}" class="feature-image" alt="Feature1">
                     <div class="feature-content">
-                        <h3>{{feature.title|title}}</h3>
+                        <h3>{{feature.title}}</h3>
                         <p class="feature-description">{{feature.description}}</p>
                     </div>
                 </div>
@@ -93,15 +93,20 @@
     <section class="applications">
         <h2>Applications</h2>
         <div class="applications-container">
+            {% if application_image %}
+            {% for app_img in application_image%}
             <div class="applications-image">
-                <img src="{% static 'web/Assets/Images/ApplicationsImage.svg' %}" alt="Applications">
+                <img src="{{app_img.image.url}}" alt="Applications">
             </div>
+            {% endfor %}
+            {% endif %}
             <div class="applications-card-container">
                 {% if applications %}
                 {% for apps in applications%}
                 <div class="applications-card">
                     <div class="app-card-heading">
-                        <svg width="51" height="51" viewBox="0 0 51 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <img src="{{apps.image.url}}" alt="Applications" />
+                        <!-- <svg width="51" height="51" viewBox="0 0 51 51" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect x="0.328125" y="0.994141" width="50" height="50" rx="25" fill="#46879F" />
                             <g clip-path="url(#clip0_295_1626)">
                                 <path
@@ -113,7 +118,7 @@
                                     <rect width="28" height="28" fill="white" transform="translate(11.3281 11.9941)" />
                                 </clipPath>
                             </defs>
-                        </svg>
+                        </svg> -->
                         <h3>{{apps.title}}</h3>
                     </div>
                     <p class="app-card-description">{{apps.description}}</p>
@@ -197,19 +202,19 @@
                     {% for testimonial in testimonials%}
                     <div class="swiper-slide">
                         <div class="testimonial-card">
-                            <h3>{{testimonial.title|title}}</h3>
+                            <h3>{{testimonial.title}}</h3>
                             <p class="client-criticism">"{{testimonial.description}}
                             </p>
                             <div class="client-info">
                                 <div class="client-image">
-                                    <img src="{% static 'web/Assets/Images/Muhammad_Wasif_Ali.png' %}" alt="Client Image">
+                                    <img src="{{testimonial.image.url}}" alt="Client Image">
                                 </div>
                                 <div class="client-details">
-                                    <p class="client-name">{{testimonial.author}}</p>
+                                    <p class="client-name">{{testimonial.author|title}}</p>
                                     <span class="client-description">{{testimonial.designation}}</span>
                                 </div>
                             </div>
-                            <p class="date">{{testimonial.created_at}}</p>
+                            <p class="date">{{testimonial.updated_at}}</p>
                         </div>
                     </div>
                     {% endfor %}
@@ -322,22 +327,27 @@
     <section class="contact-us">
         <h2>Contact Us</h2>
         <div class="contact-input-container">
-            <form action="">
+            <form action="" onsubmit="contactUsForm(event);">
+                {% csrf_token %}
+                <div class="alert hide">
+                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                    <span class="error-text"></span>
+                </div>
                 <div class="group-inputs">
-                    <div class="input1">
+                    <div class="general-input">
                         <span>Full Name</span>
-                        <input type="text" />
+                        <input type="text" required name="name"/>
                     </div>
-                    <div class="input2">
+                    <div class="general-input">
                         <span>Email</span>
-                        <input type="email">
+                        <input type="email" required name="email" />
                     </div>
                 </div>
                 <div class="message">
                     <span>Message</span>
-                    <textarea name="Message" id="" cols="30" rows="10"></textarea>
+                    <textarea name="message" id="" cols="30" rows="10" required></textarea>
                 </div>
-                <button>Submit</button>
+                <button type="submit">Submit</button>
             </form>
         </div>
     </section>

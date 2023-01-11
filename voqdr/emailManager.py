@@ -100,3 +100,24 @@ class EmailManager:
       return True
     except Exception as e:
       return str(e)
+
+  @staticmethod
+  def send_contact_us_email(user_name, user_email, user_message):
+    try:
+      email_subject = 'VOQDR Organization Contact Us Email'
+      text_content = settings.PROJECT_NAME + email_subject
+      text_template = get_template('email_templates/contact-us-email.html')
+      context_obj = {
+        'project_name': settings.PROJECT_NAME,
+        'LOGO': settings.LOGO,
+        'name': user_name,
+        'email': user_email,
+        'message': user_message
+      }
+      template_content = text_template.render(context_obj)
+      msg = EmailMultiAlternatives(email_subject, text_content, settings.EMAIL_HOST_USER, [settings.EMAIL_HOST_USER])
+      msg.attach_alternative(template_content, 'text/html')
+      msg.send()
+      return True
+    except Exception as e:
+      print(e)

@@ -26,16 +26,14 @@
     margin-bottom: 30px;
 }
 
-.input1,
-.input2 {
+.general-input {
     display: flex;
     flex-direction: column;
     text-align: left;
     width: 48%;
 }
 
-.input1 span,
-.input2 span,
+.general-input span,
 .message span {
     font-weight: 500;
     font-size: 1rem;
@@ -43,18 +41,13 @@
     color: #004762;
 }
 
-.input1 input,
-.input2 input {
+.general-input input {
     background-color: #F8FCFE;
     border: 1px solid #00000017;
     border-radius: 10px;
     width: 100%;
     height: 50px;
     text-indent: 15px;
-}
-
-.input1 input,
-.input2 input {
     margin-top: 5px;
 }
 
@@ -74,8 +67,7 @@
     padding-top: 15px;
 }
 
-.input1 input:focus,
-.input2 input:focus,
+.general-input input:focus,
 .message textarea:focus {
     outline-color: #46879F;
 }
@@ -93,6 +85,38 @@
     margin: 30px 0;
 }
 
+.hide{
+    display: none;
+}
+
+.alert {
+  padding: 10px;
+  color: white;
+  text-align: left;
+}
+
+.error-text {
+    font-size: .875rem;
+}
+
+/* The close button */
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* When moving the mouse over the close button */
+.closebtn:hover {
+  color: black;
+}
+
+
 
 @media (min-width: 1536px) {
     .contact-input-container button {
@@ -100,8 +124,7 @@
         line-height: 1.8rem;
     }
 
-    .input1 span,
-    .input2 span,
+    .general-input span,
     .message span {
         font-size: 1.5rem;
         line-height: 1.5rem;
@@ -139,8 +162,7 @@
         gap: 30px;
     }
 
-    .input1,
-    .input2 {
+    .general-input {
         width: 100%;
     }
 

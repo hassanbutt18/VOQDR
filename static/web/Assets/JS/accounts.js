@@ -17,7 +17,6 @@ async function profileForm(event) {
   beforeLoad(button, "Processing");
   response = await requestAPI(location.pathname, formData, headers, 'POST' );
   afterLoad(button, button_text);
-  console.log(response);
   response.json().then(function (res) {
     if (!res.success) {
       showMsg(error, res.msg, "bg-danger", "show");
@@ -79,6 +78,9 @@ async function changeOrganization(event){
   });
 }
 
+
+// Edit Organization Details Form Handling
+
 async function editOrgForm(event) {
   event.preventDefault();
   let form = event.currentTarget;
@@ -105,12 +107,16 @@ async function editOrgForm(event) {
 }
 
 
+// Opening Delete Organization Modal
+
 function deleteOrganizationModal(event, id, modal_id){
   let modal = document.querySelector(`#${modal_id}`);
   modal.querySelector('form').setAttribute('onsubmit', `deleteOrganization(event, ${id})`);
   document.querySelector(`.${modal_id}`).click();
 }
 
+
+// Delete Organization Form Handling
 
 async function deleteOrganization(event, id){
   event.preventDefault();
