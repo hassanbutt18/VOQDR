@@ -147,12 +147,17 @@ AUTH_USER_MODEL = 'users.User'
 root = Path(__file__).resolve().parent
 print("That is my root",root)
 
-
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
-STATIC_ROOT = os.path.join(str(BASE_DIR), "/static")
+STATIC_ROOT = os.path.join(str(root), "static")
+
+# STATIC_URL = "/static/"
+# STATICFILES_DIRS = [
+#     BASE_DIR / "static"
+# ]
+# STATIC_ROOT = os.path.join(str(BASE_DIR), "/static")
 
 
 BASE_URL = 'http://dev.crymzee.com:7000/'
