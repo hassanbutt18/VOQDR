@@ -96,7 +96,7 @@ WSGI_APPLICATION = 'voqdr.wsgi.application'
 DATABASES = {
     'default': {
         "ENGINE": "django.contrib.gis.db.backends.postgis",
-        "NAME": "Vodqardevelopment",
+        "NAME": "vodqardevelopment",
         "USER": "postgres",
         "PASSWORD": "123456789",
         "HOST": "",
@@ -185,7 +185,7 @@ EMAIL_PORT = 587
 # EMAIL_HOST_USER = 'voqdr.site@gmail.com'
 # EMAIL_HOST_PASSWORD = 'wbmjpavttuyqdzzu'
 
-EMAIL_HOST_USER = 'hassanarif.dev@gmail.com'
-EMAIL_HOST_PASSWORD = 'ayegabwynaqbcftl'
+EMAIL_HOST_USER = 'khanvoqdr@gmail.com'
+EMAIL_HOST_PASSWORD = 'pkqqmydqzkthrlre'
 
 PROJECT_NAME = 'VOQDR'
