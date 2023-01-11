@@ -95,10 +95,11 @@ WSGI_APPLICATION = 'voqdr.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        "NAME": "voqdr",
+        "ENGINE": "django.contrib.gis.db.backends.postgis",
+        "NAME": "Vodqardevelopment",
         "USER": "postgres",
         "PASSWORD": "123456789",
+        "HOST": "",
         "PORT": "5432"
     }
 }
