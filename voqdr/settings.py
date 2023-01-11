@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-nuv&7*8@y0dj=e2h))z^f@)m3gos%izkb^qsdq+-j5z*ojuy&z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*','https://0c1b-2400-adc5-12c-4700-6037-943e-e69f-9fbe.in.ngrok.io/']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -81,19 +81,27 @@ WSGI_APPLICATION = 'voqdr.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         "ENGINE": "django.db.backends.mysql",
+#         "NAME": "voqdr",
+#         "USER": "root",
+#         "PASSWORD": "",
+#         "HOST": "127.0.0.1",
+#         "PORT": "3306"
+#     }
+# }   
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-        # "ENGINE": "django.db.backends.mysql",
-        # "NAME": "voqdr",
-        # "USER": "root",
-        # "PASSWORD": "",
-        # "HOST": "127.0.0.1",
-        # "PORT": "3306"
+        'ENGINE': 'django.db.backends.postgresql',
+        "NAME": "voqdr",
+        "USER": "postgres",
+        "PASSWORD": "123456789",
+        "PORT": "5432"
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
