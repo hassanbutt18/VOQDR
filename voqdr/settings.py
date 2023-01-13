@@ -194,10 +194,10 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 
-# EMAIL_HOST_USER = 'voqdr.site@gmail.com'
-# EMAIL_HOST_PASSWORD = 'wbmjpavttuyqdzzu'
+EMAIL_HOST_USER = 'voqdr.site@gmail.com'
+EMAIL_HOST_PASSWORD = 'bnckomxadvkznsqe'
 
-EMAIL_HOST_USER = 'khanvoqdr@gmail.com'
-EMAIL_HOST_PASSWORD = 'pkqqmydqzkthrlre'
+# EMAIL_HOST_USER = 'khanvoqdr@gmail.com'
+# EMAIL_HOST_PASSWORD = 'pkqqmydqzkthrlre'
 
 PROJECT_NAME = 'VOQDR'
