@@ -1,4 +1,6 @@
-media/
+media/*
+!media/.gitkeep
+
 migrations/
 db.sqlite3
 *.sqlite3
@@ -24,12 +26,12 @@ db.sqlite3
 # env
 # venv
 # other
-./media/
-media
+# ./media/
+# media
 
 
 # javascript
-package-lock.json
+# package-lock.json
 
 # staticfiles/*
 # !staticfiles/.gitkeep 
