@@ -15,12 +15,6 @@ class ProductFeature(models.Model):
     def __str__(self) -> str:
         return self.title
 
-    def save(self, *args, **kwargs):
-        if ProductFeature.objects.count() >= 3:
-            pass
-        else:
-            return super(ProductFeature, self).save(*args, **kwargs)
-
 
 
 class Application(models.Model):
@@ -39,14 +33,8 @@ class ApplicationImage(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
-        return self.image
+        return str(self.image)
     
-    def save(self, *args, **kwargs):
-        if ApplicationImage.objects.count == 1:
-            pass
-        else:
-            return super(ApplicationImage, self).save(*args, **kwargs)
-
 class Testimonial(models.Model):
     title = models.CharField(max_length=500, null=False, blank=False)
     author = models.CharField(max_length=100, null=False, blank=False)
@@ -76,12 +64,20 @@ def check_create_record(sender, instance, created, **kwargs):
     if not instance.pk:
         return False
     if created:
-        if Application.objects.count() > 1:
+        if ApplicationImage.objects.count() > 1:
             instance.delete()
 
 
 
 @receiver(models.signals.post_save, sender=ProductFeature)
+def check_create_record(sender, instance, created, **kwargs):
+    if not instance.pk:
+        return False
+    if created:
+        if ProductFeature.objects.count() > 3:
+            instance.delete()
+
+
 @receiver(models.signals.post_save, sender=Application)
 def check_create_record(sender, instance, created, **kwargs):
     if not instance.pk:
