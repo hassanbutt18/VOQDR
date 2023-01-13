@@ -84,30 +84,30 @@ WSGI_APPLICATION = 'voqdr.wsgi.application'
 
 # For local machine
 
-# DATABASES = {
-#     'default': {
-#         "ENGINE": "django.db.backends.mysql",
-#         "NAME": "voqdr",
-#         "USER": "root",
-#         "PASSWORD": "",
-#         "HOST": "127.0.0.1",
-#         "PORT": "3306"
-#     }
-# }   
+DATABASES = {
+    'default': {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "voqdr",
+        "USER": "root",
+        "PASSWORD": "",
+        "HOST": "127.0.0.1",
+        "PORT": "3306"
+    }
+}   
 
 
 # For Development Server
 
-DATABASES = {
-    'default': {
-        "ENGINE": "django.contrib.gis.db.backends.postgis",
-        "NAME": "vodqardevelopment",
-        "USER": "postgres",
-        "PASSWORD": "123456789",
-        "HOST": "",
-        "PORT": "5432"
-    }
-}
+# DATABASES = {
+#     'default': {
+#         "ENGINE": "django.contrib.gis.db.backends.postgis",
+#         "NAME": "vodqardevelopment",
+#         "USER": "postgres",
+#         "PASSWORD": "123456789",
+#         "HOST": "",
+#         "PORT": "5432"
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -174,11 +174,11 @@ STATIC_ROOT = os.path.join(str(root), "static")
 
 # For Local Machine
 
-# BASE_URL = 'http://127.0.0.1:8000/'
+BASE_URL = 'http://127.0.0.1:8000/'
 
 # For Development Server
 
-BASE_URL = 'http://dev.crymzee.com:7000/'
+# BASE_URL = 'http://dev.crymzee.com:7000/'
 
 
 LOGO = 'http://dev.crymzee.com:7000/static/web/Assets/Images/logo.png'

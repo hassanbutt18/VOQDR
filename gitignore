@@ -1,4 +1,9 @@
-# byte-compiled / optimized / DLL files
+media/
+migrations/
+db.sqlite3
+*.sqlite3
+*.db
+<!-- # byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 
@@ -9,8 +14,7 @@ __pycache__/
 *.env
 *.bak 
 # database & logs
-*.db
-*.sqlite3
+
 *.log
 myenv/*
 # venv
@@ -19,6 +23,7 @@ venv
 # other
 .DS_Store
 ./media/
+media
 
 # migrations
 
@@ -66,4 +71,4 @@ GitHub.sublime-settings
 !.vscode/tasks.json 
 !.vscode/launch.json 
 !.vscode/extensions.json 
-.history
+.history -->
