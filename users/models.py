@@ -61,6 +61,11 @@ class SharedOrganization(models.Model):
     def __str__(self):
         return self.shared_to
 
+class Dummy(models.Model):
+    role = models.CharField(max_length=15, default=UserRoles.VIEWER)
+
+    def __str__(self):
+        return self.role
 
 class InvitedOrganization(models.Model):
     shared_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='invite_by_organization')
