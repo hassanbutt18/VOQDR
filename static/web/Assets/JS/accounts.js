@@ -1,3 +1,12 @@
+// Preview Image on profile form
+
+function previewImage(event) {
+  let image = event.currentTarget.files;
+  let imageTag = document.getElementById('profile-image');
+  imageTag.src = window.URL.createObjectURL(image[0]);
+}
+
+
 // Accounts Form Handling
 
 async function profileForm(event) {
@@ -32,10 +41,10 @@ async function profileForm(event) {
 async function addUserForm(event) {
     event.preventDefault();
     let form = event.currentTarget;
-    let error = form.querySelector(".alert");
     let button = document.querySelector('.add-user-btn');
     let button_text = button.innerText;
-    showMsg(error, "", "bg-danger", "hide");
+    let toast = document.getElementById("toast");
+    let toastBody = toast.querySelector(".toast-body");
     let formData = new FormData(form);
     let data = formDataToObject(formData);
     let headers = {
@@ -47,7 +56,22 @@ async function addUserForm(event) {
     response = await requestAPI('/invite_organization/', JSON.stringify(data), headers, 'POST' );
     afterLoad(button, button_text);
     response.json().then(function (res) {
-
+      if(!res.success) {
+        if(toast.classList.contains('bg-success')){
+          toast.classList.remove('bg-success')
+        }
+        toast.classList.add('bg-danger');
+        toastBody.innerText = res.msg;
+      }
+      else{
+        if(toast.classList.contains('bg-danger')){
+          toast.classList.remove('bg-danger')
+        }
+        toast.classList.add('bg-success');
+        toastBody.innerText = res.msg;
+      }
+      let myToast = new bootstrap.Toast(toast);
+      myToast.show();
     });
   }
 
@@ -64,6 +88,7 @@ async function changeOrganization(event){
   response.json().then(function (res) {
     organization_name.value = res.organization;
     address.value = res.address;
+    console.log(res.role, "here")
     if(res.role) {
       if(res.role != 'admin'){
         organization_name.readOnly = true;
@@ -86,6 +111,8 @@ async function editOrgForm(event) {
   let form = event.currentTarget;
   let button = form.querySelector('button[type="submit"]');
   let button_text = button.innerText;
+  let toast = document.getElementById("toast");
+  let toastBody = toast.querySelector(".toast-body");
   let formData = new FormData(form);
   let data = formDataToObject(formData);
   let headers = {
@@ -98,10 +125,50 @@ async function editOrgForm(event) {
   afterLoad(button, button_text);
   response.json().then(function (res) {
     if (!res.success) {
-      alert(res.msg);
+      toast.classList.add('bg-danger');
+      toastBody.innerText = res.msg;
     }
     else{
-      location.pathname = `${location.pathname}`
+      location.pathname = `${location.pathname}`;
+    }
+    let myToast = new bootstrap.Toast(toast);
+    myToast.show();
+  });
+}
+
+
+// Opening Shared With Edit Role Modal
+
+function editOrganizationRoleModal(event, id, modal_id) {
+  let modal = document.querySelector(`#${modal_id}`);
+  modal.querySelector('form').setAttribute('onsubmit', `editOrganizationRole(event, ${id})`);
+  document.querySelector(`.${modal_id}`).click();
+}
+
+
+// Edit Shared With Organization Role Form Handling
+
+async function editOrganizationRole(event, id){
+  event.preventDefault()
+  let form = event.currentTarget;
+  let button = form.querySelector('button[type="submit"]');
+  let button_text = button.innerText;
+  let formData = new FormData(form);
+  let data = formDataToObject(formData);
+  let headers = {
+    "Content-Type": "application/json",
+    "X-CSRFToken": data.csrfmiddlewaretoken,
+  }
+  beforeLoad(button, "Processing");
+  response = await requestAPI(`/edit-organization-role/${id}`, JSON.stringify(data), headers, 'POST' );
+  afterLoad(button, button_text);
+  response.json().then(function (res) {
+    console.log(res);
+    if (!res.success) {
+      console.log(res.msg);
+    }
+    else{
+      location.pathname = `${location.pathname}`;
     }
   });
 }
@@ -122,7 +189,6 @@ async function deleteOrganization(event, id){
   event.preventDefault();
   let form = event.currentTarget;
   let button = form.querySelector('button[type="submit"]');
-  let closeBtn = form.querySelector('.btn-close');
   let button_text = button.innerText;
   let formData = new FormData(form);
   let data = formDataToObject(formData);

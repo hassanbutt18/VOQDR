@@ -1,43 +1,68 @@
 import os
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.dispatch import receiver
 
 
  
 class ProductFeature(models.Model):
-    title = models.CharField(max_length=500, null=True, blank=True)
-    description = models.TextField(null=True, blank=True)
-    image = models.ImageField(upload_to='products/', null=True ,blank=True)
+    title = models.CharField(max_length=500, null=False, blank=False)
+    description = models.TextField(null=False, blank=False)
+    image = models.ImageField(upload_to='products/', null=False ,blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return self.title
+
+    def save(self, *args, **kwargs):
+        if ProductFeature.objects.count() >= 3:
+            pass
+        else:
+            return super(ProductFeature, self).save(*args, **kwargs)
 
 
 
 class Application(models.Model):
-    title = models.CharField(max_length=500, null=True, blank=True)
-    description = models.TextField(null=True, blank=True)
-    image = models.ImageField(upload_to='applications/', null=True ,blank=True)
+    title = models.CharField(max_length=500, null=False, blank=False)
+    description = models.TextField(null=False, blank=False)
+    image = models.ImageField(upload_to='applications/', null=False ,blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return self.title
 
 class ApplicationImage(models.Model):
-    image = models.ImageField(upload_to='applications/', null=True ,blank=True)
+    image = models.ImageField(upload_to='applications/', null=False ,blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return self.image
+    
+    def save(self, *args, **kwargs):
+        if ApplicationImage.objects.count == 1:
+            pass
+        else:
+            return super(ApplicationImage, self).save(*args, **kwargs)
 
 class Testimonial(models.Model):
-    title = models.CharField(max_length=500, null=True, blank=True)
-    author = models.CharField(max_length=100, null=True, blank=True)
-    designation = models.CharField(max_length=100, null=True, blank=True)
-    description = models.TextField(null=True, blank=True)
-    image = models.ImageField(upload_to='testimonials/', null=True ,blank=True)
+    title = models.CharField(max_length=500, null=False, blank=False)
+    author = models.CharField(max_length=100, null=False, blank=False)
+    designation = models.CharField(max_length=100, null=False, blank=False)
+    description = models.TextField(null=False, blank=False)
+    image = models.ImageField(upload_to='testimonials/', null=False ,blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self) -> str:
+        return self.title
+
 class ContactUs(models.Model):
-    name = models.CharField(max_length=100, null=True, blank=True)
-    email = models.EmailField(null=True, blank=True)
-    message = models.TextField(null=True, blank=True)
+    name = models.CharField(max_length=100, null=False, blank=False)
+    email = models.EmailField(null=False, blank=False)
+    message = models.TextField(null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -46,6 +71,25 @@ class ContactUs(models.Model):
 
 
 
+@receiver(models.signals.post_save, sender=ApplicationImage)
+def check_create_record(sender, instance, created, **kwargs):
+    if not instance.pk:
+        return False
+    if created:
+        if Application.objects.count() > 1:
+            instance.delete()
+
+
+
+@receiver(models.signals.post_save, sender=ProductFeature)
+@receiver(models.signals.post_save, sender=Application)
+def check_create_record(sender, instance, created, **kwargs):
+    if not instance.pk:
+        return False
+    if created:
+        if Application.objects.count() > 3:
+            instance.delete()
+    
 
 @receiver(models.signals.pre_save, sender=ProductFeature)
 @receiver(models.signals.pre_save, sender=Application)

@@ -42,7 +42,7 @@
     width: 100%;
     padding: 0px 0px 10px;
     min-width: 0;
-    height: auto;
+    aspect-ratio: .93745 / 1;
 }
 
 .feature-content {

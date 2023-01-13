@@ -79,7 +79,7 @@ class EmailManager:
     if status is False:
       msg = "Declined"
     else:
-      msg = "Approved"
+      msg = "Accepted"
 
     try:
       email_subject = 'VOQDR Organization Invitation Status.'

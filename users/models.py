@@ -52,58 +52,58 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class SharedOrganization(models.Model):
-    invite_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='shared_by_organization')
-    invite_to = models.EmailField(null=True, blank=True)
+    shared_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='shared_by_organization')
+    shared_to = models.EmailField(null=True, blank=True)
     role = models.CharField(max_length=15, default=UserRoles.VIEWER)
     is_verified = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.invite_to
+        return self.shared_to
 
 
 
 class InvitedOrganization(models.Model):
-    invite_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='invite_by_organization')
-    invite_to = models.EmailField(null=True, blank=True)
+    shared_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='invite_by_organization')
+    shared_to = models.EmailField(null=True, blank=True)
     role = models.CharField(max_length=15, default=UserRoles.VIEWER)
     is_verified = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
-        return self.invite_to
+        return self.shared_to
 
 
 
 class OrganizationPermissions(models.Model):
-    invite_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='invited_by_organization')
-    invite_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name='shared_organization')
+    shared_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='shared_from_organization')
+    shared_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name='shared_with_organization')
     role = models.CharField(max_length=15, default=UserRoles.VIEWER)
     def __str__(self):
-        return self.invite_to
+        return self.shared_to
 
     @staticmethod
     def create_organization_permissions(instance):
         try:
-            invite_to = User.objects.get(email=instance.invite_to)
+            shared_to = User.objects.get(email=instance.shared_to)
         except Exception as e:
-            invite_to = None
-        if invite_to:
+            shared_to = None
+        if shared_to:
             try:
-                org = OrganizationPermissions.objects.get(invite_by=instance.invite_by, invite_to=invite_to)
+                org = OrganizationPermissions.objects.get(shared_by=instance.shared_by, shared_to=shared_to)
                 if org:
                     org.role = instance.role
                     org.save(update_fields=['role'])
             except Exception as e:
                 print(e)
-                OrganizationPermissions.objects.create(invite_by=instance.invite_by, invite_to=invite_to, role=instance.role)
+                OrganizationPermissions.objects.create(shared_by=instance.shared_by, shared_to=shared_to, role=instance.role)
 
 
 @receiver(models.signals.post_save, sender=User)
 def new_organization_permissions(sender, instance, created, **kwargs):
     if created:
-        created_user_shared = SharedOrganization.objects.filter(invite_to=instance.email)
+        created_user_shared = SharedOrganization.objects.filter(shared_to=instance.email)
         if created_user_shared:
             for i in created_user_shared:
                 i.is_verified = True

@@ -105,7 +105,11 @@
                 {% for apps in applications%}
                 <div class="applications-card">
                     <div class="app-card-heading">
-                        <img src="{{apps.image.url}}" alt="Applications" />
+                        {% if apps.image %}
+                        <img src="{{apps.image.url}}" alt="Applications">
+                        {% else %}
+                        <img src="{% static 'web/Assets/Images/random.png' %}" alt="Applications">
+                        {% endif %}
                         <!-- <svg width="51" height="51" viewBox="0 0 51 51" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect x="0.328125" y="0.994141" width="50" height="50" rx="25" fill="#46879F" />
                             <g clip-path="url(#clip0_295_1626)">
@@ -207,14 +211,18 @@
                             </p>
                             <div class="client-info">
                                 <div class="client-image">
+                                    {% if testimonial.image %}
                                     <img src="{{testimonial.image.url}}" alt="Client Image">
+                                    {% else %}
+                                    <img src="{% static 'web/Assets/Images/random.png' %}" alt="">
+                                    {% endif %}
                                 </div>
                                 <div class="client-details">
                                     <p class="client-name">{{testimonial.author|title}}</p>
                                     <span class="client-description">{{testimonial.designation}}</span>
                                 </div>
                             </div>
-                            <p class="date">{{testimonial.updated_at}}</p>
+                            <!-- <p class="date">{{testimonial.updated_at}}</p> -->
                         </div>
                     </div>
                     {% endfor %}

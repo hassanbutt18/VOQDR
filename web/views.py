@@ -27,10 +27,10 @@ def otp_number():
 
 def index(request):
     context = {}
-    product_features = ProductFeature.objects.all()[:3]
-    applications = Application.objects.all()[:3]
-    application_image = ApplicationImage.objects.all()[:1]
-    testimonials = Testimonial.objects.all()[:3]
+    product_features = ProductFeature.objects.all()
+    applications = Application.objects.all()
+    application_image = ApplicationImage.objects.all()
+    testimonials = Testimonial.objects.all()
     context['product_features'] = product_features
     context['applications'] = applications
     context['application_image'] = application_image
@@ -48,7 +48,8 @@ def my_account(request):
     success = False
     context = {}
     user = request.user
-    context["shared_organizations"] = user.invited_by_organization.all()
+    context["shared_with_us_organizations"] = user.shared_with_organization.all()
+    context['shared_to_organizations'] = user.shared_from_organization.all()
     if request.method == 'POST':
         context = {}
         request_data = request.POST.copy()
@@ -234,27 +235,30 @@ def Logout(request):
 
 
 def invite_organization(request):
-    msg = None
+    msg = "Email was not sent"
     success = False
     context = {}
     user = request.user
     if request.method == "POST":
         request_data = json.loads(request.body.decode('utf-8'))
         if user.email != request_data['email']:
-            token = get_dict_token({'invite_by':user.id,'invite_to':request_data['email'], 'role':request_data['role']})
-            try:
-                org = InvitedOrganization.objects.get(invite_to=request_data['email'], invite_by=user)
-                if org:
-                    org.role = request_data['role']
-                    org.save(update_fields=['role'])
-            except Exception as e:
-                invitation = InvitedOrganization.objects.create(invite_by=user, invite_to=request_data['email'],role=request_data['role'])
-            try:
-                EmailManager.send_email_invite(request_data['email'], request_data['role'], user.organization, token, request)
-                msg = 'Invitation sent successfully'
-                success = True
-            except Exception as e:
-                print(e)
+            token = get_dict_token({'shared_by':user.id,'shared_to':request_data['email'], 'role':request_data['role']})
+            share_to = User.objects.filter(email=request_data['email']).first()
+            org = OrganizationPermissions.objects.filter(shared_by=user, shared_to=share_to).first()
+            if InvitedOrganization.objects.filter(shared_by=user, shared_to=request_data['email']).first():
+                msg = "You already invited this user before"
+            elif org:
+                msg = "Organization already shared"
+            else:
+                InvitedOrganization.objects.create(shared_by=user, shared_to=request_data['email'], role=request_data['role'])
+                try:
+                    status = EmailManager.send_email_invite(request_data['email'], request_data['role'], user.organization, token, request)
+                    msg = 'Invitation sent successfully'
+                    success = True
+                except Exception as e:
+                    print(e)
+        else:
+            msg = "You cannot invite yourself"
         context['msg'] = msg
         context['success'] = success
         return JsonResponse(context)
@@ -272,31 +276,23 @@ def invitation_approval(request, token, status):
     for i in decrypt_token:
         key, value = i.split('=')
         data[key] = value
-    invited_by = User.objects.filter(id=data['invite_by']).first()
-    if not InvitedOrganization.objects.filter(invite_to=data['invite_to'], invite_by_id=data['invite_by']):
+    share_by = User.objects.filter(id=data['shared_by']).first()
+    if not InvitedOrganization.objects.filter(shared_to=data['shared_to'], shared_by_id=data['shared_by']):
         return HttpResponse("Organization invitation expired.")
     if status:
-        try:
-            org = SharedOrganization.objects.get(invite_to=data['invite_to'], invite_by_id=data['invite_by'])
-            if org:
-                org.role = data['role']
-                org.is_verified = True
-                org.save(update_fields=['role', 'is_verified'])
-        except Exception as e:
-            if User.objects.filter(email=data['invite_to']):
-                org = SharedOrganization.objects.create(invite_to=data['invite_to'], invite_by_id=data['invite_by'], role=data['role'], is_verified=True)
-            else:
-                org = SharedOrganization.objects.create(invite_to=data['invite_to'], invite_by_id=data['invite_by'], role=data['role'])
-        finally:
-            invitation = InvitedOrganization.objects.filter(invite_to=data['invite_to'], invite_by_id=data['invite_by'])
-            if invitation:
-                invitation.delete()
+        if User.objects.filter(email=data['shared_to']):
+            org = SharedOrganization.objects.create(shared_to=data['shared_to'], shared_by_id=data['shared_by'], role=data['role'], is_verified=True)
+        else:
+            org = SharedOrganization.objects.create(shared_to=data['shared_to'], shared_by_id=data['shared_by'], role=data['role'])
+        invitation = InvitedOrganization.objects.filter(shared_to=data['shared_to'], shared_by_id=data['shared_by'])
+        if invitation:
+            invitation.delete()
     else:
-        invitation = InvitedOrganization.objects.filter(invite_to=data['invite_to'], invite_by_id=data['invite_by'])
+        invitation = InvitedOrganization.objects.filter(shared_to=data['shared_to'], shared_by_id=data['shared_by'])
         if invitation:
             invitation.delete()
     try:
-        EmailManager.send_approval_status_email(invited_by.email, data['invite_to'], status, data['role'])
+        EmailManager.send_approval_status_email(share_by.email, data['shared_to'], status, data['role'])
     except Exception as e:
         print(e)
     return redirect('/')
@@ -307,16 +303,17 @@ def get_organization_details(request, pk):
     msg = None
     success = False
     context = {}
-    try:
-        permissions = OrganizationPermissions.objects.get(invite_by=request.user, invite_to_id=pk)
-        context['organization'] = permissions.invite_to.organization
-        context['address'] = permissions.invite_to.address
-        context['role'] = permissions.role
-    except Exception as e:
+    if request.user.id == int(pk):
         permissions = User.objects.get(pk=pk)
         context['organization'] = permissions.organization
         context['address'] = permissions.address
         context['role'] = 'admin'
+    else:
+        user = request.user
+        permissions = OrganizationPermissions.objects.filter(shared_by=pk, shared_to_id=user).first()
+        context['organization'] = permissions.shared_by.organization
+        context['address'] = permissions.shared_by.address
+        context['role'] = permissions.role        
     return JsonResponse(context)
 
 
@@ -338,7 +335,7 @@ def edit_organization_details(request, pk):
             print(e)
     else:
         try:
-            permissions = OrganizationPermissions.objects.get(invite_by=request.user, invite_to_id=pk)
+            permissions = OrganizationPermissions.objects.get(shared_by=pk, shared_to_id=user)
             if permissions.role == UserRoles.ADMIN:
                 organization = User.objects.get(pk=pk)
                 if organization:
@@ -354,6 +351,29 @@ def edit_organization_details(request, pk):
     return JsonResponse(context)
 
 
+def edit_organization_role(request, pk):
+    msg = None
+    success = False
+    context = {}
+    request_data = json.loads(request.body.decode('utf-8'))
+    print(request_data)
+
+    try:
+        user = User.objects.get(id=pk)
+        if user:
+            shared_org = SharedOrganization.objects.filter(shared_by=request.user, shared_to=user.email).first()
+            if shared_org:
+                shared_org.role = request_data.get('role')
+                shared_org.save(update_fields=['role'])
+                msg = "Organization role updated"
+                success = True
+    except Exception as e:
+        print(e, "in except ////////////////") 
+    context['msg'] = msg
+    context['success'] = success
+    return JsonResponse(context)
+
+
 def remove_shared_organization(request, pk):
     msg = None
     success = False
@@ -361,10 +381,10 @@ def remove_shared_organization(request, pk):
     try:
         user = User.objects.get(id=pk)
         if user:
-            shared_org = SharedOrganization.objects.filter(invite_by=request.user, invite_to=user.email)
+            shared_org = SharedOrganization.objects.filter(shared_by=request.user, shared_to=user.email)
             if shared_org:
                 shared_org.delete()
-            org = OrganizationPermissions.objects.filter(invite_by=request.user, invite_to=user)
+            org = OrganizationPermissions.objects.filter(shared_by=request.user, shared_to=user)
             if org:
                 org.delete()
         success = True

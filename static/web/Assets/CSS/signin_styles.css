@@ -145,16 +145,18 @@ button {
 .sign-in-button-container > div {
     display: flex;
     align-items: center;
-    gap: 8px
+    gap: 5px;
 }
 
-.sign-in-button-container > div span {
+.sign-in-button-container > div > div {
     font-weight: 500;
     font-size: .875rem;
     color: #606060;
 }
 
 .sign-in-button-container > div a {
+    font-weight: 500;
+    font-size: .875rem;
     color: #004762;
     text-decoration: none;
 }

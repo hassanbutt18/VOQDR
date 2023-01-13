@@ -45,11 +45,11 @@
                     <div class="sign-in-inputs">
                         <div class="email-input">
                             <span>Email Address</span>
-                            <input type="email" name="email" />
+                            <input type="email" name="email" required />
                         </div>
                         <div class="password-input">
                             <span>Password</span>
-                            <input type="password" name="password" id="password-field" />
+                            <input type="password" name="password" id="password-field" required />
                             <i class="fa-regular fa-eye-slash hide-password-icon"></i>
                             <a href="{% url 'forgot_password' %}">Forgot Password?</a>
                         </div>
@@ -58,7 +58,7 @@
                         <button type="submit" form="sign-in-form" value="submit" class="sign-in-button mt-4">Sign
                             In</button>
                         <div>
-                            <span>Don't have an account? </span>
+                            <div>Don't have an account? </div>
                             <a href="{% url 'signup' %}">Sign Up</a>
                         </div>
                     </div>

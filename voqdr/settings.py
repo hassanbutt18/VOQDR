@@ -81,6 +81,9 @@ WSGI_APPLICATION = 'voqdr.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+
+# For local machine
+
 # DATABASES = {
 #     'default': {
 #         "ENGINE": "django.db.backends.mysql",
@@ -92,6 +95,8 @@ WSGI_APPLICATION = 'voqdr.wsgi.application'
 #     }
 # }   
 
+
+# For Development Server
 
 DATABASES = {
     'default': {
@@ -148,13 +153,11 @@ USE_TZ = True
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(MEDIA_BASE_DIR,'media')
 
-# STATIC_URL = "/static/"
 # STATIC_ROOT = os.path.join(str(BASE_DIR),"web/static/")
 AUTH_USER_MODEL = 'users.User'
 
 # Server static folder root
 root = Path(__file__).resolve().parent
-print("That is my root",root)
 
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [
@@ -169,8 +172,16 @@ STATIC_ROOT = os.path.join(str(root), "static")
 # STATIC_ROOT = os.path.join(str(BASE_DIR), "/static")
 
 
+# For Local Machine
+
+# BASE_URL = 'http://127.0.0.1:8000/'
+
+# For Development Server
+
 BASE_URL = 'http://dev.crymzee.com:7000/'
-LOGO = '/static/web/Assets/Images/logo.png'
+
+
+LOGO = 'http://dev.crymzee.com:7000/static/web/Assets/Images/logo.png'
 if DEBUG:
     LOGO = 'http://dev.crymzee.com:7000/static/web/Assets/Images/logo.png'
 
@@ -182,6 +193,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
+
 # EMAIL_HOST_USER = 'voqdr.site@gmail.com'
 # EMAIL_HOST_PASSWORD = 'wbmjpavttuyqdzzu'
 
