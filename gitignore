@@ -3,6 +3,8 @@ migrations/
 db.sqlite3
 *.sqlite3
 *.db
+*.pyc
+.env
 <!-- # byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -25,9 +27,6 @@ venv
 ./media/
 media
 
-# migrations
-
-./migrations/
 
 # javascript
 package-lock.json
