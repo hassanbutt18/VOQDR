@@ -11,10 +11,10 @@ async function requestAPI(url, data, headers, method) {
     // Default options are marked with *
     const response = await fetch(url, {
         method: method,
-        // mode: 'cors',
+        // mode: 'no-cors',
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         headers: headers,
-        body: data
+        body: data,
     });
     return response; // parses JSON response into native JavaScript objects
 }

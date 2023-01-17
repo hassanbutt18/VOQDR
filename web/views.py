@@ -1,4 +1,7 @@
 import json
+import stripe
+import requests
+
 from random import randint
 
 from django.core.mail import send_mail
@@ -7,6 +10,7 @@ from django.template import loader
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, JsonResponse
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 from voqdr.emailManager import EmailManager
 from voqdr.helpers import *
 
@@ -39,7 +43,19 @@ def index(request):
 
 @login_required(login_url='/signin/')
 def maps_vodcur(request):
+    msg = None 
+    success = False
+    user = request.user
     context={'nbar':'map'}
+    context["shared_with_us_organizations"] = user.shared_with_organization.all()
+    header = {"Authorization": "Bearer 9df0e7455b7d4a960cd83c4dde8c6b0047ff808d"}
+    status, response = requestAPI('GET', 'https://api.nrfcloud.com/v1/devices?includeState=true', header,{})
+    if status == 200:
+        context["devices"] = response
+        msg = "Got devices successfully"
+        success = True
+    context['msg'] = msg
+    context['success'] = success
     return render(request, 'web/maps.html', context)
 
 @login_required(login_url='/signin/')
@@ -411,3 +427,43 @@ def contact_us(request):
     context['msg'] = msg
     context['success'] = success
     return JsonResponse(context)
+
+def check_signin(request):
+    msg = 'Please signin first'
+    success = False
+    context = {}
+    if request.user.is_authenticated:
+        msg = "User is signedin"
+        success = True
+    context['msg'] = msg
+    context['success'] = success
+    return JsonResponse(context)
+    
+
+def product_checkout(request, qty):
+    stripe.api_key = 'sk_test_51MR7IPI4nD7nn6Uwhrs3wSUUiQ1fEdjGh3hmGjXm9b4A779k1XFn1BSAJ7bVaDb3v2lCNkyOkCZO0gAUnLcxf41m00DKjjZREz'
+
+    # Product Id: prod_NBWBkJDAGl0gaF
+    # Price Id: price_1MR98nI4nD7nn6UwfdTce0QG
+    try:
+        checkout_session = stripe.checkout.Session.create(
+            line_items=[{
+                'price': 'price_1MR98nI4nD7nn6UwfdTce0QG',
+                'quantity': qty
+            }],
+            mode='payment',
+            success_url = settings.BASE_URL,  
+            cancel_url = settings.BASE_URL,
+        )
+        return redirect(checkout_session.url)
+    except Exception as e:
+        return HttpResponse(str(e))
+        
+
+def get_devices(request):
+
+    return JsonResponse(context)
+
+
+def successful_checkout(request):
+    return render(request, 'web/successful_checkout.html')

@@ -12,9 +12,19 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+import environ
+
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+# Reading enviroment variables
+# environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+# env = environ.Env(
+#     DEBUG=(bool, True)
+# )
 
 MEDIA_BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 

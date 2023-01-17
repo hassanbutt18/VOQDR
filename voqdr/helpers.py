@@ -1,6 +1,7 @@
 import base64
 import json
 import re
+import requests
 from django.http.response import JsonResponse
 from django.core.mail import send_mail
 from datetime import datetime
@@ -12,6 +13,13 @@ from django.core import serializers
 
 SUCCESS_CODE = 1
 
+def requestAPI(method:str, url:str, headers:dict, data:dict):
+    status = 400
+    try:
+        response = requests.request(method, url, headers=headers)
+        return response.status_code, response.json()
+    except Exception as e:
+        return status, str(e)
 
 def SuccessResponse(data):
     return JsonResult(SUCCESS_CODE, data, status.HTTP_200_OK)

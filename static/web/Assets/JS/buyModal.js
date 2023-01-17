@@ -35,3 +35,36 @@ const homeModalOpenBtn = document.querySelector(".buy-modal-open-button");
 if(homeModalOpenBtn) {
     homeModalOpenBtn.addEventListener("click", openBuyModal);
 }
+
+
+async function productCheckout(event) {
+  event.preventDefault();
+  let form = event.currentTarget;
+  let formData = new FormData(form);
+  let data = formDataToObject(formData);
+  let toast = document.getElementById("buy-toast");
+  let toastBody = toast.querySelector(".toast-body");
+  let button = document.querySelector('.buy-modal-submit-btn');
+  let button_text = button.innerText;
+  let headers = {
+    "Content-Type": "application/json",
+    "X-CSRFToken": data.csrfmiddlewaretoken,
+  };
+
+  console.log(location.pathname)
+
+  beforeLoad(button, "Processing");
+  response = await requestAPI('/check-signin/', JSON.stringify(data), headers, 'POST' );
+  afterLoad(button, button_text)
+  response.json().then(function (res) {
+    console.log(res);
+    if (!res.success) {
+      toast.classList.add('bg-danger');
+      toastBody.innerText = res.msg;
+      let myToast = new bootstrap.Toast(toast);
+      myToast.show();
+    } else {
+        location.pathname = `product-checkout/${data.quantity}/`;
+    }
+  });
+}

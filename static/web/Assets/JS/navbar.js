@@ -31,3 +31,10 @@ hamburger.addEventListener("click", toggleMenu);
 menuItems.forEach(function (menuItem) {
   menuItem.addEventListener("click", toggleMenu);
 });
+
+
+addEventListener('resize', function(event) {
+  if(this.window.innerWidth > 768 && menu.classList.contains("showMenu")) {
+    toggleMenu();
+  }
+})

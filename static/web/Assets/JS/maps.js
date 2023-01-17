@@ -1,5 +1,5 @@
 // Organisation Container controls
-
+const token = "9df0e7455b7d4a960cd83c4dde8c6b0047ff808d"
 const orgContainer = document.querySelector(".hide-organisations");
 const orgHeader = document.querySelector(".organisation-container-header");
 const orgHeaderChevronUp = document.querySelector(".organisation-chevron-up");
@@ -97,11 +97,11 @@ overlay.addEventListener("click", () => {
   closeBuyModal();
 });
 
-document.addEventListener("keydown", function (e) {
-  if (e.key === "Escape" && !modal.classList.contains("hidden")) {
-    modalClose();
-  }
-});
+// document.addEventListener("keydown", function (e) {
+//   if (e.key === "Escape" && !modal.classList.contains("hidden")) {
+//     modalClose();
+//   }
+// });
 
 const deviceAdditionalOptions = document.getElementsByClassName(
   "additional-option-btn"
@@ -110,21 +110,12 @@ var j;
 
 for (j = 0; j < deviceAdditionalOptions.length; j++) {
   deviceAdditionalOptions[j].addEventListener("click", function () {
-    if (
-      this.parentElement.parentElement.nextElementSibling.classList.contains(
-        "show-additional-options"
-      )
-    ) {
-      this.parentElement.parentElement.nextElementSibling.classList.remove(
-        "show-additional-options"
-      );
+    let currentAdditionalOptions = this.parentElement.parentElement.nextElementSibling;
+    if (currentAdditionalOptions.classList.contains("show-additional-options")) {
+      currentAdditionalOptions.classList.remove("show-additional-options");
     } else {
-      this.parentElement.parentElement.nextElementSibling.classList.add(
-        "show-additional-options"
-      );
-      const ShowModal =
-        this.parentElement.parentElement.nextElementSibling.childNodes[1]
-          .children[1];
+      currentAdditionalOptions.classList.add("show-additional-options");
+      const ShowModal = currentAdditionalOptions.childNodes[1].children[1];
       ShowModal.addEventListener("click", openModal);
     }
   });
@@ -173,22 +164,66 @@ for (k = 0; k < EditBtn.length; k++) {
 }
 
 
+function editDeviceNameModal(event, id, device_name, modal_id) {
+  let modal = document.querySelector(`#${modal_id}`);
+  let form = modal.querySelector('form');
+  let deviceName =  form.querySelector('input[name="name"]');
+  deviceName.value = device_name;
+  form.setAttribute('onsubmit', `editDeviceNameForm(event, '${id}')`);
+  document.querySelector(`.${modal_id}`).click();
+}
 
-// Maps Script
+
+async function editDeviceNameForm(event, id) {
+  event.preventDefault();
+  let form = event.currentTarget;
+  let button = form.querySelector('button[type="submit"]');
+  let button_text = button.innerText;
+  let formData = new FormData(form);
+  let data = formDataToObject(formData);
+  headers = {
+    'Authorization': `Bearer ${token}`
+  };
+  apiResponse = await requestAPI(`https://api.nrfcloud.com/v1/devices/${id}/${data.name}`, null, headers, 'PUT');
+  console.log(apiResponse.status);
+  if(apiResponse.status == 200) {
+    location.pathname = `${location.pathname}`;
+  }
+}
+
 
 // Initializing Maps
-var map = L.map("maps", {center: [31.46, 74.2549209], zoom: 11});
+
+var map = null
 
 
+// Method to get your current position
 
-// Adding Tiles(roads, buildings, locations, etc.)
+navigator.geolocation.getCurrentPosition(getPosition);
 
-L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  maxZoom: 19,
-  attribution:
-    '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-}).addTo(map);
+var currentLocation = {lat: null, long: null, accuracy: null};
+function getPosition (position) {
+  currentLocation.lat = position.coords.latitude;
+  currentLocation.long = position.coords.longitude;
+  currentLocation.accuracy = position.coords.accuracy;
+}
 
+function initializeMap() {
+  map = L.map("maps", {center: [currentLocation.lat, currentLocation.long], zoom: 12});
+
+  // Adding Tiles(roads, buildings, locations, etc.)
+
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution:
+      '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  }).addTo(map);
+
+  }
+
+  window.onload = () => {
+    initializeMap();
+}
 
 
 // Making custom marker icon
@@ -200,69 +235,112 @@ var markerIcon = L.icon({
 
 
 
-// Adding markers to the map
+// Adding Routes 
 
-var marker = L.marker([31.46, 74.28], { icon: markerIcon });
+function getRouting() {
+  if(map) {
+    map.off();
+    map.remove();
+    initializeMap();
+  }
 
-var popup = L.popup().setContent(
-  "<strong>Device:</strong> nrf-352656101124371 <br/><br/> <strong>Last seen:</strong> Dec 23, 11:05 AM"
-);
+  var marker = L.marker([currentLocation.lat, currentLocation.long], { icon: markerIcon });
 
+  var circleRadius = L.circle([31.4503609, 74.2549209], {
+    fillColor: "rgba(217, 40, 99, 0.4)",
+    fillOpacity: 1,
+    color: "transparent",
+    radius: 75,
+  });
 
-var circleRadius = L.circleMarker([31.4503609, 74.2549209], {
-  fillColor: "rgba(217, 40, 99, 0.4)",
-  fillOpacity: 1,
-  color: "transparent",
-  radius: 75,
-});
+  var circleOuterRadius = L.circle([31.4503609, 74.2549209], {
+    fillColor: "rgba(217, 40, 99, 0.15)",
+    fillOpacity: 1,
+    color: "transparent",
+    radius: 100,
+  });
 
-var circleOuterRadius = L.circleMarker([31.4503609, 74.2549209], {
-  fillColor: "rgba(217, 40, 99, 0.15)",
-  fillOpacity: 1,
-  color: "transparent",
-  radius: 100,
-});
-
-var circle = L.circleMarker([31.4503609, 74.2549209], {
-  fillColor: "#d92863",
-  fillOpacity: 1,
-  color: "transparent",
-  radius: 50,
-  zIndex: 3,
-});
-
-
-circle.bindPopup(
-    "<strong>Device:</strong> nrf-352656101124371 <br/><br/> <strong>Last seen:</strong> Dec 23, 11:05 AM"
-  );
-
-var markerGroup = L.featureGroup([marker, circleRadius, circleOuterRadius, circle]).addTo(map);
+  var circle = L.circle([31.4503609, 74.2549209], {
+    fillColor: "#d92863",
+    fillOpacity: 1,
+    color: "transparent",
+    radius: 50,
+    zIndex: 3,
+  });
 
 
+  circle.bindPopup(
+      "<strong>Device:</strong> nrf-352656101124371 <br/><br/> <strong>Last seen:</strong> Dec 23, 11:05 AM"
+    );
 
-// Method to get your current position
+  var markerGroup = L.featureGroup([marker, circleRadius, circleOuterRadius, circle]).addTo(map);
 
-// navigator.geolocation.getCurrentPosition(getPosition);
+  // Displaying route on the map from one location to another
+  // using the plugin leaflet routing machine
 
-// function getPosition (position) {
-//   console.log(position);
+  L.Routing.control({
+    waypoints: [
+      L.latLng(marker._latlng.lat, marker._latlng.lng),
+      L.latLng(circle._latlng.lat, circle._latlng.lng),
+    ],
+    routeWhileDragging: false,
+    draggableWaypoints: false,
+    fitSelectedRoutes: true,
+    lineOptions: {
+      styles: [{ color: "#d92863", weight: 3 }],
+      addWaypoints: false,
+    },
+    createMarker: function () {
+      return null;
+    },
+  }).addTo(map);
+
+}
+
+
+// Adding Circular Marker to Current Device location
+
+function getDeviceCurrentLocation() {
+  if(map) {
+    map.off();
+    map.remove();
+    initializeMap();
+  }
+
+  var circleOuterRadius = L.circle([31.4503609, 74.2549209], {
+    fillColor: "rgba(217, 40, 99, 0.15)",
+    fillOpacity: 1,
+    color: "transparent",
+    radius: 100,
+  });
+
+  var circleRadius = L.circle([31.4503609, 74.2549209], {
+    fillColor: "rgba(217, 40, 99, 0.4)",
+    fillOpacity: 1,
+    color: "transparent",
+    radius: 75,
+  });
+
+  var circle = L.circle([31.4503609, 74.2549209], {
+    fillColor: "#d92863",
+    fillOpacity: 1,
+    color: "transparent",
+    radius: 50,
+    zIndex: 3,
+  });
+
+
+  circle.bindPopup(
+      "<strong>Device:</strong> nrf-352656101124371 <br/><br/> <strong>Last seen:</strong> Dec 23, 11:05 AM"
+    );
+
+  var markerGroup = L.featureGroup([circleRadius, circleOuterRadius, circle]).addTo(map);
+  console.log(map.fitBounds(markerGroup.getBounds(), {padding: L.point(150, 150)}));
+}
+
+
+// Share Current Device Location
+
+// function shareDeviceLocation() {
+  
 // }
-
-
-
-
-// Displaying route on the map from one location to another
-// using the plugin leaflet routing machine
-
-L.Routing.control({
-  waypoints: [
-    L.latLng(marker._latlng.lat, marker._latlng.lng),
-    L.latLng(circle._latlng.lat, circle._latlng.lng),
-  ],
-  lineOptions: {
-    styles: [{ color: "#d92863", weight: 3 }],
-  },
-  createMarker: function () {
-    return null;
-  },
-}).addTo(map);

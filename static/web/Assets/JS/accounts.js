@@ -145,7 +145,6 @@ function editOrganizationRoleModal(event, id, modal_id) {
   document.querySelector(`.${modal_id}`).click();
 }
 
-
 // Edit Shared With Organization Role Form Handling
 
 async function editOrganizationRole(event, id){

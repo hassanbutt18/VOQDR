@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="{% static 'web/Assets/CSS/testimonials.css' %}">
     <link rel="stylesheet" href="{% static 'web/Assets/CSS/contact_us.css' %}">
 
+
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
 
     {% endblock %}
@@ -60,33 +61,6 @@
                 </div>
                 {% endfor %}
                 {% endif %}
-                <!-- <div class="feature-card">
-                    <img src="{% static 'web/Assets/Images/Card1.svg' %}" class="feature-image" alt="Feature1">
-                    <div class="feature-content">
-                        <h3>Tracker with very long battery life</h3>
-                        <p class="feature-description">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                            Doloribus id minima incidunt repellendus vitae aspernatur dicta ducimus omnis doloremque
-                            illum animi, quaerat temporibus aliquid sunt deserunt accusantium, delectus non nisi.</p>
-                    </div>
-                </div>
-                <div class="feature-card">
-                    <img src="{% static 'web/Assets/Images/Card2.svg' %}" class="feature-image" alt="Feature2">
-                    <div class="feature-content">
-                        <h3>eSim with global coverage</h3>
-                        <p class="feature-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero,
-                            autem quia ratione beatae itaque optio aperiam excepturi omnis, enim vel est quibusdam
-                            inventore a ad dolore! Esse voluptatum optio sit?</p>
-                    </div>
-                </div>
-                <div class="feature-card">
-                    <img src="{% static 'web/Assets/Images/Card3.svg' %}" class="feature-image" alt="Feature3">
-                    <div class="feature-content">
-                        <h3>GPS+LTE technology</h3>
-                        <p class="feature-description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eius
-                            deleniti, sapiente enim tenetur illum et! Iste, error? Deleniti debitis quam, eligendi
-                            explicabo quas, id molestias aliquid architecto nulla cupiditate recusandae.</p>
-                    </div>
-                </div> -->
             </div>
     </section>
 
@@ -110,89 +84,12 @@
                         {% else %}
                         <img src="{% static 'web/Assets/Images/random.png' %}" alt="Applications">
                         {% endif %}
-                        <!-- <svg width="51" height="51" viewBox="0 0 51 51" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="0.328125" y="0.994141" width="50" height="50" rx="25" fill="#46879F" />
-                            <g clip-path="url(#clip0_295_1626)">
-                                <path
-                                    d="M32.3503 14.7941H29.1551V11.9941H21.5017V14.7941H18.3065C16.9097 14.7941 15.7617 15.6341 15.7617 16.6561V38.1181C15.7617 39.1541 16.9097 39.9941 18.3065 39.9941H32.3312C33.7471 39.9941 34.8951 39.1541 34.8951 38.1321V16.6561C34.8951 15.6341 33.7471 14.7941 32.3503 14.7941ZM23.4151 37.1941V29.4941H19.5884L27.2417 18.9941V26.6941H31.0684L23.4151 37.1941Z"
-                                    fill="white" />
-                            </g>
-                            <defs>
-                                <clipPath id="clip0_295_1626">
-                                    <rect width="28" height="28" fill="white" transform="translate(11.3281 11.9941)" />
-                                </clipPath>
-                            </defs>
-                        </svg> -->
                         <h3>{{apps.title}}</h3>
                     </div>
                     <p class="app-card-description">{{apps.description}}</p>
                 </div>
                 {% endfor %}
                 {% endif %}
-                <!-- <div class="applications-card">
-                    <div class="app-card-heading">
-                        <svg width="51" height="51" viewBox="0 0 51 51" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="0.328125" y="0.994141" width="50" height="50" rx="25" fill="#46879F" />
-                            <g clip-path="url(#clip0_295_1626)">
-                                <path
-                                    d="M32.3503 14.7941H29.1551V11.9941H21.5017V14.7941H18.3065C16.9097 14.7941 15.7617 15.6341 15.7617 16.6561V38.1181C15.7617 39.1541 16.9097 39.9941 18.3065 39.9941H32.3312C33.7471 39.9941 34.8951 39.1541 34.8951 38.1321V16.6561C34.8951 15.6341 33.7471 14.7941 32.3503 14.7941ZM23.4151 37.1941V29.4941H19.5884L27.2417 18.9941V26.6941H31.0684L23.4151 37.1941Z"
-                                    fill="white" />
-                            </g>
-                            <defs>
-                                <clipPath id="clip0_295_1626">
-                                    <rect width="28" height="28" fill="white" transform="translate(11.3281 11.9941)" />
-                                </clipPath>
-                            </defs>
-                        </svg>
-                        <h3>Track Containers</h3>
-                    </div>
-                    <p class="app-card-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt totam
-                        corporis eaque eum cumque amet officia et ullam, porro sint, voluptatum obcaecati est! Dolorem,
-                        adipisci. Nobis perspiciatis repudiandae nostrum iusto?</p>
-                </div>
-                <div class="applications-card">
-                    <div class="app-card-heading">
-                        <svg width="51" height="51" viewBox="0 0 51 51" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="0.328125" y="0.994141" width="50" height="50" rx="25" fill="#46879F" />
-                            <g clip-path="url(#clip0_295_1644)">
-                                <path
-                                    d="M37.6811 32.4878V31.058C37.6811 29.4495 36.4732 28.1388 34.936 28.1388C33.3987 28.1388 32.1909 29.4495 32.1909 31.058V32.4878C31.2026 32.9048 30.5438 33.9175 30.5438 35.109V37.1346C30.5438 38.6835 31.7517 39.9941 33.1791 39.9941H36.6928C38.1203 39.9941 39.3281 38.6835 39.3281 37.1346V35.109C39.3281 33.9175 38.6693 32.9048 37.6811 32.4878ZM35.485 32.2495H34.3869V31.058C34.3869 30.7601 34.6066 30.5218 34.936 30.5218C35.2654 30.5218 35.485 30.7601 35.485 31.058V32.2495ZM18.7399 25.2197L15.7203 26.3516C13.1399 27.1856 11.3281 29.8069 11.3281 32.7261V34.0367C11.3281 36.0027 12.8105 37.6112 14.6222 37.6112H28.5673C29.1713 37.6112 29.6654 37.075 29.6654 36.4197C29.6654 35.7644 29.1713 35.2282 28.5673 35.2282H14.6222C14.0183 35.2282 13.5242 34.692 13.5242 34.0367V32.7261C13.5242 30.8197 14.6771 29.1516 16.3791 28.6154L19.3987 27.4835C20.332 27.1856 21.1556 26.5303 21.6497 25.6367C21.6497 25.6367 21.6497 25.5771 21.7046 25.5771C22.0889 25.6367 22.4732 25.6963 22.8575 25.6963C23.2419 25.6963 23.6262 25.6367 24.0105 25.5771C24.0105 25.5771 24.0105 25.6367 24.0654 25.6367C24.6144 26.5303 25.383 27.1856 26.2615 27.4835L29.3909 28.675C29.7203 28.7941 30.0497 28.9133 30.3242 29.092C30.4889 29.2112 30.7085 29.2707 30.8732 29.2707C31.2575 29.2707 31.5869 29.092 31.8066 28.675C32.136 28.1388 31.9713 27.3644 31.4222 27.0665C30.983 26.7686 30.4889 26.5303 29.9948 26.4112L26.8654 25.2197C26.536 25.1005 26.2066 24.8622 25.9869 24.5644C27.3595 23.492 28.2928 21.7048 28.2928 19.7388V17.9516C28.2928 14.675 25.8222 11.9941 22.8026 11.9941C19.783 11.9941 17.3124 14.675 17.3124 17.9516V19.7388C17.3124 21.7644 18.2458 23.492 19.6183 24.5644C19.4536 24.8622 19.1242 25.1005 18.7399 25.2197ZM19.5634 19.7388V18.5473C23.9556 18.3686 23.9556 16.1644 23.9556 16.1644C24.3399 17.7729 25.4379 18.309 26.1517 18.4878V19.7388C26.1517 21.7048 24.6693 23.3133 22.8575 23.3133C21.0458 23.3133 19.5634 21.7048 19.5634 19.7388Z"
-                                    fill="white" />
-                            </g>
-                            <defs>
-                                <clipPath id="clip0_295_1644">
-                                    <rect width="28" height="28" fill="white" transform="translate(11.3281 11.9941)" />
-                                </clipPath>
-                            </defs>
-                        </svg>
-
-                        <h3>Track Work Equipment</h3>
-                    </div>
-                    <p class="app-card-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt totam
-                        corporis eaque eum cumque amet officia et ullam, porro sint, voluptatum obcaecati est! Dolorem,
-                        adipisci. Nobis perspiciatis repudiandae nostrum iusto?</p>
-                </div>
-                <div class="applications-card">
-                    <div class="app-card-heading">
-                        <svg width="51" height="51" viewBox="0 0 51 51" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="0.328125" y="0.994141" width="50" height="50" rx="25" fill="#46879F" />
-                            <g clip-path="url(#clip0_295_1626)">
-                                <path
-                                    d="M32.3503 14.7941H29.1551V11.9941H21.5017V14.7941H18.3065C16.9097 14.7941 15.7617 15.6341 15.7617 16.6561V38.1181C15.7617 39.1541 16.9097 39.9941 18.3065 39.9941H32.3312C33.7471 39.9941 34.8951 39.1541 34.8951 38.1321V16.6561C34.8951 15.6341 33.7471 14.7941 32.3503 14.7941ZM23.4151 37.1941V29.4941H19.5884L27.2417 18.9941V26.6941H31.0684L23.4151 37.1941Z"
-                                    fill="white" />
-                            </g>
-                            <defs>
-                                <clipPath id="clip0_295_1626">
-                                    <rect width="28" height="28" fill="white" transform="translate(11.3281 11.9941)" />
-                                </clipPath>
-                            </defs>
-                        </svg>
-                        <h3>Track Fleets</h3>
-                    </div>
-                    <p class="app-card-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt totam
-                        corporis eaque eum cumque amet officia et ullam, porro sint, voluptatum obcaecati est! Dolorem,
-                        adipisci. Nobis perspiciatis repudiandae nostrum iusto?</p>
-                </div> -->
             </div>
         </div>
     </section>
@@ -227,78 +124,6 @@
                     </div>
                     {% endfor %}
                     {% endif %}
-                    <!-- <div class="swiper-slide">
-                        <div class="testimonial-card">
-                            <h3>It was a great experience</h3>
-                            <p class="client-criticism">"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet,
-                                consectetur, adipisci
-                                velit..."
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nec convallis ligula. Etiam
-                                mattis condimentum tellus, a elementum elit commodo a. Vivamus vel tortor scelerisque,
-                                aliquam turpis a, fringilla nibh, Nunc vitae cursus arcu, nec luctus tortor. Nullam
-                                dictum ante non ex mattis, non mollis leo fermentum. Suspendisse sit amet varius felis.
-                                In nec gravida lorem.
-                            </p>
-                            <div class="client-info">
-                                <div class="client-image">
-                                    <img src="{% static 'web/Assets/Images/Muhammad_Wasif_Ali.png' %}" alt="Client Image">
-                                </div>
-                                <div class="client-details">
-                                    <p class="client-name">Elena Forbes</p>
-                                    <span class="client-description">CEO / Director</span>
-                                </div>
-                            </div>
-                            <p class="date">26-01-2022</p>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="testimonial-card">
-                            <h3>It was a great experience</h3>
-                            <p class="client-criticism">"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet,
-                                consectetur, adipisci
-                                velit..."
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nec convallis ligula. Etiam
-                                mattis condimentum tellus, a elementum elit commodo a. Vivamus vel tortor scelerisque,
-                                aliquam turpis a, fringilla nibh, Nunc vitae cursus arcu, nec luctus tortor. Nullam
-                                dictum ante non ex mattis, non mollis leo fermentum. Suspendisse sit amet varius felis.
-                                In nec gravida lorem.
-                            </p>
-                            <div class="client-info">
-                                <div class="client-image">
-                                    <img src="{% static 'web/Assets/Images/Muhammad_Wasif_Ali.png' %}" alt="Client Image">
-                                </div>
-                                <div class="client-details">
-                                    <p class="client-name">Elena Forbes</p>
-                                    <span class="client-description">CEO / Director</span>
-                                </div>
-                            </div>
-                            <p class="date">26-01-2022</p>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="testimonial-card">
-                            <h3>It was a great experience</h3>
-                            <p class="client-criticism">"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet,
-                                consectetur, adipisci
-                                velit..."
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nec convallis ligula. Etiam
-                                mattis condimentum tellus, a elementum elit commodo a. Vivamus vel tortor scelerisque,
-                                aliquam turpis a, fringilla nibh, Nunc vitae cursus arcu, nec luctus tortor. Nullam
-                                dictum ante non ex mattis, non mollis leo fermentum. Suspendisse sit amet varius felis.
-                                In nec gravida lorem.
-                            </p>
-                            <div class="client-info">
-                                <div class="client-image">
-                                    <img src="{% static 'web/Assets/Images/Muhammad_Wasif_Ali.png' %}" alt="Client Image">
-                                </div>
-                                <div class="client-details">
-                                    <p class="client-name">Elena Forbes</p>
-                                    <span class="client-description">CEO / Director</span>
-                                </div>
-                            </div>
-                            <span class="date">26-01-2022</span>
-                        </div>
-                    </div> -->
                 </div>
                 <svg class="swiper-button-next swiper-navBtn" width="66" height="66" viewBox="0 0 66 66" fill="none"
                     xmlns="http://www.w3.org/2000/svg">

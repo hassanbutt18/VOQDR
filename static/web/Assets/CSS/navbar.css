@@ -71,7 +71,8 @@ a.nav-items.active{
     max-width: 80px;
     width: 50px;
     min-width: 0;
-    height: inherit;
+    height: 50px;
+    min-height: 0;
 }
 
 .nav-profile-image img {
@@ -144,6 +145,7 @@ a.nav-items.active{
     }
     .nav-profile-image {
         width: 70px;
+        height: 70px;
     }
 
     .nav-links a,
@@ -165,6 +167,7 @@ a.nav-items.active{
     .nav-profile-image {
         max-width: 100px;
         width: 65px;
+        height: 65px;
     }
 
     .nav-links a,
@@ -282,6 +285,7 @@ a.nav-items.active{
 @media (max-width: 480px) {
     .nav-profile-image {
         width: 36px;
+        height: 36px;
     }
 
     .sign-in-btn a {
