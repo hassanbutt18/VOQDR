@@ -6,8 +6,21 @@
         <form action="">
             {% csrf_token %}
             <div class="modal-header border-bottom-0 w-100">
-                <h5 class="modal-title" id="staticBackdropLabel">Remove Organisation</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" style="color: #004762;" id="staticBackdropLabel">Remove Organisation</h5>
+                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                <svg class="cursor-pointer" data-bs-dismiss="modal" aria-label="Close" width="30" height="31" viewBox="0 0 30 31" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_295_2457)">
+                        <path
+                            d="M15 2.99414C8.0875 2.99414 2.5 8.58164 2.5 15.4941C2.5 22.4066 8.0875 27.9941 15 27.9941C21.9125 27.9941 27.5 22.4066 27.5 15.4941C27.5 8.58164 21.9125 2.99414 15 2.99414ZM21.25 19.9816L19.4875 21.7441L15 17.2566L10.5125 21.7441L8.75 19.9816L13.2375 15.4941L8.75 11.0066L10.5125 9.24414L15 13.7316L19.4875 9.24414L21.25 11.0066L16.7625 15.4941L21.25 19.9816Z"
+                            fill="#FB3B3B" />
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_295_2457">
+                            <rect width="30" height="30" fill="white" transform="translate(0 0.494141)" />
+                        </clipPath>
+                    </defs>
+                </svg>
               </div>
               <div class="modal-body">
                 <p class="mb-0">Are you sure you want to remove this organisation?</p>

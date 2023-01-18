@@ -22,6 +22,7 @@ urlpatterns = [
     path('get-devices/', views.get_devices, name='get_devices'),
     path('successful-checkout/', views.successful_checkout, name='successful_checkout'),
     path('check-signin/', views.check_signin, name='check_signin'),
+    path('refresh-devices/', views.refresh_devices, name='refresh_devices'),
     path('product-checkout/<str:qty>/', views.product_checkout, name='product_checkout'),
     path('', views.index, name='index'),
 ]

@@ -41,6 +41,24 @@ def index(request):
     context['testimonials'] = testimonials
     return render(request, 'web/index.html', context)
 
+
+def refresh_devices(request):
+    context = {}
+    msg = None 
+    success = False
+    header = {"Authorization": f"Bearer {settings.AUTH_TOKEN}"}
+    status, response = requestAPI('GET', 'https://api.nrfcloud.com/v1/devices?includeState=true', header,{})
+    if status == 200:
+        text_template = loader.get_template('web/ajax/devices.html')
+        html = text_template.render({'devices':response})
+        context["html"] = html
+        msg = "Got Devices successfully from refresh"
+        success = True
+        context['msg'] = msg
+        context['success'] = success
+    return JsonResponse(context)
+
+
 @login_required(login_url='/signin/')
 def maps_vodcur(request):
     msg = None 
@@ -48,7 +66,7 @@ def maps_vodcur(request):
     user = request.user
     context={'nbar':'map'}
     context["shared_with_us_organizations"] = user.shared_with_organization.all()
-    header = {"Authorization": "Bearer 9df0e7455b7d4a960cd83c4dde8c6b0047ff808d"}
+    header = {"Authorization": f"Bearer {settings.AUTH_TOKEN}"}
     status, response = requestAPI('GET', 'https://api.nrfcloud.com/v1/devices?includeState=true', header,{})
     if status == 200:
         context["devices"] = response
@@ -384,7 +402,7 @@ def edit_organization_role(request, pk):
                 msg = "Organization role updated"
                 success = True
     except Exception as e:
-        print(e, "in except ////////////////") 
+        print(e) 
     context['msg'] = msg
     context['success'] = success
     return JsonResponse(context)
@@ -441,7 +459,7 @@ def check_signin(request):
     
 
 def product_checkout(request, qty):
-    stripe.api_key = 'sk_test_51MR7IPI4nD7nn6Uwhrs3wSUUiQ1fEdjGh3hmGjXm9b4A779k1XFn1BSAJ7bVaDb3v2lCNkyOkCZO0gAUnLcxf41m00DKjjZREz'
+    stripe.api_key = settings.STRIPE_SECRET_KEY
 
     # Product Id: prod_NBWBkJDAGl0gaF
     # Price Id: price_1MR98nI4nD7nn6UwfdTce0QG

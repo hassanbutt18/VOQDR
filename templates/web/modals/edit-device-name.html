@@ -2,10 +2,23 @@
 <div class="modal fade" id="editDeviceName" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Edit Device Name</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-content" style="border-radius: 20px;" >
+            <div class="modal-header border-bottom-0">
+                <h5 class="modal-title" style="color: #004762;" id="staticBackdropLabel">Edit Device Name</h5>
+                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                <svg class="cursor-pointer" data-bs-dismiss="modal" aria-label="Close" width="30" height="31" viewBox="0 0 30 31" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_295_2457)">
+                        <path
+                            d="M15 2.99414C8.0875 2.99414 2.5 8.58164 2.5 15.4941C2.5 22.4066 8.0875 27.9941 15 27.9941C21.9125 27.9941 27.5 22.4066 27.5 15.4941C27.5 8.58164 21.9125 2.99414 15 2.99414ZM21.25 19.9816L19.4875 21.7441L15 17.2566L10.5125 21.7441L8.75 19.9816L13.2375 15.4941L8.75 11.0066L10.5125 9.24414L15 13.7316L19.4875 9.24414L21.25 11.0066L16.7625 15.4941L21.25 19.9816Z"
+                            fill="#FB3B3B" />
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_295_2457">
+                            <rect width="30" height="30" fill="white" transform="translate(0 0.494141)" />
+                        </clipPath>
+                    </defs>
+                </svg>
             </div>
             <div class="modal-body">
                 <form action="" class="align-items-start">
@@ -14,9 +27,11 @@
                         <label for="name" class="col-form-label">Device Name:</label>
                         <input type="text" required class="form-control" name="name" />
                     </div>
-                    <div class="w-100 d-flex justify-content-end gap-1">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-success">Save</button>
+                    <div class="w-100 d-flex justify-content-center gap-4">
+                        <button type="button" id="closeEditNameModal" class="btn bg-white" style="color: #46879F; border: 1px solid #46879F;
+                        border-radius: 40px; width: 100px;" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn text-white" style="background-color: #46879F; border: 1px solid #46879F;
+                        border-radius: 40px; width: 100px;">Save</button>
                     </div>
                 </form>
             </div>
@@ -24,3 +39,9 @@
     </div>
 </div>
 <input type="hidden" class="editDeviceName" data-bs-toggle="modal" data-bs-target="#editDeviceName" />
+<!-- <script>
+    let modal_id_parent = document.createElement('div');
+    modal_id_parent.classList.add('modal', 'fade');
+    modal_id_parent.id = 'editDeviceName';
+    modal_id_parent.dataset.bsBackdrop = static
+</script> -->

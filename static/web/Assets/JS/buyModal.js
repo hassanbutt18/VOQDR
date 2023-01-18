@@ -37,6 +37,21 @@ if(homeModalOpenBtn) {
 }
 
 
+// Dynamically changing sub total price and monthly price
+// as device quantity changes
+
+const inputQuantity = buyModal.querySelector('#product-quantity');
+const subTotal = buyModal.querySelector('#sub-total');
+const monthlyPrice = buyModal.querySelector('#monthly-price');
+
+function setTotalPrice() {
+  subTotal.innerText = "$" + inputQuantity.value * 1190;
+  monthlyPrice.innerText = "$" + inputQuantity.value * 1190;
+}
+
+
+// Product Checkout Handling
+
 async function productCheckout(event) {
   event.preventDefault();
   let form = event.currentTarget;

@@ -120,6 +120,11 @@ i {
     text-align: right;
 }
 
+.refresh-icon:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 .search-bar {
     position: relative;
     width: 100%;
@@ -657,6 +662,11 @@ i {
     .edit-modal-description p {
         font-size: .875rem;
         line-height: 1.125rem;
+    }
+
+    .search-input {
+        aspect-ratio: unset;
+        height: 40px;
     }
 
 }

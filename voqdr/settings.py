@@ -21,10 +21,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Reading enviroment variables
-# environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
-# env = environ.Env(
-#     DEBUG=(bool, True)
-# )
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+env = environ.Env(
+    DEBUG=(bool, True),
+    EMAIL_PORT=(int),
+    EMAIL_USE_TLS=(bool, True),
+    PRODUCTION=(bool, False)
+)
 
 MEDIA_BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -32,10 +35,10 @@ MEDIA_BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-nuv&7*8@y0dj=e2h))z^f@)m3gos%izkb^qsdq+-j5z*ojuy&z'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
@@ -96,12 +99,12 @@ WSGI_APPLICATION = 'voqdr.wsgi.application'
 
 # DATABASES = {
 #     'default': {
-#         "ENGINE": "django.db.backends.mysql",
-#         "NAME": "voqdr",
-#         "USER": "root",
-#         "PASSWORD": "",
-#         "HOST": "127.0.0.1",
-#         "PORT": "3306"
+#         "ENGINE": env('LOCAL_DATABASE_ENGINE'),
+#         "NAME": env('LOCAL_DATABASE_NAME'),
+#         "USER": env('LOCAL_DATABASE_USER'),
+#         "PASSWORD": env('LOCAL_DATABASE_PASSWORD'),
+#         "HOST": env('LOCAL_DATABASE_HOST'),
+#         "PORT": env('LOCAL_DATABASE_PORT')
 #     }
 # }   
 
@@ -192,22 +195,23 @@ BASE_URL = 'http://dev.crymzee.com:7000/'
 
 
 LOGO = 'http://dev.crymzee.com:7000/static/web/Assets/Images/logo.png'
-if DEBUG:
-    LOGO = 'http://dev.crymzee.com:7000/static/web/Assets/Images/logo.png'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
+EMAIL_USE_TLS = env('EMAIL_USE_TLS')
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_PORT = env('EMAIL_PORT')
 
-EMAIL_HOST_USER = 'voqdar4321@gmail.com'
-EMAIL_HOST_PASSWORD = 'aethvvxacqyzykje'
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 
 # EMAIL_HOST_USER = 'khanvoqdr@gmail.com'
 # EMAIL_HOST_PASSWORD = 'pkqqmydqzkthrlre'
 
-PROJECT_NAME = 'VOQDR'
+PROJECT_NAME = env('PROJECT_NAME')
+AUTH_TOKEN = env('AUTH_TOKEN')
+STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
+STRIPE_PUBLIC_KEY = env('STRIPE_PUBLIC_KEY')
