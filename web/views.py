@@ -471,8 +471,8 @@ def product_checkout(request, qty):
     stripe.api_key = settings.STRIPE_SECRET_KEY
     try:
         checkout_session = stripe.checkout.Session.create(
-            client_reference_id=request.user.id if request.user.is_authenticated else None,
-            customer_email=request.user.email,
+            # client_reference_id=request.user.id if request.user.is_authenticated else None,
+            # customer_email=request.user.email,
             line_items=[{
                 'price': f'{settings.PRICE_ID}',
                 'quantity': qty

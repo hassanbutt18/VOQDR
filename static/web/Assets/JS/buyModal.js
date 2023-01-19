@@ -66,8 +66,6 @@ async function productCheckout(event) {
     "X-CSRFToken": data.csrfmiddlewaretoken,
   };
 
-  console.log(location.pathname)
-
   beforeLoad(button, "Processing");
   response = await requestAPI('/check-signin/', JSON.stringify(data), headers, 'POST' );
   afterLoad(button, button_text)

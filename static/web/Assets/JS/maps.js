@@ -15,54 +15,54 @@ async function getAuthToken() {
 
 
 // Organisation Container controls
-const orgContainer = document.querySelector(".hide-organisations");
-const orgHeader = document.querySelector(".organisation-container-header");
-const orgHeaderChevronUp = document.querySelector(".organisation-chevron-up");
-const orgHeaderChevronDown = document.querySelector(
-  ".organisation-chevron-down"
-);
+  const orgContainer = document.querySelector(".hide-organisations");
+  const orgHeader = document.querySelector(".organisation-container-header");
+  const orgHeaderChevronUp = document.querySelector(".organisation-chevron-up");
+  const orgHeaderChevronDown = document.querySelector(
+    ".organisation-chevron-down"
+  );
 
-function toggleOrganisations() {
-  if (orgContainer.classList.contains("show-organisations")) {
-    orgContainer.classList.remove("show-organisations");
-    orgHeaderChevronDown.classList.remove("hide-chevron");
-    orgHeaderChevronUp.classList.remove("show-chevron");
-  } else {
-    orgContainer.classList.add("show-organisations");
-    orgHeaderChevronDown.classList.add("hide-chevron");
-    orgHeaderChevronUp.classList.add("show-chevron");
+  function toggleOrganisations() {
+    if (orgContainer.classList.contains("show-organisations")) {
+      orgContainer.classList.remove("show-organisations");
+      orgHeaderChevronDown.classList.remove("hide-chevron");
+      orgHeaderChevronUp.classList.remove("show-chevron");
+    } else {
+      orgContainer.classList.add("show-organisations");
+      orgHeaderChevronDown.classList.add("hide-chevron");
+      orgHeaderChevronUp.classList.add("show-chevron");
+    }
   }
-}
 
-orgHeader.addEventListener("click", toggleOrganisations);
-
+  orgHeader.addEventListener("click", toggleOrganisations);
 
 
-// Device Container controls
 
-const deviceContainer = document.querySelector(".hide-devices");
-const devicesHeader = document.querySelector(".device-container-header");
-const devicesHeaderText = document.querySelector(".devices-header-text");
-const devicesHeaderChevronUp = document.querySelector(".devices-chevron-up");
-const devicesHeaderChevronDown = document.querySelector(
-  ".devices-chevron-down"
-);
+  // Device Container controls
 
-function toggleDevices() {
-  if (deviceContainer.classList.contains("show-devices")) {
-    deviceContainer.classList.remove("show-devices");
-    devicesHeaderText.textContent = "Show Device";
-    devicesHeaderChevronDown.classList.remove("hide-chevron");
-    devicesHeaderChevronUp.classList.remove("show-chevron");
-  } else {
-    deviceContainer.classList.add("show-devices");
-    devicesHeaderText.textContent = "Hide Device";
-    devicesHeaderChevronDown.classList.add("hide-chevron");
-    devicesHeaderChevronUp.classList.add("show-chevron");
+  const deviceContainer = document.querySelector(".hide-devices");
+  const devicesHeader = document.querySelector(".device-container-header");
+  const devicesHeaderText = document.querySelector(".devices-header-text");
+  const devicesHeaderChevronUp = document.querySelector(".devices-chevron-up");
+  const devicesHeaderChevronDown = document.querySelector(
+    ".devices-chevron-down"
+  );
+
+  function toggleDevices() {
+    if (deviceContainer.classList.contains("show-devices")) {
+      deviceContainer.classList.remove("show-devices");
+      devicesHeaderText.textContent = "Show Device";
+      devicesHeaderChevronDown.classList.remove("hide-chevron");
+      devicesHeaderChevronUp.classList.remove("show-chevron");
+    } else {
+      deviceContainer.classList.add("show-devices");
+      devicesHeaderText.textContent = "Hide Device";
+      devicesHeaderChevronDown.classList.add("hide-chevron");
+      devicesHeaderChevronUp.classList.add("show-chevron");
+    }
   }
-}
 
-devicesHeader.addEventListener("click", toggleDevices);
+  devicesHeader.addEventListener("click", toggleDevices);
 
 
 
@@ -177,15 +177,34 @@ function deleteDeviceModal(event, modal_id) {
 
 navigator.geolocation.getCurrentPosition(getPosition);
 
-var currentLocation = {};
+var myLocation = {}
+console.log(localStorage.getItem("myLocation"));
 function getPosition (position) {
-  currentLocation.lat = position.coords.latitude;
-  currentLocation.long = position.coords.longitude;
-  currentLocation.accuracy = position.coords.accuracy;
+  myLocation.lat = position.coords.latitude;
+  myLocation.lng = position.coords.longitude;
+  myLocation.accuracy = position.coords.accuracy;
+  localStorage.setItem("myLocation", JSON.stringify(myLocation));
+  console.log(localStorage.getItem("myLocation"));
 }
 
-function initializeMap() {
-  map = L.map("maps", {center: [currentLocation.lat, currentLocation.long], zoom: 14});
+async function initializeMap() {
+  let loc = JSON.parse(localStorage.getItem("myLocation"));
+  if(loc == null || typeof(loc) == undefined || loc == undefined || loc.lat == null || loc.lng == null || typeof(loc.lat) == undefined || typeof(loc.lng) == undefined || loc.lat == undefined || loc.lng == undefined) {
+    response = await requestAPI('https://ipinfo.io/json', null, {}, 'GET');
+    response.json().then(function(res) {
+      [myLocation.lat, myLocation.lng]= res.loc.split(',');
+      localStorage.setItem("myLocation", JSON.stringify(myLocation));
+      getMap();
+    })
+  }
+  else{
+    getMap();
+  }
+}
+
+function getMap() {
+  let loc = JSON.parse(localStorage.getItem("myLocation")) || {};
+  map = L.map("maps", {center: [loc.lat, loc.lng], zoom: 14});
 
   // Adding Tiles(roads, buildings, locations, etc.)
 
@@ -194,7 +213,6 @@ function initializeMap() {
     attribution:
       '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   }).addTo(map);
-
 }
 
 
@@ -229,9 +247,7 @@ async function getRouting() {
 
 function routing(deviceLocations) {
   if(map) {
-    map.off();
-    map.remove();
-    initializeMap();
+    map.invalidateSize();
   }
 
   var lastLocation = deviceLocations[0];
@@ -317,9 +333,7 @@ async function getDeviceCurrentLocation() {
 
 function deviceLocation(deviceLocation) {
   if(map) {
-    map.off();
-    map.remove();
-    initializeMap();
+    map.invalidateSize();
   }
 
   var circleOuterRadius = L.circle([deviceLocation.lat, deviceLocation.lon], {
