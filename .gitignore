@@ -8,6 +8,7 @@ db.sqlite3
 *.pyc
 .env
 venv
+stripe.exe
 
 # byte-compiled / optimized / DLL files
 # __pycache__/

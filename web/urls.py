@@ -19,10 +19,12 @@ urlpatterns = [
     path('get-organization-details/<str:pk>/', views.get_organization_details, name='get_organization_details'),
     path('remove-shared-organization/<str:pk>/', views.remove_shared_organization, name='remove_shared_organization'),
     path('contact-us/', views.contact_us, name='contact_us'),
-    path('get-devices/', views.get_devices, name='get_devices'),
     path('successful-checkout/', views.successful_checkout, name='successful_checkout'),
     path('check-signin/', views.check_signin, name='check_signin'),
     path('refresh-devices/', views.refresh_devices, name='refresh_devices'),
+    path('webhook/', views.webhook_received, name="webhook_received"),
     path('product-checkout/<str:qty>/', views.product_checkout, name='product_checkout'),
+    path('config/', views.stripe_config, name="stripe_config"),
+    path('get-auth-token/', views.get_auth_token, name="get_auth_token"),
     path('', views.index, name='index'),
 ]

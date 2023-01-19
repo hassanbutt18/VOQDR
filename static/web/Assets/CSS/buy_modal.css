@@ -315,6 +315,10 @@
         font-size: .75rem;
     }
 
+    .terms-checkbox label {
+        font-size: .75rem;
+    }
+
     .buy-modal-submit-btn {
         font-size: .75rem;
         width: 23%;

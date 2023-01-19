@@ -19,7 +19,7 @@
     <div class="device-content">
         <div class="device-text">
             <span>This is device description</span>
-            <svg class="edit-btn cursor-pointer" width="20" height="21" viewBox="0 0 20 21" fill="none"
+            <svg class="cursor-pointer" onclick="editDeviceDescriptionModal(event, 'editDeviceDescription');" width="20" height="21" viewBox="0 0 20 21" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
                 <title>Edit Device Description</title>
                 <path
@@ -71,7 +71,7 @@
                         </clipPath>
                     </defs>
                 </svg>
-                <svg class="cursor-pointer" onclick="getLocation();" width="35" height="35" viewBox="0 0 50 50" fill="none"
+                <svg class="cursor-pointer" onclick="getRouting();" width="35" height="35" viewBox="0 0 50 50" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <title>Movement</title>
                     <rect width="50" height="50" rx="25" fill="#46879F" />
@@ -117,7 +117,7 @@
                         </clipPath>
                     </defs>
                 </svg>
-                <svg class="del-btn cursor-pointer" width="35" height="35" viewBox="0 0 51 51" fill="none"
+                <svg class="cursor-pointer" onclick="deleteDeviceModal(event, 'deleteDevice');" width="35" height="35" viewBox="0 0 51 51" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <title>Delete Device</title>
                     <rect x="0.75" y="0.984375" width="50" height="50" rx="25" fill="#46879F" />

@@ -352,7 +352,7 @@ def get_organization_details(request, pk):
 
 
 def edit_organization_details(request, pk):
-    msg = None
+    msg = "Permission Denied"
     success = False
     context = {}
     request_data = json.loads(request.body.decode('utf-8'))
@@ -456,30 +456,68 @@ def check_signin(request):
     context['msg'] = msg
     context['success'] = success
     return JsonResponse(context)
-    
+
+
+@csrf_exempt
+def stripe_config(request):
+    context = {}
+    if request.method == 'GET':
+        context['publicKey'] = settings.STRIPE_PUBLIC_KEY
+        return JsonResponse(context)
+
 
 def product_checkout(request, qty):
+    context={}
     stripe.api_key = settings.STRIPE_SECRET_KEY
-
-    # Product Id: prod_NBWBkJDAGl0gaF
-    # Price Id: price_1MR98nI4nD7nn6UwfdTce0QG
     try:
         checkout_session = stripe.checkout.Session.create(
+            client_reference_id=request.user.id if request.user.is_authenticated else None,
+            customer_email=request.user.email,
             line_items=[{
-                'price': 'price_1MR98nI4nD7nn6UwfdTce0QG',
+                'price': f'{settings.PRICE_ID}',
                 'quantity': qty
             }],
             mode='payment',
             success_url = settings.BASE_URL,  
             cancel_url = settings.BASE_URL,
         )
-        return redirect(checkout_session.url)
+        context['checkout_session_id'] = checkout_session['id']
+        return JsonResponse(context)
     except Exception as e:
         return HttpResponse(str(e))
-        
 
-def get_devices(request):
 
+@csrf_exempt
+def webhook_received(request):
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+    endpoint_secret = settings.STRIPE_ENDPOINT_SECRET
+    payload = request.body
+    sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+    event = None
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, endpoint_secret
+        )
+    except ValueError as e:
+        # Invalid payload
+        return HttpResponse(status=400)
+    except stripe.error.SignatureVerificationError as e:
+        # Invalid signature
+        return HttpResponse(status=400)
+
+    if event['type'] == 'checkout.session.completed':
+        print("Payment was successful.")
+        session = event['data']['object']
+        client_reference_id = session.get('client_reference_id')
+        print(client_reference_id, "client")
+
+    return HttpResponse(status=200)
+
+
+def get_auth_token(request):
+    context = {}
+    context['token'] = settings.AUTH_TOKEN
     return JsonResponse(context)
 
 

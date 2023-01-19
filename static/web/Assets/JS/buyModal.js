@@ -71,15 +71,27 @@ async function productCheckout(event) {
   beforeLoad(button, "Processing");
   response = await requestAPI('/check-signin/', JSON.stringify(data), headers, 'POST' );
   afterLoad(button, button_text)
-  response.json().then(function (res) {
-    console.log(res);
+  response.json().then(async function (res) {
     if (!res.success) {
       toast.classList.add('bg-danger');
       toastBody.innerText = res.msg;
       let myToast = new bootstrap.Toast(toast);
       myToast.show();
     } else {
-        location.pathname = `product-checkout/${data.quantity}/`;
+        getPublicKey = await requestAPI('/config/', null, {}, 'GET');
+        getPublicKey.json().then(async function (res) {
+          if(res){
+            const stripe = Stripe(res.publicKey);
+            let checkout = await requestAPI(`/product-checkout/${data.quantity}/`, null, {}, 'GET');
+            checkout.json().then(function (res) {
+              if(res) {
+                return stripe.redirectToCheckout({sessionId: res.checkout_session_id})
+              }
+            })
+          }
+        })
+        
+        // location.pathname = `product-checkout/${data.quantity}/`;
     }
   });
 }

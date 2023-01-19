@@ -26,7 +26,7 @@ env = environ.Env(
     DEBUG=(bool, True),
     EMAIL_PORT=(int),
     EMAIL_USE_TLS=(bool, True),
-    PRODUCTION=(bool, False)
+    PROJECT_MODE=(bool, False)
 )
 
 MEDIA_BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -95,32 +95,35 @@ WSGI_APPLICATION = 'voqdr.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 
-# For local machine
+PROJECT_MODE = env('PROJECT_MODE')
 
-# DATABASES = {
-#     'default': {
-#         "ENGINE": env('LOCAL_DATABASE_ENGINE'),
-#         "NAME": env('LOCAL_DATABASE_NAME'),
-#         "USER": env('LOCAL_DATABASE_USER'),
-#         "PASSWORD": env('LOCAL_DATABASE_PASSWORD'),
-#         "HOST": env('LOCAL_DATABASE_HOST'),
-#         "PORT": env('LOCAL_DATABASE_PORT')
-#     }
-# }   
-
-
-# For Development Server
-
-DATABASES = {
-    'default': {
-        "ENGINE": "django.contrib.gis.db.backends.postgis",
-        "NAME": "vodqardevelopment",
-        "USER": "postgres",
-        "PASSWORD": "123456789",
-        "HOST": "",
-        "PORT": "5432"
+if PROJECT_MODE:
+    # For Development Server
+    DATABASES = {
+        'default': {
+            "ENGINE": env('DEVELOPMENT_DATABASE_ENGINE'),
+            "NAME": env('DEVELOPMENT_DATABASE_NAME'),
+            "USER": env('DEVELOPMENT_DATABASE_USER'),
+            "PASSWORD": env('DEVELOPMENT_DATABASE_PASSWORD'),
+            "HOST": env('DEVELOPMENT_DATABASE_HOST'),
+            "PORT": env('DEVELOPMENT_DATABASE_PORT')
+        }
     }
-}
+    BASE_URL = env('DEVELOPMENT_BASE_URL')
+else:
+    # For local machine
+    DATABASES = {
+        'default': {
+            "ENGINE": env('LOCAL_DATABASE_ENGINE'),
+            "NAME": env('LOCAL_DATABASE_NAME'),
+            "USER": env('LOCAL_DATABASE_USER'),
+            "PASSWORD": env('LOCAL_DATABASE_PASSWORD'),
+            "HOST": env('LOCAL_DATABASE_HOST'),
+            "PORT": env('LOCAL_DATABASE_PORT')
+        }
+    }
+    BASE_URL = env('LOCAL_BASE_URL')   
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -166,7 +169,6 @@ USE_TZ = True
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(MEDIA_BASE_DIR,'media')
 
-# STATIC_ROOT = os.path.join(str(BASE_DIR),"web/static/")
 AUTH_USER_MODEL = 'users.User'
 
 # Server static folder root
@@ -178,20 +180,7 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = os.path.join(str(root), "static")
 
-# STATIC_URL = "/static/"
-# STATICFILES_DIRS = [
-#     BASE_DIR / "static"
-# ]
 # STATIC_ROOT = os.path.join(str(BASE_DIR), "/static")
-
-
-# For Local Machine
-
-# BASE_URL = 'http://127.0.0.1:8000/'
-
-# For Development Server
-
-BASE_URL = 'http://dev.crymzee.com:7000/'
 
 
 LOGO = 'http://dev.crymzee.com:7000/static/web/Assets/Images/logo.png'
@@ -215,3 +204,5 @@ PROJECT_NAME = env('PROJECT_NAME')
 AUTH_TOKEN = env('AUTH_TOKEN')
 STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
 STRIPE_PUBLIC_KEY = env('STRIPE_PUBLIC_KEY')
+STRIPE_ENDPOINT_SECRET = env('STRIPE_ENDPOINT_SECRET')
+PRICE_ID = env('PRICE_ID')
