@@ -1,3 +1,9 @@
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
 nav {
     margin-bottom: 0;
 }
@@ -14,7 +20,7 @@ nav {
 }
 
 #maps {
-    height: 87vh;
+    height: 100%;
     width: 100%;
     z-index: 2;
 }
@@ -111,8 +117,10 @@ i {
 }
 
 .refresh-icon {
+    display: flex;
+    justify-content: flex-end;
+    gap: 3px;
     margin-top: 8px;
-    align-self: flex-end;
     font-weight: 500;
     font-size: .875rem;
     line-height: .875rem;
@@ -136,7 +144,8 @@ i {
 
 .search-input {
     width: 100%;
-    text-indent: 8px;
+    padding-right: 35px;
+    padding-left: 8px;
     aspect-ratio: 1 / .12;
     border: 1px solid #46879F;
     border-radius: 10px;
@@ -155,10 +164,15 @@ i {
     color: #A4A4A4;
 }
 
-.search-icon {
+#search-icon {
     position: absolute;
     right: 15px;
-    color: #A4A4A4;
+    transition: all .3s ease;
+}
+
+#search-icon:hover {
+    transform: scale(1.2);
+    color:#46879F;
 }
 
 .device {
@@ -195,6 +209,7 @@ i {
 .show-organisations {
     display: block;
     width: 100%;
+    padding: 5px
 }
 
 .devices-container {

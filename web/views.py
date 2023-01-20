@@ -70,6 +70,7 @@ def maps_vodcur(request):
     status, response = requestAPI('GET', 'https://api.nrfcloud.com/v1/devices?includeState=true', header,{})
     if status == 200:
         context["devices"] = response
+        context["devices_json"] = json.dumps(response)
         msg = "Got devices successfully"
         success = True
     context['msg'] = msg

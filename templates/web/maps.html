@@ -55,11 +55,16 @@
                     <i class="fa-solid fa-chevron-up devices-chevron-up"></i>
                 </div>
                 <div class="hide-devices">
-                    <p class="refresh-icon" onclick="refreshDevices();">Refresh All <i class="fa-solid fa-rotate-right"></i></p>
-                    <div class="search-bar">
-                        <input type="text" placeholder="Search device..." class="search-input" />
-                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <div class="refresh-icon" onclick="refreshDevices(event);">
+                        <p class="refresh-text">Refresh All</p>
+                        <i class="fa-solid fa-rotate-right"></i>
                     </div>
+                    <form action="" onsubmit="searchDevices(event);">
+                        <div class="search-bar">
+                            <input type="text" placeholder="Search device..." name="device" class="search-input" />
+                            <i class="fa-solid fa-magnifying-glass search-icon" id="search-icon"></i>
+                        </div>
+                    </form>
 
                     <div class="devices-container" id="devices-container">
                         {% include './ajax/devices.html' %}
@@ -81,10 +86,11 @@
         </div>
 
     </section>
-
+    {{devices_json|json_script:"devices_json"}}
     {% endblock %}
 </body>
 {% block scripts %}
+
 <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
     integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
 <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
