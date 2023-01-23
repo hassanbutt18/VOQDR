@@ -164,14 +164,18 @@ i {
     color: #A4A4A4;
 }
 
-#search-icon {
+.search-bar button {
     position: absolute;
-    right: 15px;
-    transition: all .3s ease;
+    right: 5px;
+    border: 1px solid transparent;
+    background-color: transparent;
+}
+
+#search-icon {
+    transition: all .3s ease-in-out;
 }
 
 #search-icon:hover {
-    transform: scale(1.2);
     color:#46879F;
 }
 
@@ -398,177 +402,6 @@ i {
 }
 
 
-/* Delete Device Modal Design */
-
-.overlay {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(3px);
-    z-index: 12;
-}
-
-.modal-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 46%;
-    aspect-ratio: 1 / .5;
-    background-color: white;
-    border: 1px solid transparent;
-    border-radius: 20px;
-    padding: 30px 0;
-    z-index: 13;
-    background-image: url("../Images/ModalBg.svg");
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-
-.close-button {
-    position: absolute;
-    right: 2.3%;
-    top: 2.3%;
-    pointer-events: all;
-    cursor: pointer;
-}
-
-.modal-content-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    gap: 15px;
-    padding: 0 7.7%;
-}
-
-.modal-question {
-    font-weight: 800;
-    font-size: 1.5rem;
-    line-height: 1.25rem;
-    text-align: center;
-}
-
-.modal-question-description {
-    font-weight: 400;
-    font-size: 1.125rem;
-    line-height: 1.25rem;
-    text-align: center;
-}
-
-.modal-submit-btn {
-    background-color: #46879F;
-    border: 1px solid transparent;
-    border-radius: 40px;
-    color: white;
-    font-size: 1rem;
-    line-height: 1rem;
-    width: 25%;
-    aspect-ratio: 1 / .31;
-}
-
-
-/* Edit Device Description Modal */
-
-.edit-device-modal {
-    display: flex;
-}
-
-.edit-device-container {
-    align-items: flex-start;
-    justify-content: space-around;
-    height: fit-content;
-}
-
-.edit-device-container h2 {
-    font-weight: 700;
-    font-size: 2rem;
-    line-height: 2rem;
-    color: #004762;
-}
-
-.edit-device-container > div:first-of-type {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
-
-#edit-device-info {
-    width: 100%;
-}
-
-.edit-modal-description {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    background-color: #F8FCFE;
-    border-radius: 10px;
-    padding: 10px;
-}
-
-.edit-modal-description span {
-    font-size: 1.2rem;
-    font-weight: 500;
-}
-
-.edit-modal-device-text {
-    border: 1px solid #00000017;
-    border-radius: 10px;
-    height: 40px;
-    width: 100%;
-    text-indent: 4px;
-    font-size: 1.1rem;
-    line-height: 1rem;
-    margin-bottom: 10px;
-}
-
-.edit-modal-text {
-    resize: none;
-    text-indent: 4px;
-    font-size: 1rem;
-    line-height: 1rem;
-    width: 100%;
-    height: 80px;
-    border: 1px solid #00000017;
-    border-radius: 10px;
-}
-
-.edit-modal-text:focus,
-.edit-modal-device-text:focus {
-    outline-color: #004762;
-}
-
-.edit-modal-description p {
-    font-size: 1.5rem;
-    font-weight: 700;
-    line-height: 2rem;
-    color: #565656;
-    margin-bottom: 0;
-}
-
-.edit-modal-buttons {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-}
-
-.edit-cancel-btn {
-    background-color: white;
-    color: #46879F;
-    border: 1px solid #46879F;
-}
-
 .hidden {
     display: none;
 }
@@ -585,9 +418,6 @@ i {
     .group-dropdown-container {
         width: 450px;
     }
-    .edit-device-container {
-        height: 100%;
-    }
 }
 
 
@@ -595,8 +425,6 @@ i {
     .group-dropdown-container {
         width: 350px;
     }
-
-
 }
 
 
@@ -608,20 +436,13 @@ i {
 }
 
 
-@media (max-width: 1280px) {
-    .modal-container {
-        width: 50%;
-    }
-}
-
-
 @media (max-width: 1024px) {
     .group-dropdown-container {
         width: 300px;
     }
 
-    .modal-container {
-        width: 70%;
+    .search-bar button {
+        bottom: 2px;
     }
 }
 
@@ -658,30 +479,13 @@ i {
         width: 100%;
     }
 
-    .modal-container {
-        padding: 10px 0;
-        width: 95%;
-    }
-
-    .modal-question {
-        font-size: 1.25rem;
-        line-height: 1.25rem;
-        margin-bottom: 0;
-    }
-
-    .modal-question-description {
-        font-size: 1rem;
-        margin-bottom: 0;
-    }
-
-    .edit-modal-description p {
-        font-size: .875rem;
-        line-height: 1.125rem;
-    }
-
     .search-input {
         aspect-ratio: unset;
         height: 40px;
+    }
+
+    .search-bar button {
+        bottom: unset;
     }
 
 }

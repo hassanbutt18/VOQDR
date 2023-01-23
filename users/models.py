@@ -147,3 +147,13 @@ def organization_permissions(sender, instance, created, **kwargs):
         OrganizationPermissions.create_organization_permissions(instance)
 
     
+
+class LinkDevice(models.Model):
+    organization = models.ForeignKey(User, on_delete=models.CASCADE, related_name='linked_organization')
+    name = models.CharField(max_length=50, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.organization.email

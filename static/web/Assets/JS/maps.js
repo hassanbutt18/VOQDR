@@ -500,7 +500,7 @@ async function searchDevices(event){
           </div>
           <div class="device-additional-features">
               <div>
-                  <svg class="cursor-pointer" width="35" height="35" viewBox="0 0 51 51" fill="none"
+                  <svg class="cursor-pointer" onclick="shareLocation();" width="35" height="35" viewBox="0 0 51 51" fill="none"
                       xmlns="http://www.w3.org/2000/svg">
                       <title>Share Location</title>
                       <rect x="0.75" y="0.984375" width="50" height="50" rx="25" fill="#46879F" />
@@ -549,4 +549,29 @@ async function searchDevices(event){
     container.innerHTML = "<div>No such device available.</div>"
     loadMapControls();
   }
+}
+
+
+async function shareLocation() {
+  headers = {
+    'Authorization': `Bearer ${token}`
+  };
+  response = await requestAPI('https://api.nrfcloud.com/v1/location/history?deviceId=nrf-351516172549545', null, headers, 'GET');
+  response.json().then(async function (res) {
+    if (res) {
+      const shareData = {
+        title: `Device Location: ${res.items[0].deviceId}`,
+        text: 'Latest Location',
+        url: `https://www.google.com/maps/place/${res.items[0].lat},${res.items[0].lon}/${res.items[0].lat},${res.items[0].lon},17z/data=!3m1!4b1`
+      }
+      try {
+        await navigator.share(shareData); 
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    else{
+      console.log("No response");
+    }
+  });
 }

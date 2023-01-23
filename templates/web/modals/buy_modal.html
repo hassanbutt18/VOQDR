@@ -1,5 +1,72 @@
 {% load static%}
-<div class="buy-modal-container hidden">
+<div class="modal fade" id="buy_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content buy-modal" >
+                <div class="modal-header border-bottom-0 justify-content-end pb-0">
+                    <svg class="cursor-pointer" data-bs-dismiss="modal" aria-label="Close" width="30" height="31" viewBox="0 0 30 31" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_295_2457)">
+                            <path
+                                d="M15 2.99414C8.0875 2.99414 2.5 8.58164 2.5 15.4941C2.5 22.4066 8.0875 27.9941 15 27.9941C21.9125 27.9941 27.5 22.4066 27.5 15.4941C27.5 8.58164 21.9125 2.99414 15 2.99414ZM21.25 19.9816L19.4875 21.7441L15 17.2566L10.5125 21.7441L8.75 19.9816L13.2375 15.4941L8.75 11.0066L10.5125 9.24414L15 13.7316L19.4875 9.24414L21.25 11.0066L16.7625 15.4941L21.25 19.9816Z"
+                                fill="#FB3B3B" />
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_295_2457">
+                                <rect width="30" height="30" fill="white" transform="translate(0 0.494141)" />
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </div>
+                <div class="modal-body d-flex flex-column align-items-center pt-0">
+                    <h3>Buy Device</h3>
+                    <div class="alert hide">
+                        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                        <span class="error-text"></span>
+                    </div>
+                    <div class="card mb-2 border-0">
+                        <div class="d-flex product-container">
+                            <div class="col-4 product-image">
+                                <img src="{% static 'web/Assets/Images/ProductImage.svg' %}" class="img-fluid rounded-start" alt="Smart Watch">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-md-7 pr-0 pl-0 device-description-container">
+                                        <div class="card-body pt-0 pb-0">
+                                            <h5 class="card-title">Smart Watch</h5>
+                                            <p class="card-text device-description mb-2">Charging Cable Dock Charger 2 Pin Magnetic Charging</p>
+                                            <p class="card-text device-price mb-0">Unit Price: <span>$1190</span></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5 ms-auto h-50 p-0 device-counter">
+                                        <h6 class="text-center quantity-container-heading">Quantity</h6>
+                                        <form class="d-flex justify-content-center align-items-center text-center input-group" action="" id="product-quantity-container" onsubmit="productCheckout(event);">    
+                                            {% csrf_token %}
+                                            <input type="button" disabled id="minus-btn" value="-" class="button-minus border rounded-circle quantity-btn cursor-not-allowed">
+                                            <input type="number" readonly value="1" min="1" name="quantity" id="product-quantity" required onchange="setTotalPrice();"/>
+                                            <input type="button" id="plus-btn" value="+" class="button-plus border rounded-circle icon-shape icon-sm quantity-btn">
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <p class="card-text mb-0 text-end device-price">Sub Total: <span id="sub-total">$1190</span></p>
+                                    <p class="card-text text-end device-price" >Total Monthly Price: <span id="monthly-price">$1190</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center gap-1 mt-4">
+                            <input type="checkbox" required name="terms_conditions" form="product-quantity-container"
+                                id="terms-checkbox" />
+                            <label for="terms-checkbox" class="terms-checkbox-label">I accept the <a href="#">Terms and Conditions</a></label>
+                        </div>
+                    </div>
+                    <button class="buy-modal-submit-btn text-white" form="product-quantity-container" type="submit">Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<input type="hidden" class="buy_modal" data-bs-toggle="modal" data-bs-target="#buy_modal" />
+<!-- <div class="buy-modal-container hidden">
     <svg class="close-buy-modal-button" width="30" height="31" viewBox="0 0 30 31" fill="none"
         xmlns="http://www.w3.org/2000/svg">
         <g clip-path="url(#clip0_295_2457)">
@@ -57,4 +124,4 @@
           <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
     </div>
-</div>
+</div> -->
