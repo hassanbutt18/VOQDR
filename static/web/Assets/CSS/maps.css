@@ -92,7 +92,6 @@ i {
 
 .devices-options>div:first-child span,
 .voqdr-options>div:first-child span {
-    font-weight: 500;
     font-size: 1.125rem;
     line-height: 1rem;
     color: #525252;
@@ -121,7 +120,6 @@ i {
     justify-content: flex-end;
     gap: 3px;
     margin-top: 8px;
-    font-weight: 500;
     font-size: .875rem;
     line-height: .875rem;
     color: #004762;

@@ -16,7 +16,7 @@ from voqdr.helpers import *
 
 from authentications.models import OTP
 from authentications.services import *
-from users.models import InvitedOrganization, OrganizationPermissions, SharedOrganization, User, UserRoles, organization_permissions
+from users.models import InvitedOrganization, LinkDevice, OrganizationPermissions, SharedOrganization, User, UserRoles, organization_permissions
 from django.contrib.auth.decorators import login_required
 
 from web.models import Application, ProductFeature, Testimonial, ApplicationImage, ContactUs
@@ -514,6 +514,24 @@ def webhook_received(request):
         customer_email = session.get('customer_email')
 
     return HttpResponse(status=200)
+
+
+def get_shared_with_devices(request, pk):
+    msg = None
+    success = False
+    context = {}
+    try:
+        linked_devices = LinkDevice.objects.filter(organization_id=int(pk))
+        response = querysetToJson(linked_devices)
+        context["devices"] = response
+        msg = "Got Devices successfully"
+        success = True 
+    except Exception as e:
+        print(e)
+        msg = "No devices available"
+    context['msg'] = msg
+    context['success'] = success
+    return JsonResponse(context)
 
 
 def get_auth_token(request):

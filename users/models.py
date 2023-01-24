@@ -1,4 +1,6 @@
 import os
+import uuid
+from django.core.exceptions import ValidationError
 from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
 from django.dispatch import receiver
@@ -103,6 +105,33 @@ class OrganizationPermissions(models.Model):
                 OrganizationPermissions.objects.create(shared_by=instance.shared_by, shared_to=shared_to, role=instance.role)
 
 
+class LinkDevice(models.Model):
+    organization = models.ForeignKey(User, on_delete=models.CASCADE, related_name='linked_organization')
+    name = models.CharField(max_length=50, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.organization.organization
+    
+    class Meta:
+        verbose_name_plural = "Linked Devices"
+    
+    def clean(self):
+        linked_org = LinkDevice.objects.filter(name=self.name).exclude(organization=self.organization)
+        print(linked_org)
+        if linked_org:
+            raise ValidationError("This device already exists in another organization")
+
+    def save(self, *args, **kwargs):
+        if self.name == None:
+            self.name = 'nrf-' + str(uuid.uuid4())
+        super(LinkDevice, self).save(*args, **kwargs)
+
+
+
+
 @receiver(models.signals.post_save, sender=User)
 def new_organization_permissions(sender, instance, created, **kwargs):
     if created:
@@ -137,8 +166,6 @@ def auto_delete_file_on_delete(sender, instance, **kwargs):
             os.remove(instance.image.path)
 
 
-
-
 @receiver(models.signals.post_save, sender=SharedOrganization)
 def organization_permissions(sender, instance, created, **kwargs):
     if created:
@@ -146,14 +173,7 @@ def organization_permissions(sender, instance, created, **kwargs):
     else:
         OrganizationPermissions.create_organization_permissions(instance)
 
-    
 
-class LinkDevice(models.Model):
-    organization = models.ForeignKey(User, on_delete=models.CASCADE, related_name='linked_organization')
-    name = models.CharField(max_length=50, null=True, blank=True)
-    description = models.TextField(null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.organization.email
+@receiver(models.signals.pre_save, sender=LinkDevice)
+def presave_handler(sender, instance, **kwargs):
+    instance.full_clean()

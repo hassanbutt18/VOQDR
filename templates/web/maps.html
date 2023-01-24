@@ -35,12 +35,12 @@
                 </div>
                 <div class="hide-organisations">
                     <div class="organisation-container">
-                        <div class="organization">
+                        <div class="organization" id="{{request.user.id}}" onclick="getUserDevices(event);">
                             <p>{{request.user.organization}}</p>
                         </div>
                         {% if shared_with_us_organizations %}
                         {% for obj in shared_with_us_organizations %}
-                        <div class="organization">
+                        <div class="organization" onclick="getUserDevices(event, {{obj.shared_by.id}});">
                             <p>{{obj.shared_by.organization}}</p>
                         </div>
                         {% endfor %}

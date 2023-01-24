@@ -25,6 +25,7 @@ urlpatterns = [
     path('webhook/', views.webhook_received, name="webhook_received"),
     path('product-checkout/<str:qty>/', views.product_checkout, name='product_checkout'),
     path('config/', views.stripe_config, name="stripe_config"),
+    path('get-sharedwith-devices/<str:pk>/', views.get_shared_with_devices, name="get_shared_with_devices"),
     path('get-auth-token/', views.get_auth_token, name="get_auth_token"),
     path('', views.index, name='index'),
 ]

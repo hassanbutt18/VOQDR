@@ -14,6 +14,18 @@ class ProductFeature(models.Model):
 
     def __str__(self) -> str:
         return self.title
+    
+    def clean(self):
+        features = ProductFeature.objects.filter().exclude(id=self.id)
+        if len(features) == 3:
+            raise ValidationError("More than 3 product features cannot be added at one time")
+    
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super(ProductFeature, self).save(*args, **kwargs)
+
+    class Meta:
+        verbose_name_plural = "Product Feature"
 
 
 
@@ -27,6 +39,20 @@ class Application(models.Model):
     def __str__(self) -> str:
         return self.title
 
+    def clean(self):
+        application = Application.objects.filter().exclude(id=self.id)
+        if len(application) == 3:
+            raise ValidationError("More than 3 applications cannot be added at one time")
+    
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super(Application, self).save(*args, **kwargs)
+    
+    class Meta:
+        verbose_name_plural = "Application"
+
+
+
 class ApplicationImage(models.Model):
     image = models.ImageField(upload_to='applications/', null=False ,blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -34,6 +60,20 @@ class ApplicationImage(models.Model):
 
     def __str__(self) -> str:
         return str(self.image)
+    
+    def clean(self):
+        app_img = ApplicationImage.objects.filter().exclude(id=self.id)
+        if len(app_img) == 1:
+            raise ValidationError("More than 1 application image cannot be added at one time")
+    
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super(ApplicationImage, self).save(*args, **kwargs)
+    
+    class Meta:
+        verbose_name_plural = "Application Image"
+
+
     
 class Testimonial(models.Model):
     title = models.CharField(max_length=500, null=False, blank=False)
@@ -46,6 +86,11 @@ class Testimonial(models.Model):
 
     def __str__(self) -> str:
         return self.title
+    
+    class Meta:
+        verbose_name_plural = "Testimonial"
+
+
 
 class ContactUs(models.Model):
     name = models.CharField(max_length=100, null=False, blank=False)
@@ -56,36 +101,11 @@ class ContactUs(models.Model):
 
     def __str__(self) -> str:
         return self.email
-
-
-
-@receiver(models.signals.post_save, sender=ApplicationImage)
-def check_create_record(sender, instance, created, **kwargs):
-    if not instance.pk:
-        return False
-    if created:
-        if ApplicationImage.objects.count() > 1:
-            instance.delete()
-
-
-
-@receiver(models.signals.post_save, sender=ProductFeature)
-def check_create_record(sender, instance, created, **kwargs):
-    if not instance.pk:
-        return False
-    if created:
-        if ProductFeature.objects.count() > 3:
-            instance.delete()
-
-
-@receiver(models.signals.post_save, sender=Application)
-def check_create_record(sender, instance, created, **kwargs):
-    if not instance.pk:
-        return False
-    if created:
-        if Application.objects.count() > 3:
-            instance.delete()
     
+    class Meta:
+        verbose_name_plural = "Contact Us"
+
+
 
 @receiver(models.signals.pre_save, sender=ProductFeature)
 @receiver(models.signals.pre_save, sender=Application)
