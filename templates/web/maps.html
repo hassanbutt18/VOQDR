@@ -13,7 +13,6 @@
         integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
     <link rel="stylesheet" href="{% static 'web/Assets/CSS/maps.css' %}">
-    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
     {% endblock %}
     <title>{% block title %}VOQDR{% endblock %}</title>
 </head>
@@ -21,6 +20,7 @@
 <body>
     {% block body %}
     <section class="map-responsive">
+        <div id="liveAlertPlaceholder" style="position: absolute; top: 0; z-index: 13;"></div>
         <div class="group-dropdown-container">
             <div class="dropdown-line">
                 <svg width="82" height="3" viewBox="0 0 82 3" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -35,7 +35,7 @@
                 </div>
                 <div class="hide-organisations">
                     <div class="organisation-container">
-                        <div class="organization" id="{{request.user.id}}" onclick="getUserDevices(event);">
+                        <div class="organization" onclick="getUserDevices(event, {{request.user.id}});">
                             <p>{{request.user.organization}}</p>
                         </div>
                         {% if shared_with_us_organizations %}

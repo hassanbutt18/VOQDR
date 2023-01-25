@@ -1,14 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% extends './layouts/base.html' %}
     {% load static %}
-    <title>Success</title>
+
+    {% block links %}
+    <link rel="stylesheet" href="{% static 'web/Assets/CSS/successful_checkout.css' %}">
+    {% endblock %}
+    <title>{% block title %}VOQDR{% endblock %}</title>
 </head>
+
 <body>
-    <div>Successful Checkout</div>
-    <button onclick="location.pathname='/'";>Go To Home Page</button>
+    {% block body %}
+    <div class="container h-100 d-flex justify-content-center align-items-center">
+        <div class="card success-card text-center w-100">
+            <div class="card-header border-bottom-0">
+                <i class="fa-solid fa-circle-check fa-2x"></i>
+            </div>
+            <div class="card-body">
+                <h2 class="card-title">Successful Payment</h2>
+                <div class="prod-img">
+                    <img src="{% static 'web/Assets/Images/ProductImage.svg' %}" class="img-fluid rounded-start" alt="Smart Watch">
+                </div>
+                <p class="card-text">You have successfully purchased smartwatch!</p>
+            </div>
+            <div class="card-footer text-muted border-top-0">
+                <a href="{% url 'index' %}"><button class="btn text-white">Go to Homepage</button></a>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
 </body>
+{% block scripts %}
+
+{% endblock %}
+
 </html>

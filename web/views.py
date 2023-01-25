@@ -107,7 +107,6 @@ def my_account(request):
     return render(request, 'web/account.html', context)
 
 
-# @csrf_exempt
 def signin(request):
     msg = None
     success = False
@@ -479,7 +478,7 @@ def product_checkout(request, qty):
                 'quantity': qty
             }],
             mode='payment',
-            success_url = settings.BASE_URL,  
+            success_url = settings.BASE_URL + 'successful-checkout',  
             cancel_url = settings.BASE_URL,
         )
         context['checkout_session_id'] = checkout_session['id']
@@ -539,6 +538,6 @@ def get_auth_token(request):
     context['token'] = settings.AUTH_TOKEN
     return JsonResponse(context)
 
-
+@login_required(login_url='/signin/')
 def successful_checkout(request):
     return render(request, 'web/successful_checkout.html')

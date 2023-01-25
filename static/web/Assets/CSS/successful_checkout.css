@@ -1,0 +1,45 @@
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+nav {
+    margin-bottom: 0;
+}
+
+.success-card {
+    border-radius: 20px;
+}
+
+.fa-circle-check {
+    color: #46879F;
+}
+
+.prod-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.prod-img img {
+    width: 150px;
+    height: 150px;
+}
+
+.btn {
+    background-color: #46879F;
+    border-radius: 40px;
+}
+
+.btn:hover {
+    background-color: #3c758a;
+}
+
+
+@media (max-width: 768px) {
+    .prod-img img {
+        width: 100px;
+        height: 100px;
+    }
+}

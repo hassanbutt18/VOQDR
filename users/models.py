@@ -108,6 +108,7 @@ class OrganizationPermissions(models.Model):
 class LinkDevice(models.Model):
     organization = models.ForeignKey(User, on_delete=models.CASCADE, related_name='linked_organization')
     name = models.CharField(max_length=50, null=True, blank=True)
+    device_Id = models.CharField(unique=True, max_length=100, null=False, blank=False)
     description = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -119,14 +120,18 @@ class LinkDevice(models.Model):
         verbose_name_plural = "Linked Devices"
     
     def clean(self):
-        linked_org = LinkDevice.objects.filter(name=self.name).exclude(organization=self.organization)
-        print(linked_org)
-        if linked_org:
-            raise ValidationError("This device already exists in another organization")
+        try:
+            if self.organization == None:
+                raise ValidationError("Please select an organization")
+            linked_org = LinkDevice.objects.filter(name=self.name).exclude(organization=self.organization)
+            if linked_org:
+                raise ValidationError("This device name already exists in another organization")
+        except Exception as e:
+            raise ValidationError(e)
 
     def save(self, *args, **kwargs):
         if self.name == None:
-            self.name = 'nrf-' + str(uuid.uuid4())
+            self.name = self.device_Id
         super(LinkDevice, self).save(*args, **kwargs)
 
 

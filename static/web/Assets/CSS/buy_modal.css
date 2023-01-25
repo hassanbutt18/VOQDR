@@ -2,6 +2,20 @@
     border-radius: 20px;
 }
 
+.buy-modal > svg:first-child {
+    position: absolute;
+    width: 115px;
+    height: 115px;
+}
+
+.buy-modal > svg:last-of-type {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+}
+
 .buy-modal-body > h3 {
     color: #004762;
     font-weight: 700;
@@ -40,6 +54,18 @@
     height: 28px;
 }
 
+.quantity-btn:hover {
+    background-color: #cccccc;
+}
+
+.quantity-btn:active {
+    background-color: #b1b1b1;
+}
+
+#minus-btn:disabled {
+    background-color: #dadada;
+}
+
 #product-quantity-container {
     flex-direction: row!important;
     gap: 5px;
@@ -63,6 +89,7 @@
     outline-color: #46879F;
 }
 
+
 #terms-checkbox {
     border: 1px solid #004762;
     accent-color: #46879F;
@@ -85,6 +112,10 @@
     background-color: #46879F;
     min-width: 120px;
     min-height: 40px;
+}
+
+.buy-modal-submit-btn:hover {
+    background-color: #3c758a;
 }
 
 .hide{

@@ -119,6 +119,10 @@ select:focus {
     color: white;
 }
 
+.submit-btn:hover {
+    background-color: #3c758a;
+}
+
 .payments-btn {
     background-color: white;
     border: 1px solid #46879F;
@@ -274,6 +278,10 @@ select:focus {
     align-self: flex-end;
 }
 
+.add-user-btn:hover {
+    background-color: #3c758a;
+}
+
 .organisation-content-container>div:last-of-type {
     background-color: white;
     border: 0.5px solid #46879F;
@@ -354,6 +362,13 @@ select:focus {
     height: 35px;
 }
 
+.user-table svg:first-child:hover rect {
+    fill: #3c758a;
+}
+
+.user-table svg:last-child:hover rect {
+    fill: #ee3838;
+}
 
 .hide {
     display: none;

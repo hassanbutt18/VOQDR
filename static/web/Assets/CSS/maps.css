@@ -238,6 +238,11 @@ i {
     background-color: white;
 }
 
+.organization:hover {
+    cursor: pointer;
+    background-color:lightgrey;
+}
+
 .organisation-container p {
     font-size: 1.125rem;
     line-height: 1.5rem;
@@ -245,11 +250,6 @@ i {
     margin-bottom: 0;
     padding: 0 5px;
     width: 100%;
-}
-
-.organization:hover p {
-    text-decoration: underline;
-    cursor: pointer;
 }
 
 .device-header {
@@ -261,6 +261,12 @@ i {
     text-decoration: underline;
 }
 
+.device-heading {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    min-width: 0;
+}
 
 .battery-indicator {
     display: inline-block;
@@ -279,8 +285,6 @@ i {
     display: block;
 }
 
-.device>div:first-of-type,
-.device>div:first-of-type,
 .device>div:first-of-type {
     display: flex;
     justify-content: space-between;
@@ -288,14 +292,17 @@ i {
     width: 100%;
 }
 
-.device>div:first-of-type h3,
-.device>div:first-of-type h3,
 .device>div:first-of-type h3 {
     font-weight: 500;
     font-size: 1.125rem;
     line-height: 1.5rem;
     color: #525252;
     display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    width: calc(100%);
+    text-overflow: ellipsis;
+    min-width: 0;
     margin-bottom: 0;
     margin-top: 1px;
 }
@@ -409,6 +416,12 @@ i {
     display: none;
 }
 
+.location-alert {
+    padding-right: 3rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    color: unset;
+}
 
 
 

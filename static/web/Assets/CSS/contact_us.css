@@ -85,6 +85,10 @@
     margin: 30px 0;
 }
 
+.contact-input-container button:hover {
+    background-color: #3c758a;
+}
+
 .hide{
     display: none;
 }

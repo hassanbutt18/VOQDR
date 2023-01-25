@@ -70,6 +70,10 @@
     color: #FFFFFF;
 }
 
+.group-buttons button:first-child:hover {
+    background-color: #3c758a;
+}
+
 .group-buttons button:last-child {
     width: 14%;
     aspect-ratio: 1 / .31;
