@@ -108,13 +108,13 @@ class OrganizationPermissions(models.Model):
 class LinkDevice(models.Model):
     organization = models.ForeignKey(User, on_delete=models.CASCADE, related_name='linked_organization')
     name = models.CharField(max_length=50, null=True, blank=True)
-    device_Id = models.CharField(unique=True, max_length=100, null=False, blank=False)
+    device_id = models.CharField(unique=True, max_length=100, null=False, blank=False)
     description = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.organization.organization
+        return self.name + ", " + self.organization.organization
     
     class Meta:
         verbose_name_plural = "Linked Devices"
@@ -123,9 +123,8 @@ class LinkDevice(models.Model):
         try:
             if self.organization == None:
                 raise ValidationError("Please select an organization")
-            linked_org = LinkDevice.objects.filter(name=self.name).exclude(organization=self.organization)
-            if linked_org:
-                raise ValidationError("This device name already exists in another organization")
+            if ' ' in self.device_id:
+                raise ValidationError("Device id cannot contain spaces") 
         except Exception as e:
             raise ValidationError(e)
 

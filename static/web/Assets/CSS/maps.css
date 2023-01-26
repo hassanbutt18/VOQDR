@@ -240,7 +240,11 @@ i {
 
 .organization:hover {
     cursor: pointer;
-    background-color:lightgrey;
+    background-color: rgb(235, 235, 235);
+}
+.organization.active {
+    cursor: pointer;
+    background-color:rgb(191, 191, 191);
 }
 
 .organisation-container p {

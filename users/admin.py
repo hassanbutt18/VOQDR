@@ -5,7 +5,7 @@ admin.site.unregister(Group)
 
 
 class AdminLinkDevice(admin.ModelAdmin):
-    readonly_fields = ["device_Id"]
+    readonly_fields = ["device_id"]
     def get_readonly_fields(self, request, obj=None):
         if obj:
             return self.readonly_fields

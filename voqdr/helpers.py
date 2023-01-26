@@ -174,3 +174,6 @@ def decrypt_dict(token):
     base64_message = base64_bytes.decode('ascii')
     data = base64_message.split('___')
     return data
+
+def ValuesQuerySetToDict(vqs):
+    return [item for item in vqs]

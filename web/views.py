@@ -3,6 +3,7 @@ import stripe
 import requests
 
 from random import randint
+from django.db.models import Q
 
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
@@ -11,6 +12,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, JsonResponse
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
+from django.core import serializers
 from voqdr.emailManager import EmailManager
 from voqdr.helpers import *
 
@@ -42,22 +44,6 @@ def index(request):
     return render(request, 'web/index.html', context)
 
 
-def refresh_devices(request):
-    context = {}
-    msg = None 
-    success = False
-    header = {"Authorization": f"Bearer {settings.AUTH_TOKEN}"}
-    status, response = requestAPI('GET', 'https://api.nrfcloud.com/v1/devices?includeState=true', header,{})
-    if status == 200:
-        text_template = loader.get_template('web/ajax/devices.html')
-        html = text_template.render({'devices':response})
-        context["html"] = html
-        msg = "Got Devices successfully from refresh"
-        success = True
-        context['msg'] = msg
-        context['success'] = success
-    return JsonResponse(context)
-
 
 @login_required(login_url='/signin/')
 def maps_vodcur(request):
@@ -65,14 +51,24 @@ def maps_vodcur(request):
     success = False
     user = request.user
     context={'nbar':'map'}
+    context['active_org'] = user.id
     context["shared_with_us_organizations"] = user.shared_with_organization.all()
-    header = {"Authorization": f"Bearer {settings.AUTH_TOKEN}"}
-    status, response = requestAPI('GET', 'https://api.nrfcloud.com/v1/devices?includeState=true', header,{})
-    if status == 200:
-        context["devices"] = response
-        context["devices_json"] = json.dumps(response)
-        msg = "Got devices successfully"
+    # header = {"Authorization": f"Bearer {settings.AUTH_TOKEN}"}
+    linked_org = LinkDevice.objects.filter(organization=user.id).values()
+    if linked_org:
+        linked_org = ValuesQuerySetToDict(linked_org)
+        context['linked_org'] = linked_org
+        msg= "Got devices successfully"
         success = True
+    else:
+        msg = "No devies found in your organization"
+        success = False
+    # status, response = requestAPI('GET', 'https://api.nrfcloud.com/v1/devices?includeState=true', header,{})
+    # if status == 200:
+    #     context["devices"] = response
+    #     context["devices_json"] = json.dumps(response)
+    #     msg = "Got devices successfully"
+    #     success = True
     context['msg'] = msg
     context['success'] = success
     return render(request, 'web/maps.html', context)
@@ -390,8 +386,6 @@ def edit_organization_role(request, pk):
     success = False
     context = {}
     request_data = json.loads(request.body.decode('utf-8'))
-    print(request_data)
-
     try:
         user = User.objects.get(id=pk)
         if user:
@@ -519,15 +513,121 @@ def get_shared_with_devices(request, pk):
     msg = None
     success = False
     context = {}
+    linked_devices = None
     try:
-        linked_devices = LinkDevice.objects.filter(organization_id=int(pk))
-        response = querysetToJson(linked_devices)
-        context["devices"] = response
+        linked_devices = LinkDevice.objects.filter(organization_id=int(pk)).values()
+        linked_devices = ValuesQuerySetToDict(linked_devices)
+        text_template = loader.get_template('web/ajax/devices.html')
+        html = text_template.render({'linked_org':linked_devices})
+        context["html"] = html
         msg = "Got Devices successfully"
         success = True 
     except Exception as e:
+        text_template = loader.get_template('web/ajax/devices.html')
+        html = text_template.render({'linked_org':linked_devices})
+        context["html"] = html
+        msg = "No device available in this organization"
+        success = False
+    context['msg'] = msg
+    context['success'] = success
+    return JsonResponse(context)
+
+
+def refresh_devices(request, pk):
+    context = {}
+    msg = None 
+    success = False
+    linked_org = None
+    try:
+        linked_org = LinkDevice.objects.filter(organization=pk).values()
+        linked_org = ValuesQuerySetToDict(linked_org)
+        text_template = loader.get_template('web/ajax/devices.html')
+        html = text_template.render({'linked_org':linked_org})
+        context["html"] = html
+        msg = "Got Devices successfully from refresh"
+        success = True
+    except Exception as e:
+        text_template = loader.get_template('web/ajax/devices.html')
+        html = text_template.render({'linked_org':linked_org})
+        context["html"] = html
+        msg = "No device available in this organization"
+        success = False
+    context['msg'] = msg
+    context['success'] = success
+    return JsonResponse(context)
+
+
+def search_devices(request, pk):
+    msg = None
+    success = False
+    context= {}
+    request_data = json.loads(request.body.decode('utf-8'))
+    linked_org = None
+    try:
+        linked_org = LinkDevice.objects.filter(Q(name__icontains=request_data.get('device')) | Q(description__icontains=request_data.get('device')), organization_id=pk).values()
+        linked_org = ValuesQuerySetToDict(linked_org)
+        if len(linked_org) == 0:
+            msg = "No such device found"
+        else:
+            success = True
+            msg = "Searched successfully"
+        text_template = loader.get_template('web/ajax/devices.html')
+        html = text_template.render({'linked_org':linked_org})
+        context["html"] = html
+    except Exception as e:
         print(e)
-        msg = "No devices available"
+    context['msg'] = msg
+    context['success'] = success
+    return JsonResponse(context)
+
+
+def edit_device_name(request, pk):
+    msg = None
+    success = False
+    context = {}
+    request_data = json.loads(request.body.decode('utf-8'))
+    try:
+        linked_org = LinkDevice.objects.filter(device_id=pk).first()
+        linked_org.name = request_data.get('name')
+        linked_org.save(update_fields=['name'])
+        msg = 'Device name changed successfully'
+        success = True
+    except Exception as e:
+        print(e)
+    context['msg'] = msg
+    context['success'] = success
+    return JsonResponse(context)
+
+
+def edit_device_description(request, pk):
+    msg = None
+    success = False
+    context = {}
+    request_data = json.loads(request.body.decode('utf-8'))
+    try:
+        linked_org = LinkDevice.objects.filter(device_id=pk).first()
+        linked_org.description = request_data.get('description')
+        linked_org.save(update_fields=['description'])
+        msg = 'Device description changed successfully'
+        success = True
+    except Exception as e:
+        print(e)
+    context['msg'] = msg
+    context['success'] = success
+    return JsonResponse(context)
+
+
+def delete_device(request, pk):
+    msg = None
+    success= False
+    context = {}
+    try:
+        linked_org = LinkDevice.objects.filter(device_id=pk).first()
+        linked_org.delete()
+        msg = "Device deleted successfully"
+        success = True
+    except Exception as e:
+        print(e)
     context['msg'] = msg
     context['success'] = success
     return JsonResponse(context)

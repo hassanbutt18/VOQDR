@@ -35,12 +35,12 @@
                 </div>
                 <div class="hide-organisations">
                     <div class="organisation-container">
-                        <div class="organization" onclick="getUserDevices(event, {{request.user.id}});">
+                        <div class="organization" onclick="getUserDevices(event, '{{request.user.id}}');">
                             <p>{{request.user.organization}}</p>
                         </div>
                         {% if shared_with_us_organizations %}
                         {% for obj in shared_with_us_organizations %}
-                        <div class="organization" onclick="getUserDevices(event, {{obj.shared_by.id}});">
+                        <div class="organization" onclick="getUserDevices(event, '{{obj.shared_by.id}}');">
                             <p>{{obj.shared_by.organization}}</p>
                         </div>
                         {% endfor %}
@@ -60,9 +60,10 @@
                         <i class="fa-solid fa-rotate-right"></i>
                     </div>
                     <form action="" onsubmit="searchDevices(event);">
+                        {% csrf_token %}
                         <div class="search-bar">
-                            <input type="text" placeholder="Search device..." name="device" class="search-input" />
-                            <button><i class="fa-solid fa-magnifying-glass search-icon" id="search-icon"></i></button>
+                            <input type="text" required placeholder="Search device..." name="device" class="search-input" />
+                            <button type="submit"><i class="fa-solid fa-magnifying-glass search-icon" id="search-icon"></i></button>
                         </div>
                     </form>
 
@@ -94,6 +95,10 @@
 <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
     integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
 <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+<script>
+    var active_user_devices = parseInt('{{active_org|safe}}');
+    document.querySelector('.organization').classList.add('active');
+</script>
 <script src="{% static 'web/Assets/JS/maps.js' %}"></script>
 {% endblock %}
 

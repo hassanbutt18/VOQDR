@@ -1,5 +1,6 @@
 {% load static %}
-{% for device in devices.items %}
+{% if linked_org %}
+{% for device in linked_org %}
 <div class="device">
     <div class="device-header">
         <div class="device-heading">
@@ -18,8 +19,12 @@
     </div>
     <div class="device-content">
         <div class="device-text">
-            <span>This is device description</span>
-            <svg class="cursor-pointer" onclick="editDeviceDescriptionModal(event, 'editDeviceDescription');" width="20" height="21" viewBox="0 0 20 21" fill="none"
+            {% if device.description %}
+            <span>{{device.description}}</span>
+            {% else %}
+            <span>No device description available</span>
+            {% endif %}
+            <svg class="cursor-pointer" onclick="editDeviceDescriptionModal(event, '{{device.device_id}}', '{{device.description}}', 'editDeviceDescription');" width="20" height="21" viewBox="0 0 20 21" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
                 <title>Edit Device Description</title>
                 <path
@@ -29,7 +34,7 @@
         </div>
         <div class="device-feature-container">
             <div class="device-features">
-                <svg class="cursor-pointer" onclick="editDeviceNameModal(event, '{{device.id}}', '{{device.name}}', 'editDeviceName')" width="35" height="35" viewBox="0 0 50 50" fill="none"
+                <svg class="cursor-pointer" onclick="editDeviceNameModal(event, '{{device.device_id}}', '{{device.name}}', 'editDeviceName')" width="35" height="35" viewBox="0 0 50 50" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <title>Edit Device Name</title>
                     <rect width="50" height="50" rx="25" fill="#46879F" />
@@ -117,7 +122,7 @@
                         </clipPath>
                     </defs>
                 </svg>
-                <svg class="cursor-pointer" onclick="deleteDeviceModal(event, 'deleteDevice');" width="35" height="35" viewBox="0 0 51 51" fill="none"
+                <svg class="cursor-pointer" onclick="deleteDeviceModal(event, '{{device.device_id}}', 'deleteDevice');" width="35" height="35" viewBox="0 0 51 51" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <title>Delete Device</title>
                     <rect x="0.75" y="0.984375" width="50" height="50" rx="25" fill="#46879F" />
@@ -136,3 +141,6 @@
     </div>
 </div>
 {% endfor %}
+{% else %}
+<p>No device available in this organization</p>
+{% endif %}
