@@ -130,7 +130,7 @@ class LinkDevice(models.Model):
 
     def save(self, *args, **kwargs):
         if self.name == None:
-            self.name = self.device_Id
+            self.name = self.device_id
         super(LinkDevice, self).save(*args, **kwargs)
 
 
