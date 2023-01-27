@@ -15,54 +15,57 @@ async function getAuthToken() {
 
 
 // Organisation Container controls
-  const orgContainer = document.querySelector(".hide-organisations");
-  const orgHeader = document.querySelector(".organisation-container-header");
-  const orgHeaderChevronUp = document.querySelector(".organisation-chevron-up");
-  const orgHeaderChevronDown = document.querySelector(
-    ".organisation-chevron-down"
-  );
+const orgContainer = document.querySelector(".hide-organisations");
+const orgHeader = document.querySelector(".organisation-container-header");
+const orgHeaderChevronUp = document.querySelector(".organisation-chevron-up");
+const orgHeaderChevronDown = document.querySelector(
+  ".organisation-chevron-down"
+);
+let orgHeaderText = document.querySelector(".organisation-header-text");
+let defaultOrg = document.querySelector(".organization");
+orgHeaderText.textContent = defaultOrg.innerText;
 
-  function toggleOrganisations() {
-    if (orgContainer.classList.contains("show-organisations")) {
-      orgContainer.classList.remove("show-organisations");
-      orgHeaderChevronDown.classList.remove("hide-chevron");
-      orgHeaderChevronUp.classList.remove("show-chevron");
-    } else {
-      orgContainer.classList.add("show-organisations");
-      orgHeaderChevronDown.classList.add("hide-chevron");
-      orgHeaderChevronUp.classList.add("show-chevron");
-    }
+function toggleOrganisations() {
+  if (orgContainer.classList.contains("show-organisations")) {
+    orgContainer.classList.remove("show-organisations");
+    orgHeaderChevronDown.classList.remove("hide-chevron");
+    orgHeaderChevronUp.classList.remove("show-chevron");
+  } else {
+    orgContainer.classList.add("show-organisations");
+    orgHeaderChevronDown.classList.add("hide-chevron");
+    orgHeaderChevronUp.classList.add("show-chevron");
   }
+}
 
-  orgHeader.addEventListener("click", toggleOrganisations);
+orgHeader.addEventListener("click", toggleOrganisations);
 
 
 
-  // Device Container controls
+// Device Container controls
 
-  const deviceContainer = document.querySelector(".hide-devices");
-  const devicesHeader = document.querySelector(".device-container-header");
-  const devicesHeaderText = document.querySelector(".devices-header-text");
-  const devicesHeaderChevronUp = document.querySelector(".devices-chevron-up");
-  const devicesHeaderChevronDown = document.querySelector(
-    ".devices-chevron-down"
-  );
+const deviceContainer = document.querySelector(".hide-devices");
+const devicesHeader = document.querySelector(".device-container-header");
+const devicesHeaderText = document.querySelector(".devices-header-text");
+const devicesHeaderChevronUp = document.querySelector(".devices-chevron-up");
+const devicesHeaderChevronDown = document.querySelector(
+  ".devices-chevron-down"
+);
 
-  function toggleDevices() {
-    if (deviceContainer.classList.contains("show-devices")) {
-      deviceContainer.classList.remove("show-devices");
-      devicesHeaderText.textContent = "Show Device";
-      devicesHeaderChevronDown.classList.remove("hide-chevron");
-      devicesHeaderChevronUp.classList.remove("show-chevron");
-    } else {
-      deviceContainer.classList.add("show-devices");
-      devicesHeaderText.textContent = "Hide Device";
-      devicesHeaderChevronDown.classList.add("hide-chevron");
-      devicesHeaderChevronUp.classList.add("show-chevron");
-    }
+function toggleDevices() {
+  if (deviceContainer.classList.contains("show-devices")) {
+    deviceContainer.classList.remove("show-devices");
+    devicesHeaderText.textContent = "Show Device";
+    devicesHeaderChevronDown.classList.remove("hide-chevron");
+    devicesHeaderChevronUp.classList.remove("show-chevron");
+  } else {
+    deviceContainer.classList.add("show-devices");
+    devicesHeaderText.textContent = "Hide Device";
+    devicesHeaderChevronDown.classList.add("hide-chevron");
+    devicesHeaderChevronUp.classList.add("show-chevron");
   }
+}
 
-  devicesHeader.addEventListener("click", toggleDevices);
+devicesHeader.addEventListener("click", toggleDevices);
 
 
 
@@ -138,6 +141,7 @@ async function getUserDevices(event, id) {
     ele.classList.remove('active')
   })
   event.currentTarget.classList.add('active');
+  orgHeaderText.textContent = event.currentTarget.innerText;
   active_user_devices = id;
   response = await requestAPI(`/get-sharedwith-devices/${id}/`, null, {}, 'GET');
   response.json().then(function(res) {
@@ -181,6 +185,8 @@ async function searchDevices(event){
 function editDeviceDescriptionModal(event, id, device_description, modal_id) {
   let modal = document.querySelector(`#${modal_id}`);
   let form = modal.querySelector('form');
+  let error = form.querySelector('.alert');
+  showMsg(error, '', 'bg-danger', 'hide');
   let deviceDescription = form.querySelector('input[name="description"]');
   deviceDescription.value = device_description;
   form.setAttribute('onsubmit', `editDeviceDescriptionForm(event, '${id}')`)
@@ -193,6 +199,8 @@ function editDeviceDescriptionModal(event, id, device_description, modal_id) {
 async function editDeviceDescriptionForm(event, id) {
   event.preventDefault();
   let form = event.currentTarget;
+  let error = form.querySelector('.alert');
+  showMsg(error, '', 'bg-danger', 'hide');
   let button = form.querySelector('button[type="submit"]');
   let button_text = button.innerText;
   let formData = new FormData(form);
@@ -204,10 +212,18 @@ async function editDeviceDescriptionForm(event, id) {
   beforeLoad(button, "Saving");
   response = await requestAPI(`/edit-device-description/${id}/`, JSON.stringify(data), headers, 'PUT');
   response.json().then(function(res) {
-    if(res.success) {
-      document.querySelector(".refresh-icon").click();
+    console.log(res)
+    if(!res.success) {
+      showMsg(error, res.msg, 'bg-danger', 'show');
       afterLoad(button, button_text);
-      form.querySelector('#closeEditDescriptionModal').click();
+    }
+    else{
+      showMsg(error, res.msg, 'bg-success', 'show');
+      afterLoad(button, button_text);
+      setTimeout(()=>{
+        document.querySelector(".refresh-icon").click();
+        form.querySelector('#closeEditDescriptionModal').click();
+      },1500)
     }
   })
 }
@@ -218,6 +234,8 @@ async function editDeviceDescriptionForm(event, id) {
 function editDeviceNameModal(event, id, device_name, modal_id) {
   let modal = document.querySelector(`#${modal_id}`);
   let form = modal.querySelector('form');
+  let error = form.querySelector('.alert');
+  showMsg(error, '', 'bg-danger', 'hide');
   let deviceName =  form.querySelector('input[name="name"]');
   deviceName.value = device_name;
   form.setAttribute('onsubmit', `editDeviceNameForm(event, '${id}')`);
@@ -230,6 +248,8 @@ function editDeviceNameModal(event, id, device_name, modal_id) {
 async function editDeviceNameForm(event, id) {
   event.preventDefault();
   let form = event.currentTarget;
+  let error = form.querySelector('.alert');
+  showMsg(error, '', 'bg-danger', 'hide');
   let button = form.querySelector('button[type="submit"]');
   let button_text = button.innerText;
   let formData = new FormData(form);
@@ -241,10 +261,17 @@ async function editDeviceNameForm(event, id) {
   beforeLoad(button, "Saving");
   response = await requestAPI(`/edit-device-name/${id}/`, JSON.stringify(data), headers, 'PUT');
   response.json().then(function(res) {
-    if(res.success) {
-      document.querySelector(".refresh-icon").click();
+    if(!res.success) {
+      showMsg(error, res.msg, 'bg-danger', 'show');
       afterLoad(button, button_text);
-      form.querySelector('#closeEditNameModal').click();
+    }
+    else{
+      showMsg(error, res.msg, 'bg-success', 'show');
+      afterLoad(button, button_text);
+      setTimeout(()=>{
+        document.querySelector(".refresh-icon").click();
+        form.querySelector('#closeEditNameModal').click();
+      },1500)
     }
   })
 }
@@ -256,6 +283,8 @@ function deleteDeviceModal(event, id, modal_id) {
   let modal = document.querySelector(`#${modal_id}`);
   document.querySelector(`.${modal_id}`).click();
   let form = modal.querySelector('form');
+  let error = form.querySelector('.alert');
+  showMsg(error, '', 'bg-danger', 'hide');
   form.setAttribute('onsubmit', `deleteDeviceForm(event, '${id}')`);
   document.querySelector(`.${modal_id}`).click();
 }
@@ -266,6 +295,8 @@ function deleteDeviceModal(event, id, modal_id) {
 async function deleteDeviceForm(event, id) {
   event.preventDefault();
   let form = event.currentTarget;
+  let error = form.querySelector('.alert');
+  showMsg(error, '', 'bg-danger', 'hide');
   let button = form.querySelector('button[type="submit"]');
   let button_text = button.innerText;
   let formData = new FormData(form);
@@ -277,10 +308,17 @@ async function deleteDeviceForm(event, id) {
   beforeLoad(button, "Deleting");
   response = await requestAPI(`/delete-device/${id}/`, null, headers, 'DELETE');
   response.json().then(function(res) {
-    if(res.success) {
-      document.querySelector(".refresh-icon").click();
+    if(!res.success) {
+      showMsg(error, res.msg, 'bg-danger', 'show');
       afterLoad(button, button_text);
-      document.querySelector("#closeDeleteDeviceModal").click();
+    }
+    else{
+      showMsg(error, res.msg, 'bg-success', 'show');
+      afterLoad(button, button_text);
+      setTimeout(()=>{
+        document.querySelector(".refresh-icon").click();
+        form.querySelector("#closeDeleteDeviceModal").click();
+      },1500)
     }
   })
 }

@@ -1,22 +1,35 @@
 @font-face {
     font-family: 'Gotham';
-    src: url("./Gotham-Font/Gotham-Bold.otf");
+    src: url("./Gotham-Font/Gotham-Bold.otf") format('opentruetype'),
+        url("./Gotham-Font/Gotham-Bold.eot") format('embedded-opentype'),
+        url("./Gotham-Font/Gotham-Bold.woff") format('woff'),
+        url("./Gotham-Font/Gotham-Bold.woff2") format('woff2');
+        /* url("./Gotham-Font/GothamBold.ttf") format('truetype'); */
     font-weight: 700;
+    font-style: normal;
 }
 
 @font-face {
     font-family: 'Gotham';
-    src: url("./Gotham-Font/GothamMedium.ttf");
+    src: url("./Gotham-Font/Gotham-Medium.otf");
     font-weight: 500;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Gotham';
-    src: url("./Gotham-Font/Gotham-Light.otf");
+    src: url("./Gotham-Font/Gotham-Book.otf");
     font-weight: 400;
     font-style: normal;
 }
+
+@font-face {
+    font-family: 'Gotham';
+    src: url("./Gotham-Font/Gotham-Light.otf");
+    font-weight: 300;
+    font-style: normal;
+}
+
 
 .relative{
     position: relative;
@@ -36,7 +49,7 @@
 }
 
 * {
-    font-family: 'Gotham', 'Montserrat', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     scroll-behavior: smooth;
 }
 

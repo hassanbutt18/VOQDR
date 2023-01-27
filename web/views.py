@@ -57,10 +57,11 @@ def maps_vodcur(request):
     context={'nbar':'map'}
     context['active_org'] = user.id
     context["shared_with_us_organizations"] = user.shared_with_organization.all()
-    linked_org = LinkDevice.objects.filter(organization=user.id).values()
-    if linked_org:
-        linked_org = ValuesQuerySetToDict(linked_org)
-        context['linked_org'] = linked_org
+    context['role'] = 'admin'
+    linked_devices = LinkDevice.objects.filter(organization=user.id).values()
+    if linked_devices:
+        linked_devices = ValuesQuerySetToDict(linked_devices)
+        context['linked_devices'] = linked_devices
         msg= "Got devices successfully"
         success = True
     else:
@@ -75,18 +76,25 @@ def get_shared_with_devices(request, pk):
     msg = None
     success = False
     context = {}
+    devices = {}
+    org = OrganizationPermissions.objects.filter(shared_by_id=pk, shared_to_id=request.user.id).first()
     linked_devices = None
     try:
         linked_devices = LinkDevice.objects.filter(organization_id=int(pk)).values()
         linked_devices = ValuesQuerySetToDict(linked_devices)
+        if request.user.id == int(pk):
+            devices['role'] = 'admin'
+        else:
+            devices['role'] = org.role
+        devices['linked_devices'] = linked_devices
         text_template = loader.get_template('web/ajax/devices.html')
-        html = text_template.render({'linked_org':linked_devices})
+        html = text_template.render(devices)
         context["html"] = html
         msg = "Got Devices successfully"
         success = True 
     except Exception as e:
         text_template = loader.get_template('web/ajax/devices.html')
-        html = text_template.render({'linked_org':linked_devices})
+        html = text_template.render({'linked_devices':devices})
         context["html"] = html
         msg = "No device available in this organization"
         success = False
@@ -97,20 +105,27 @@ def get_shared_with_devices(request, pk):
 
 def refresh_devices(request, pk):
     context = {}
-    msg = None 
+    devices = {}
+    msg = None
     success = False
-    linked_org = None
+    linked_devices = None
+    org = OrganizationPermissions.objects.filter(shared_by_id=pk, shared_to_id=request.user.id).first()
     try:
-        linked_org = LinkDevice.objects.filter(organization=pk).values()
-        linked_org = ValuesQuerySetToDict(linked_org)
+        linked_devices = LinkDevice.objects.filter(organization=pk).values()
+        linked_devices = ValuesQuerySetToDict(linked_devices)
+        if request.user.id == pk:
+            devices['role'] = 'admin'
+        else:
+            devices['role'] = org.role
+        devices['linked_devices'] = linked_devices
         text_template = loader.get_template('web/ajax/devices.html')
-        html = text_template.render({'linked_org':linked_org})
+        html = text_template.render(devices)
         context["html"] = html
         msg = "Got Devices successfully from refresh"
         success = True
     except Exception as e:
         text_template = loader.get_template('web/ajax/devices.html')
-        html = text_template.render({'linked_org':linked_org})
+        html = text_template.render({'linked_devices':devices})
         context["html"] = html
         msg = "No device available in this organization"
         success = False
@@ -122,19 +137,26 @@ def refresh_devices(request, pk):
 def search_devices(request, pk):
     msg = None
     success = False
-    context= {}
+    context = {}
+    devices = {}
     request_data = json.loads(request.body.decode('utf-8'))
-    linked_org = None
+    linked_devices = None
+    org = OrganizationPermissions.objects.filter(shared_by_id=pk, shared_to_id=request.user.id).first()
     try:
-        linked_org = LinkDevice.objects.filter(Q(name__icontains=request_data.get('device')) | Q(description__icontains=request_data.get('device')), organization_id=pk).values()
-        linked_org = ValuesQuerySetToDict(linked_org)
-        if len(linked_org) == 0:
+        linked_devices = LinkDevice.objects.filter(Q(name__icontains=request_data.get('device')) | Q(description__icontains=request_data.get('device')), organization_id=pk).values()
+        linked_devices = ValuesQuerySetToDict(linked_devices)
+        if len(linked_devices) == 0:
             msg = "No such device found"
         else:
             success = True
             msg = "Searched successfully"
+        if request.user.id == pk:
+            devices['role'] = 'admin'
+        else:
+            devices['role'] = org.role
+        devices['linked_devices'] = linked_devices
         text_template = loader.get_template('web/ajax/devices.html')
-        html = text_template.render({'linked_org':linked_org})
+        html = text_template.render(devices)
         context["html"] = html
     except Exception as e:
         print(e)
@@ -148,14 +170,24 @@ def edit_device_name(request, pk):
     success = False
     context = {}
     request_data = json.loads(request.body.decode('utf-8'))
+    linked_devices = LinkDevice.objects.filter(device_id=pk).first()
+    org = OrganizationPermissions.objects.filter(shared_by_id=linked_devices.organization_id, shared_to_id=request.user.id).first()
     try:
-        linked_org = LinkDevice.objects.filter(device_id=pk).first()
-        linked_org.name = request_data.get('name')
-        linked_org.save(update_fields=['name'])
-        msg = 'Device name changed successfully'
-        success = True
+        if request.user.id == linked_devices.organization_id:
+            linked_devices.name = request_data.get('name')
+            linked_devices.save(update_fields=['name'])
+            msg = 'Device name changed successfully'
+            success = True
+        elif org is not None and org.role == 'admin':
+            linked_devices.name = request_data.get('name')
+            linked_devices.save(update_fields=['name'])
+            msg = 'Device name changed successfully'
+            success = True
+        else:
+            msg = "Permission Denied"
     except Exception as e:
         print(e)
+        msg = "Either device no longer exists or you do not have permission to edit this device"
     context['msg'] = msg
     context['success'] = success
     return JsonResponse(context)
@@ -166,14 +198,24 @@ def edit_device_description(request, pk):
     success = False
     context = {}
     request_data = json.loads(request.body.decode('utf-8'))
+    linked_devices = LinkDevice.objects.filter(device_id=pk).first()
+    org = OrganizationPermissions.objects.filter(shared_by_id=linked_devices.organization_id, shared_to_id=request.user.id).first()
     try:
-        linked_org = LinkDevice.objects.filter(device_id=pk).first()
-        linked_org.description = request_data.get('description')
-        linked_org.save(update_fields=['description'])
-        msg = 'Device description changed successfully'
-        success = True
+        if request.user.id == linked_devices.organization_id:
+            linked_devices.description = request_data.get('description')
+            linked_devices.save(update_fields=['description'])
+            msg = 'Device description changed successfully'
+            success = True
+        elif org is not None and org.role == 'admin':
+            linked_devices.description = request_data.get('description')
+            linked_devices.save(update_fields=['description'])
+            msg = 'Device description changed successfully'
+            success = True
+        else:
+            msg = "Permission Denied"
     except Exception as e:
         print(e)
+        msg = "Either device no longer exists or you do not have permission to edit this device"
     context['msg'] = msg
     context['success'] = success
     return JsonResponse(context)
@@ -183,13 +225,22 @@ def delete_device(request, pk):
     msg = None
     success= False
     context = {}
+    linked_devices = LinkDevice.objects.filter(device_id=pk).first()
+    org = OrganizationPermissions.objects.filter(shared_by_id=linked_devices.organization_id, shared_to_id=request.user.id).first()
     try:
-        linked_org = LinkDevice.objects.filter(device_id=pk).first()
-        linked_org.delete()
-        msg = "Device deleted successfully"
-        success = True
+        if request.user.id == linked_devices.organization_id:
+            linked_devices.delete()
+            msg = "Device deleted successfully"
+            success = True
+        elif org is not None and org.role == 'admin':
+            linked_devices.delete()
+            msg = "Device deleted successfully"
+            success = True
+        else:
+            msg = "Permission Denied"
     except Exception as e:
         print(e)
+        msg = "Either device no longer exists or you do not have permission to edit this device"
     context['msg'] = msg
     context['success'] = success
     return JsonResponse(context)

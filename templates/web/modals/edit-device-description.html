@@ -20,6 +20,10 @@
             </div>
             <div class="modal-body">
                 <form action="" class="align-items-start">
+                    <div class="alert hide">
+                        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                        <span class="error-text"></span>
+                    </div>
                     {% csrf_token %}
                     <div class="mb-3 w-100">
                         <label for="name" class="col-form-label">Device Description:</label>

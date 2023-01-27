@@ -88,7 +88,6 @@ async function changeOrganization(event){
   response.json().then(function (res) {
     organization_name.value = res.organization;
     address.value = res.address;
-    console.log(res.role, "here")
     if(res.role) {
       if(res.role != 'admin'){
         organization_name.readOnly = true;
@@ -158,7 +157,7 @@ async function editOrganizationRole(event, id){
     "Content-Type": "application/json",
     "X-CSRFToken": data.csrfmiddlewaretoken,
   }
-  beforeLoad(button, "Processing");
+  beforeLoad(button, "Saving");
   response = await requestAPI(`/edit-organization-role/${id}`, JSON.stringify(data), headers, 'POST' );
   afterLoad(button, button_text);
   response.json().then(function (res) {

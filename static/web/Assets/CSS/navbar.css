@@ -195,7 +195,11 @@ a.nav-items.active{
 
 
 @media (max-width: 1024px) {
-    
+    .logo {
+        width: auto;
+        min-height: 35px;
+    }
+
     .nav-profile-image {
         width: 45px;
         height: 45px;
@@ -218,6 +222,11 @@ a.nav-items.active{
         order: 2;
         width: 84px;
         min-height: fit-content;
+    }
+
+    .logo {
+        width: 100%;
+        min-height: unset;
     }
 
     .nav-content {
