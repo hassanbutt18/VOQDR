@@ -239,7 +239,8 @@ a.nav-items.active{
     }
 
     .sign-in-btn {
-        padding: 5px 21px;
+        font-size: .875rem;
+        padding: 5px 5px;
     }
 
     .sign-in-btn a {

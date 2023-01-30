@@ -48,6 +48,10 @@
     cursor: not-allowed;
 }
 
+body.modal-open {
+    overscroll-behavior: contain;
+}
+
 * {
     font-family: 'Montserrat', sans-serif;
     scroll-behavior: smooth;

@@ -64,12 +64,12 @@ async function productCheckout(event) {
 
   beforeLoad(button, "Processing");
   response = await requestAPI('/check-signin/', JSON.stringify(data), headers, 'POST' );
-  afterLoad(button, button_text)
   response.json().then(async function (res) {
     if (!res.success) {
-      console.log(res.msg);
       showMsg(error, res.msg, 'bg-danger', 'show');
+      afterLoad(button, button_text)
     } else {
+        afterLoad(button, button_text)
         getPublicKey = await requestAPI('/config/', null, {}, 'GET');
         getPublicKey.json().then(async function (res) {
           if(res){
@@ -82,7 +82,6 @@ async function productCheckout(event) {
             })
           }
         })
-        
         // location.pathname = `product-checkout/${data.quantity}/`;
     }
   });

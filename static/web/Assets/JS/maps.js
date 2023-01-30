@@ -212,7 +212,6 @@ async function editDeviceDescriptionForm(event, id) {
   beforeLoad(button, "Saving");
   response = await requestAPI(`/edit-device-description/${id}/`, JSON.stringify(data), headers, 'PUT');
   response.json().then(function(res) {
-    console.log(res)
     if(!res.success) {
       showMsg(error, res.msg, 'bg-danger', 'show');
       afterLoad(button, button_text);
@@ -340,7 +339,6 @@ function getPosition (position) {
 
 async function initializeMap() {
   let loc = JSON.parse(localStorage.getItem("myLocation"));
-  // loc = null;
   if(loc == null || typeof(loc) == undefined || loc == undefined || loc.lat == null || loc.lng == null || typeof(loc.lat) == undefined || typeof(loc.lng) == undefined || loc.lat == undefined || loc.lng == undefined) {
     response = await requestAPI('https://ipinfo.io/json', null, {}, 'GET');
     response.json().then(function(res) {
@@ -361,7 +359,6 @@ function getMap() {
   // Adding Tiles(roads, buildings, locations, etc.)
 
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    maxZoom: 19,
     attribution:
       '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   }).addTo(map);
@@ -414,29 +411,29 @@ function routing(deviceLocations) {
   var firstLocation = deviceLocations.at(-1);
   var marker = L.marker([firstLocation.lat, firstLocation.lon], {icon: markerIcon});
 
-  // var radius = lastLocation.uncertainty;
-  // var innerRadius = radius / 2;
+  var radius = lastLocation.uncertainty;
+  var innerRadius = radius / 1.25;
   
-  var circleOuterRadius = L.circleMarker([lastLocation.lat, lastLocation.lon], {
+  var circleOuterRadius = L.circle([lastLocation.lat, lastLocation.lon], {
     fillColor: "rgba(217, 40, 99, 0.15)",
     fillOpacity: 1,
     color: "transparent",
-    radius: 75,
+    radius: radius,
   });
 
 
-  var circleRadius = L.circleMarker([lastLocation.lat, lastLocation.lon], {
+  var circleRadius = L.circle([lastLocation.lat, lastLocation.lon], {
     fillColor: "rgba(217, 40, 99, 0.4)",
     fillOpacity: 1,
     color: "transparent",
-    radius: 50,
+    radius: innerRadius,
   });
 
-  var circle = L.circleMarker([lastLocation.lat, lastLocation.lon], {
+  var circle = L.circle([lastLocation.lat, lastLocation.lon], {
     fillColor: "#d92863",
     fillOpacity: 1,
     color: "transparent",
-    radius: 35,
+    radius: innerRadius / 1.25,
     zIndex: 3,
   });
 
@@ -445,7 +442,7 @@ function routing(deviceLocations) {
     );
 
   markerGroup = L.featureGroup([marker, circleRadius, circleOuterRadius, circle]).addTo(map);
-  map.fitBounds(markerGroup.getBounds(), {padding: L.point(100, 100)});
+  map.fitBounds(markerGroup.getBounds(), {padding: L.point(80, 80)});
 
   var waypoints = [];
   for(var j = 0; j < deviceLocations.length; j = j + 1) {
@@ -500,26 +497,29 @@ function deviceLocation(deviceLocation) {
       map.removeControl(routes);
     }
   }
+  var lastLocation = deviceLocation;
+  var radius = lastLocation.uncertainty;
+  var innerRadius = radius / 1.25;
 
   var circleOuterRadius = L.circle([deviceLocation.lat, deviceLocation.lon], {
     fillColor: "rgba(217, 40, 99, 0.15)",
     fillOpacity: 1,
     color: "transparent",
-    radius: 75,
+    radius: radius,
   });
 
   var circleRadius = L.circle([deviceLocation.lat, deviceLocation.lon], {
     fillColor: "rgba(217, 40, 99, 0.4)",
     fillOpacity: 1,
     color: "transparent",
-    radius: 50,
+    radius: innerRadius,
   });
 
   var circle = L.circle([deviceLocation.lat, deviceLocation.lon], {
     fillColor: "#d92863",
     fillOpacity: 1,
     color: "transparent",
-    radius: 35,
+    radius: innerRadius / 1.25,
     zIndex: 3,
   });
 

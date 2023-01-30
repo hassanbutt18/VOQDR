@@ -2,6 +2,7 @@ from django.contrib import admin
 from web.models import ProductFeature, Testimonial, Application, ApplicationImage, ContactUs
 
 
+
 class AdminProductFeature(admin.ModelAdmin):
     def has_add_permission(self, request):
         features = ProductFeature.objects.count()

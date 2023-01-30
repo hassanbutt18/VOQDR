@@ -169,15 +169,15 @@
                     </defs>
                 </svg>
                 <form action="" class="align-items-center w-100">
+                    <div class="alert hide">
+                        <span class="closebtn" onclick="this.parentElement.classList.add('hide');">&times;</span>
+                        <span class="error-text"></span>
+                    </div>
                     {% csrf_token %}
                     <div class="mb-3 w-100 text-center">
                         <p><strong>Are you sure to delete this device?</strong></p>
                         <p>Are you sure you want to delete this Device? If you delete this device, it may be lost forever.
                         </p>
-                    </div>
-                    <div class="alert hide">
-                        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                        <span class="error-text"></span>
                     </div>
                     <div class="w-100 d-flex justify-content-center gap-4">
                         <button type="button" class="hide" id="closeDeleteDeviceModal" data-bs-dismiss="modal">Close</button>

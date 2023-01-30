@@ -15,7 +15,7 @@
     <div class="nav-content">
         <div class="nav-links">
             <a href="{% url 'maps' %}" class="nav-items {% if nbar == 'map' %}active{% endif %}">Map</a>
-            <a href="#" class="nav-items buy-modal-open-nav-button">Buy</a>
+            <a href="javascript:void(0)" class="nav-items buy-modal-open-nav-button">Buy</a>
         </div>
         {% if request.user.is_authenticated %}
             <div class="nav-profile-image">
