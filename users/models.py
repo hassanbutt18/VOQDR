@@ -101,7 +101,6 @@ class OrganizationPermissions(models.Model):
                     org.role = instance.role
                     org.save(update_fields=['role'])
             except Exception as e:
-                print(e)
                 OrganizationPermissions.objects.create(shared_by=instance.shared_by, shared_to=shared_to, role=instance.role)
 
 
@@ -110,12 +109,12 @@ class LinkDevice(models.Model):
     name = models.CharField(max_length=50, null=True, blank=True)
     device_id = models.CharField(unique=True, max_length=100, null=False, blank=False)
     description = models.TextField(null=True, blank=True)
-    battery_voltage = models.FloatField(null=True, blank=True)
+    battery_voltage = models.FloatField(null=True, blank=True, default=0.0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.name + ", " + self.organization.organization
+        return self.device_id
     
     class Meta:
         verbose_name_plural = "Linked Devices"
