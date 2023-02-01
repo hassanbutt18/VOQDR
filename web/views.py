@@ -56,6 +56,20 @@ def maps_vodcur(request):
     user = request.user
     context={'nbar':'map'}
     context['active_org'] = user.id
+    header = {"Authorization": f"Bearer {settings.AUTH_TOKEN}"}
+    status, response = requestAPI('GET', 'https://api.nrfcloud.com/v1/devices?includeState=true', header,{})
+    for devices in response['items']:
+        try:
+            list_devices = devices['state']['reported']['device']['deviceInfo']['batteryVoltage']
+            if list_devices:
+                battery_device = LinkDevice.objects.filter(device_id=devices['id']).first()
+                if battery_device:
+                    battery_device.battery_voltage = devices['state']['reported']['device']['deviceInfo']['batteryVoltage'] / 1000
+                    battery_device.save(update_fields=['battery_voltage'])
+                else:
+                    pass  
+        except Exception as e:
+            pass
     context["shared_with_us_organizations"] = user.shared_with_organization.all()
     context['role'] = 'admin'
     linked_devices = LinkDevice.objects.filter(organization=user.id).values()

@@ -281,14 +281,15 @@ i {
     pointer-events: all;
 }
 
-.tooltip1 {
+.battery-tooltip {
     display: none;
     position: absolute;
     z-index: 2;
-    margin-right: 10px;
+    bottom: 6px;
+    left: 10px;
 }
 
-.battery-indicator:hover .tooltip1 {
+.battery-indicator:hover .battery-tooltip {
     display: block;
 }
 

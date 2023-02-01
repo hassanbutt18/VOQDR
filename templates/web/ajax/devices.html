@@ -5,12 +5,28 @@
     <div class="device-header">
         <div class="device-heading">
             <div class="battery-indicator">
+                {% if device.battery_voltage >= 3.4  %}
                 <svg width="5" height="34" viewBox="0 0 5 37" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <rect y="0.5" width="5" height="33" rx="2.5" fill="#2A8908" />
                 </svg>
-                <img src="{% static 'web/Assets/Images/GoodBattery.svg' %}" class="tooltip1"
+                <img src="{% static 'web/Assets/Images/GoodBattery.svg' %}" class="battery-tooltip"
                     alt="Battery Indicator" />
+                {% elif device.battery_voltage < 3.4 and device.battery_voltage >= 3.0  %}
+                <svg width="5" height="34" viewBox="0 0 5 37" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <rect y="0.5" width="5" height="33" rx="2.5" fill="#FFB423" />
+                </svg>
+                <img src="{% static 'web/Assets/Images/LowBattery.svg' %}" class="battery-tooltip"
+                    alt="Battery Indicator" />
+                {% else %}
+                <svg width="5" height="34" viewBox="0 0 5 37" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <rect y="0.5" width="5" height="33" rx="2.5" fill=" #FB3B3B" />
+                </svg>
+                <img src="{% static 'web/Assets/Images/BadBattery.svg' %}" class="battery-tooltip"
+                    alt="Battery Indicator" />
+                {% endif %}
             </div>
             <h3>{{device.name}}</h3>
         </div>

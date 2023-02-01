@@ -7,6 +7,7 @@ admin.site.unregister(Group)
 class AdminLinkDevice(admin.ModelAdmin):
     readonly_fields = ["device_id"]
     list_display= ('device_id', 'name', 'organization')
+    exclude = ('battery_voltage',)
     def get_readonly_fields(self, request, obj=None):
         if obj:
             return self.readonly_fields
