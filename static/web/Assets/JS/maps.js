@@ -506,6 +506,7 @@ function deviceLocation(deviceLocation) {
     fillOpacity: 1,
     color: "transparent",
     radius: radius,
+    // radius: 10
   });
 
   var circleRadius = L.circle([deviceLocation.lat, deviceLocation.lon], {
@@ -513,6 +514,7 @@ function deviceLocation(deviceLocation) {
     fillOpacity: 1,
     color: "transparent",
     radius: innerRadius,
+    // radius: 10 / 1.25
   });
 
   var circle = L.circle([deviceLocation.lat, deviceLocation.lon], {
@@ -520,6 +522,7 @@ function deviceLocation(deviceLocation) {
     fillOpacity: 1,
     color: "transparent",
     radius: innerRadius / 1.25,
+    // radius: 10 / 1.25 / 1.25,
     zIndex: 3,
   });
 

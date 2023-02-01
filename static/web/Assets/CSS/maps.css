@@ -218,6 +218,7 @@ i {
 .devices-container {
     width: 100%;
     height: 160px;
+    padding-right: 1%;
     overflow-y: scroll;
 }
 
@@ -279,18 +280,23 @@ i {
     display: inline-block;
     position: relative;
     pointer-events: all;
+    margin-left: 7px;
 }
 
 .battery-tooltip {
     display: none;
     position: absolute;
     z-index: 2;
-    bottom: 6px;
-    left: 10px;
+    bottom: -21px;
+    left: -11px;
 }
 
 .battery-indicator:hover .battery-tooltip {
     display: block;
+}
+
+.bad-battery {
+    left: -10px;
 }
 
 .device>div:first-of-type {
