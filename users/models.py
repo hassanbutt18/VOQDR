@@ -110,6 +110,7 @@ class LinkDevice(models.Model):
     device_id = models.CharField(unique=True, max_length=100, null=False, blank=False)
     description = models.TextField(null=True, blank=True)
     battery_voltage = models.FloatField(null=True, blank=True, default=0.0)
+    device_order_id = models.IntegerField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -181,3 +182,11 @@ def organization_permissions(sender, instance, created, **kwargs):
 @receiver(models.signals.pre_save, sender=LinkDevice)
 def presave_handler(sender, instance, **kwargs):
     instance.full_clean()
+
+
+@receiver(models.signals.post_save, sender=LinkDevice)
+def postsave_handler(sender, instance, created, **kwargs):
+    if created:
+        print(instance.id)
+        instance.device_order_id = instance.id
+        instance.save(update_fields=['device_order_id'])

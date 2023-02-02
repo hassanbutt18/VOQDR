@@ -8,7 +8,7 @@
 }
 
 .footer span {
-    font-weight: 500;
+    font-weight: 600;
     font-size: 1rem;
     line-height: 1.8rem;
     color: #000000;
@@ -22,11 +22,32 @@
 }
 
 .footer div a {
-    font-weight: 500;
+    font-weight: 600;
     font-size: .875rem;
     line-height: 1.2rem;
     text-decoration-line: underline;
     color: #004762;
+}
+
+
+@media (min-width: 1920px) {
+    .footer {
+        height: 100px;
+    }
+
+    .footer span {
+        font-size: 1.25rem;
+    }
+
+    .footer div a {
+        font-size: 1.125rem;
+    }
+}
+
+@media (min-width: 1536px) and (max-width: 1919px) {
+    .footer {
+        height: 80px;
+    }
 }
 
 

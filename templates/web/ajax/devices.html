@@ -164,7 +164,7 @@
                         fill="white" />
                 </svg>
                 {% endif %}
-                <svg class="cursor-pointer" onclick="getDeviceCurrentLocation();" width="35" height="35"
+                <svg class="cursor-pointer" onclick="getDeviceCurrentLocation('{{device.device_id}}');" width="35" height="35"
                     viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <title>Location</title>
                     <rect width="50" height="50" rx="25" fill="#46879F" />
@@ -194,7 +194,7 @@
                         </clipPath>
                     </defs>
                 </svg>
-                <svg class="cursor-pointer" onclick="getRouting();" width="35" height="35" viewBox="0 0 50 50"
+                <svg class="cursor-pointer" onclick="getRouting('{{device.device_id}}');" width="35" height="35" viewBox="0 0 50 50"
                     fill="none" xmlns="http://www.w3.org/2000/svg">
                     <title>Movement</title>
                     <rect width="50" height="50" rx="25" fill="#46879F" />
@@ -218,7 +218,7 @@
         </div>
         <div class="device-additional-features">
             <div>
-                <svg class="cursor-pointer" onclick="shareLocation();" width="35" height="35" viewBox="0 0 51 51"
+                <svg class="cursor-pointer" onclick="shareLocation('{{device.device_id}}');" width="35" height="35" viewBox="0 0 51 51"
                     fill="none" xmlns="http://www.w3.org/2000/svg">
                     <title>Share Location</title>
                     <rect x="0.75" y="0.984375" width="50" height="50" rx="25" fill="#46879F" />

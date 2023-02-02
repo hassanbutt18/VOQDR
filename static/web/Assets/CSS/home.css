@@ -1,11 +1,15 @@
-.main {
-    position: relative;
+header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .main {
+    position: relative;
     display: flex;
     justify-content: center;
-
+    max-width: 1920px;
 }
 
 .main-heading {
@@ -56,17 +60,19 @@
     gap: 2.6%;
     margin-top: 50px;
     margin-bottom: 80px;
+    max-width: 590px;
+    width: 30%;
+    font-weight: 700;
+    font-size: 1.2rem;
+    line-height: 1.2rem;
 }
 
 .group-buttons button:first-child {
-    width: 14%;
+    width: 45%;
     aspect-ratio: 1 / .31;
     background-color: #46879F;
     border: 1px solid white;
     border-radius: 80px;
-    font-weight: 700;
-    font-size: 1.5rem;
-    line-height: 1.5rem;
     color: #FFFFFF;
 }
 
@@ -75,23 +81,18 @@
 }
 
 .group-buttons button:last-child {
-    width: 14%;
+    width: 45%;
     aspect-ratio: 1 / .31;
     color: #46879F;
     border: 1px solid #46879F;
     border-radius: 80px;
-    font-weight: 700;
-    font-size: 1.5rem;
-    line-height: 1.5rem;
     background-color: white;
 }
 
-
-@media (min-width: 1536px) and (max-width: 1920px) {
-    .group-buttons button:first-child,
-    .group-buttons button:last-child {
-        font-size: 1.875rem;
-        line-height: 1.8rem;
+@media (min-width: 1920px) {
+    .group-buttons{
+        font-size: 1.5rem;
+        line-height: 1.5rem;
     }
 }
 
@@ -111,12 +112,10 @@
         text-align: left;
     }
 
-    .group-buttons button:first-child,
-    .group-buttons button:last-child {
-        font-size: 1.125rem;
-        line-height: 1.125rem;
+    .group-buttons {
+        font-size: 1rem;
+        line-height: 1rem;
     }
-
 }
 
 
@@ -156,6 +155,7 @@
 
     .group-buttons {
         margin: 10px 0px;
+        width: 100%;
     }
 
     .group-buttons button:first-child,

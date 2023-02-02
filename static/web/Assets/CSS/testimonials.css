@@ -111,6 +111,8 @@
 
 .mySwiper {
     position: relative;
+    background-color: #F8FCFE;
+    max-width: 1920px;
 }
 
 .swiper-button-next {

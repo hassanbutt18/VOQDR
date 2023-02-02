@@ -206,6 +206,7 @@ i {
 .hide-organisations {
     display: none;
     width: 100%;
+    transition: display 1s ease-in-out;
 }
 
 .show-devices,

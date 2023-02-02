@@ -2,6 +2,7 @@ window.onload = () => {
   initializeMap();
   loadMapControls();
   getAuthToken();
+  // loadDraggableElements();
 }
 
 let token = null;
@@ -352,6 +353,27 @@ async function initializeMap() {
   }
 }
 
+const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+
+const alert = (message, type) => {
+  const wrapper = document.createElement('div')
+  wrapper.innerHTML = [
+    `<div class="alert alert-${type} alert-dismissible location-alert" role="alert">`,
+    `   <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+        </svg>`,
+    `   <div>${message}</div>`,
+    '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+    '</div>'
+  ].join('')
+  alertPlaceholder.innerHTML = ''
+  alertPlaceholder.append(wrapper)
+  let timeOut = setTimeout(function() {
+    alertPlaceholder.innerHTML = '';
+  }, 5000);
+}
+
+
 function getMap() {
   let loc = JSON.parse(localStorage.getItem("myLocation")) || {};
   map = L.map("maps", {center: [loc.lat, loc.lng], zoom: 14});
@@ -376,17 +398,17 @@ var markerIcon = L.icon({
 
 // Get Locations for routing
 
-async function getRouting() {
+async function getRouting(deviceId) {
   headers = {
     'Authorization': `Bearer ${token}`
   };
-  response = await requestAPI('https://api.nrfcloud.com/v1/location/history?deviceId=nrf-351516172549545', null, headers, 'GET');
+  response = await requestAPI(`https://api.nrfcloud.com/v1/location/history?deviceId=${deviceId}`, null, headers, 'GET');
   response.json().then(function (res) {
-    if (res) {
+    if (res.items.length > 0) {
       routing(res.items);
     }
     else{
-      console.log("No response");
+      alert('Device routes not available', 'danger')
     }
   });
 }
@@ -471,17 +493,17 @@ function routing(deviceLocations) {
 
 // Get Last Known Location Of Device
 
-async function getDeviceCurrentLocation() {
+async function getDeviceCurrentLocation(deviceId) {
   headers = {
     'Authorization': `Bearer ${token}`
   };
-  response = await requestAPI('https://api.nrfcloud.com/v1/location/history?deviceId=nrf-351516172549545', null, headers, 'GET');
+  response = await requestAPI(`https://api.nrfcloud.com/v1/location/history?deviceId=${deviceId}`, null, headers, 'GET');
   response.json().then(function (res) {
-    if (res) {
+    if (res.items.length > 0) {
       deviceLocation(res.items[0]);
     }
     else{
-      console.log("No response");
+      alert('Device location not available', 'danger')
     }
   });
 }
@@ -506,7 +528,6 @@ function deviceLocation(deviceLocation) {
     fillOpacity: 1,
     color: "transparent",
     radius: radius,
-    // radius: 10
   });
 
   var circleRadius = L.circle([deviceLocation.lat, deviceLocation.lon], {
@@ -514,7 +535,6 @@ function deviceLocation(deviceLocation) {
     fillOpacity: 1,
     color: "transparent",
     radius: innerRadius,
-    // radius: 10 / 1.25
   });
 
   var circle = L.circle([deviceLocation.lat, deviceLocation.lon], {
@@ -522,7 +542,6 @@ function deviceLocation(deviceLocation) {
     fillOpacity: 1,
     color: "transparent",
     radius: innerRadius / 1.25,
-    // radius: 10 / 1.25 / 1.25,
     zIndex: 3,
   });
 
@@ -535,33 +554,13 @@ function deviceLocation(deviceLocation) {
 }
 
 
-const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
-
-const alert = (message, type) => {
-  const wrapper = document.createElement('div')
-  wrapper.innerHTML = [
-    `<div class="alert alert-${type} alert-dismissible location-alert" role="alert">`,
-    `   <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-        </svg>`,
-    `   <div>${message}</div>`,
-    '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-    '</div>'
-  ].join('')
-  alertPlaceholder.innerHTML = ''
-  alertPlaceholder.append(wrapper)
-  let timeOut = setTimeout(function() {
-    alertPlaceholder.innerHTML = '';
-  }, 5000);
-}
-
-async function shareLocation() {
+async function shareLocation(device_Id) {
   headers = {
     'Authorization': `Bearer ${token}`
   };
-  response = await requestAPI('https://api.nrfcloud.com/v1/location/history?deviceId=nrf-351516172549545', null, headers, 'GET');
+  response = await requestAPI(`https://api.nrfcloud.com/v1/location/history?deviceId=${device_Id}`, null, headers, 'GET');
   response.json().then(async function (res) {
-    if (res) {
+    if (res.items.length > 0) {
       const url = `https://www.google.com/maps/place/${res.items[0].lat},${res.items[0].lon}/${res.items[0].lat},${res.items[0].lon},17z/data=!3m1!4b1`
       const shareData = {
         title: `Device Location: ${res.items[0].deviceId}`,
@@ -587,7 +586,49 @@ async function shareLocation() {
       }
     }
     else{
-      console.log("No response");
+      alert('Device location not available', 'danger')
     }
   });
 }
+
+
+// function handleDragStart(e) {
+//   this.style.opacity = '0.4';
+//   dragSrcEl = this;
+//   e.dataTransfer.effectAllowed = 'move';
+//   e.dataTransfer.setData('text/html', this.innerHTML);
+//   console.log("in drag start");
+// }
+
+// function handleDragEnd(e) {
+//   this.style.opacity = '1';
+//   console.log("in drag end");
+//   loadMapControls();
+// }
+
+// function handleDragOver(e) {
+//   e.preventDefault();
+//   console.log("in drag over")
+//   return false;
+// }
+
+// function handleDrop(e) {
+//   e.stopPropagation();
+//   if (dragSrcEl !== this) {
+//     dragSrcEl.innerHTML = this.innerHTML;
+//     this.innerHTML = e.dataTransfer.getData('text/html');
+//   }
+//   console.log(this.id, dragSrcEl.id);
+//   response = requestAPI()
+//   return false;
+// }
+
+// function loadDraggableElements() {
+//   let items = document.querySelectorAll('.device');
+//   items.forEach(function (item) {
+//     item.addEventListener('dragstart', handleDragStart);
+//     item.addEventListener('dragover', handleDragOver);
+//     item.addEventListener('dragend', handleDragEnd);
+//     item.addEventListener('drop', handleDrop);
+//   });
+// }
