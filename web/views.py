@@ -260,6 +260,15 @@ def delete_device(request, pk):
     return JsonResponse(context)
 
 
+# def save_device_order(request, pk1, pk2):
+#     msg = None
+#     success = False
+#     context['msg'] = msg
+#     context['success'] = success
+#     context = {}
+#     return JsonResponse(context)
+
+
 @login_required(login_url='/signin/')
 def my_account(request):
     msg = None

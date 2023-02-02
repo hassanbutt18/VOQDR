@@ -408,7 +408,15 @@ async function getRouting(deviceId) {
       routing(res.items);
     }
     else{
-      alert('Device routes not available', 'danger')
+      alert('Device routes not available', 'danger');
+      if(map) {
+        if(markerGroup !== null) {
+          markerGroup.clearLayers();
+        }
+        if (routes) {
+          map.removeControl(routes);
+        }
+      }
     }
   });
 }
@@ -503,7 +511,15 @@ async function getDeviceCurrentLocation(deviceId) {
       deviceLocation(res.items[0]);
     }
     else{
-      alert('Device location not available', 'danger')
+      alert('Device location not available', 'danger');
+      if(map) {
+        if(markerGroup !== null) {
+          markerGroup.clearLayers();
+        }
+        if (routes) {
+          map.removeControl(routes);
+        }
+      }
     }
   });
 }
@@ -608,18 +624,20 @@ async function shareLocation(device_Id) {
 
 // function handleDragOver(e) {
 //   e.preventDefault();
-//   console.log("in drag over")
 //   return false;
 // }
 
-// function handleDrop(e) {
+// async function handleDrop(e) {
 //   e.stopPropagation();
 //   if (dragSrcEl !== this) {
 //     dragSrcEl.innerHTML = this.innerHTML;
 //     this.innerHTML = e.dataTransfer.getData('text/html');
 //   }
 //   console.log(this.id, dragSrcEl.id);
-//   response = requestAPI()
+//   response = await requestAPI(`/save-device-order/${this.id}/${dragSrcEl.id}`, null, {}, 'PUT');
+//   response.json().then(function(res) {
+//     console.log(res);
+//   })
 //   return false;
 // }
 

@@ -67,7 +67,7 @@ header {
     line-height: 1.2rem;
 }
 
-.group-buttons button:first-child {
+.group-buttons > button:first-child {
     width: 45%;
     aspect-ratio: 1 / .31;
     background-color: #46879F;
@@ -76,11 +76,11 @@ header {
     color: #FFFFFF;
 }
 
-.group-buttons button:first-child:hover {
+.group-buttons > button:first-child:hover {
     background-color: #3c758a;
 }
 
-.group-buttons button:last-child {
+.group-buttons a {
     width: 45%;
     aspect-ratio: 1 / .31;
     color: #46879F;
@@ -88,6 +88,14 @@ header {
     border-radius: 80px;
     background-color: white;
 }
+
+.group-buttons button:last-child {
+    border: 1px solid transparent;
+    height: 100%;
+    background-color: transparent;
+    color: #46879F;
+}
+
 
 @media (min-width: 1920px) {
     .group-buttons{
@@ -158,8 +166,8 @@ header {
         width: 100%;
     }
 
-    .group-buttons button:first-child,
-    .group-buttons button:last-child {
+    .group-buttons > button:first-child,
+    .group-buttons a {
         width: 120px;
     }
 

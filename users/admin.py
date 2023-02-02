@@ -6,9 +6,14 @@ admin.site.unregister(Group)
 
 class AdminLinkDevice(admin.ModelAdmin):
     readonly_fields = ["device_id", "battery_voltage"]
-    list_display= ('device_id', 'name', 'organization')
+    list_display= ('device_id', 'name', 'get_organization_name')
     search_fields= ('device_id', 'name', 'organization__email')
     exclude = ('battery_voltage', 'device_order_id')
+
+    def get_organization_name(self, obj):
+        return obj.organization.organization
+    get_organization_name.short_description = 'Organization'
+
     def get_readonly_fields(self, request, obj=None):
         if obj:
             return self.readonly_fields
