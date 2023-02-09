@@ -405,7 +405,7 @@ async function getRouting(deviceId) {
   response = await requestAPI(`https://api.nrfcloud.com/v1/location/history?deviceId=${deviceId}`, null, headers, 'GET');
   response.json().then(function (res) {
     if (res.items.length > 0) {
-      routing(res.items);
+      routing(sortServiceType(res.items));
     }
     else{
       alert('Device routes not available', 'danger');
