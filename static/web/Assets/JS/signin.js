@@ -40,7 +40,7 @@ async function signinForm(event) {
     if (!res.success) {
       showMsg(error, res.msg, "bg-danger", "show");
     } else {
-      location.pathname = "/";
+      location.pathname = "/map/";
     }
   });
 }

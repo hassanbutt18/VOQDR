@@ -48,6 +48,11 @@ class User(AbstractBaseUser, PermissionsMixin):
             return self.image.url
         else:
             return 'https://www.w3schools.com/howto/img_avatar.png'
+        
+    def save(self, *args, **kwargs):
+        if self.email:
+            self.email = self.email.lower()
+        super(User, self).save(*args, **kwargs)
 
 
 

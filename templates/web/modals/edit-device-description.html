@@ -18,16 +18,20 @@
                     </defs>
                 </svg>
             </div>
-            <div class="modal-body">
+            <div class="modal-body pt-0">
                 <form action="" class="align-items-start">
                     <div class="alert hide">
                         <span class="closebtn" onclick="this.parentElement.classList.add('hide');">&times;</span>
                         <span class="error-text"></span>
                     </div>
                     {% csrf_token %}
+                    <div class=" w-100">
+                        <label for="name" class="col-form-label">Device Name:</label>
+                        <input type="text" id="name" required class="form-control" name="name" />
+                    </div>
                     <div class="mb-3 w-100">
-                        <label for="name" class="col-form-label">Device Description:</label>
-                        <input type="text" required class="form-control" name="description" />
+                        <label for="description" class="col-form-label">Device Description:</label>
+                        <input type="text" id="description" required class="form-control" name="description" />
                     </div>
                     <div class="w-100 d-flex justify-content-center gap-4">
                         <button type="button" id="closeEditDescriptionModal" class="btn bg-white" style="color: #46879F; border: 1px solid #46879F;

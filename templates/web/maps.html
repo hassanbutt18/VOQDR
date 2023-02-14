@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
     <link rel="stylesheet" href="{% static 'web/Assets/CSS/maps.css' %}">
     {% endblock %}
-    <title>{% block title %}VOQDR{% endblock %}</title>
+    <title>{% block title %}VOQDR Devices Locations{% endblock %}</title>
 </head>
 
 <body>
@@ -50,7 +50,7 @@
             </div>
             <div class="devices-options">
                 <div class="device-container-header">
-                    <span class="devices-header-text">Show Devices</span>
+                    <span class="devices-header-text">Devices</span>
                     <i class="fa-solid fa-chevron-down devices-chevron-down"></i>
                     <i class="fa-solid fa-chevron-up devices-chevron-up"></i>
                 </div>
@@ -87,7 +87,8 @@
         </div>
 
     </section>
-    {{devices_json|json_script:"devices_json"}}
+    {{linked_devices|json_script:"linked_devices"}}
+    {{multipleLocations|json_script:"multipleLocations"}}
     {% endblock %}
 </body>
 {% block scripts %}
@@ -96,6 +97,7 @@
     integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
 <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 <script>
+    const multipleLocations = JSON.parse(JSON.parse(document.getElementById('multipleLocations').textContent));
     var active_user_devices = parseInt('{{active_org|safe}}');
     document.querySelector('.organization').classList.add('active');
 </script>

@@ -29,8 +29,8 @@ nav {
 }
 
 nav>a:first-of-type {
-    width: 9%;
-    aspect-ratio: 1 / .3;
+    width: 13%;
+    /* aspect-ratio: 1 / .3; */
 }
 
 .logo {
@@ -205,7 +205,7 @@ a.nav-items.active{
 
 @media (max-width: 1024px) {
     .logo {
-        width: auto;
+        /* width: auto; */
         min-height: 35px;
     }
 
@@ -229,7 +229,7 @@ a.nav-items.active{
 
     nav>a:first-of-type {
         order: 2;
-        width: 84px;
+        width: 28%;
         min-height: fit-content;
     }
 
@@ -304,6 +304,11 @@ a.nav-items.active{
 
 
 @media (max-width: 480px) {
+    nav>a:first-of-type {
+        order: 2;
+        width: 35%;
+        min-height: fit-content;
+    }
     .nav-profile-image {
         width: 36px;
         height: 36px;

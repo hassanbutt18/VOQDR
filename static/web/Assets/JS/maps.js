@@ -5,6 +5,69 @@ window.onload = () => {
   // loadDraggableElements();
 }
 
+
+
+function drawDevicesMarkers(){
+  var markerIcon = L.icon({
+    iconUrl: location.origin+"/static/web/Assets/Images/favicon.png",
+    // iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+    iconSize: [50, 50], // set the size of the icon
+    iconAnchor: [25, 50] // set the anchor point
+  });
+  if(map) {
+    if(markerGroup !== null) {
+      markerGroup.clearLayers();
+    }
+    if (routes) {
+      map.removeControl(routes);
+    }
+  }
+  // multipleLocations
+  for (var i = 0; i < multipleLocations.length; i++) {
+    // L.marker([multipleLocations[i].lat, multipleLocations[i].lon], {icon: L.icon({
+    //     iconUrl: location.origin+"/static/web/Assets/Images/favicon.png",
+    //     iconSize: [50, 50], // set the size of the icon
+    //     iconAnchor: [25, 50] // set the anchor point
+    // })}).addTo(map);
+    var marker = L.marker([multipleLocations[i].lat, multipleLocations[i].lon], {icon: markerIcon});
+    marker.bindPopup(
+        `<strong>Device:</strong> ${multipleLocations[i].deviceId} <br/><br/> <strong>Last seen:</strong> ${multipleLocations[i].insertedAt}`
+      );
+
+    marker.addTo(map);
+    
+  }
+  var waypoints = [];
+  for(var j = 0; j < multipleLocations.length; j = j + 1) {
+    waypoints.push([multipleLocations[j].lat, multipleLocations[j].lon]);
+  }
+  var bounds = L.latLngBounds(waypoints);
+  map.fitBounds(bounds);
+
+  // Displaying route on the map from one location to another
+  // using the plugin leaflet routing machine
+
+  // routes = L.Routing.control({
+  //   waypoints: waypoints,
+  //   routeWhileDragging: false,
+  //   draggableWaypoints: false,
+  //   fitSelectedRoutes: true,
+  //   lineOptions: {
+  //     styles: [{ color: "#d92863", weight: 3 }],
+  //     addWaypoints: false,
+  //   },
+  //   fitSelectedRoutes: false,
+  //   createMarker: function () {
+  //     return null;
+  //   },
+  // }).addTo(map);
+  // if(multipleLocations.length > 0){
+  //   multipleLocations.forEach(location=>{
+  //     deviceLocation(location);
+  //   })
+  // }
+}
+
 let token = null;
 
 async function getAuthToken() {
@@ -55,19 +118,18 @@ const devicesHeaderChevronDown = document.querySelector(
 function toggleDevices() {
   if (deviceContainer.classList.contains("show-devices")) {
     deviceContainer.classList.remove("show-devices");
-    devicesHeaderText.textContent = "Show Device";
+    devicesHeaderText.textContent = "Devices";
     devicesHeaderChevronDown.classList.remove("hide-chevron");
     devicesHeaderChevronUp.classList.remove("show-chevron");
   } else {
     deviceContainer.classList.add("show-devices");
-    devicesHeaderText.textContent = "Hide Device";
+    devicesHeaderText.textContent = "Devices";
     devicesHeaderChevronDown.classList.add("hide-chevron");
     devicesHeaderChevronUp.classList.add("show-chevron");
   }
 }
 
 devicesHeader.addEventListener("click", toggleDevices);
-
 
 
 function loadMapControls() {
@@ -183,11 +245,13 @@ async function searchDevices(event){
 
 // Opening Edit Device Description Modal
 
-function editDeviceDescriptionModal(event, id, device_description, modal_id) {
+function editDeviceDescriptionModal(event, id, device_name, device_description, modal_id) {
   let modal = document.querySelector(`#${modal_id}`);
   let form = modal.querySelector('form');
   let error = form.querySelector('.alert');
   showMsg(error, '', 'bg-danger', 'hide');
+  let deviceName = form.querySelector('input[name="name"]');
+  deviceName.value = device_name;
   let deviceDescription = form.querySelector('input[name="description"]');
   deviceDescription.value = device_description;
   form.setAttribute('onsubmit', `editDeviceDescriptionForm(event, '${id}')`)
@@ -376,14 +440,21 @@ const alert = (message, type) => {
 
 function getMap() {
   let loc = JSON.parse(localStorage.getItem("myLocation")) || {};
-  map = L.map("maps", {center: [loc.lat, loc.lng], zoom: 14});
+  if(multipleLocations.length > 0){
+    map = L.map("maps", {center: [multipleLocations[0].lat, multipleLocations[0].lon], zoom: 4});
+  }else{
+    map = L.map("maps", {center: [loc.lat, loc.lng], zoom: 4});
+  }
+  
 
   // Adding Tiles(roads, buildings, locations, etc.)
 
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution:
       '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    maxZoom: 18
   }).addTo(map);
+  drawDevicesMarkers();
 }
 
 
@@ -523,7 +594,7 @@ async function getDeviceCurrentLocation(deviceId) {
     }
   });
 }
-
+// `${location.origin}/static/web/Assets/Images/favicon.png`,
 // Adding Circular Marker to Current Device location
 
 function deviceLocation(deviceLocation) {

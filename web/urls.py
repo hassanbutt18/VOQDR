@@ -32,5 +32,7 @@ urlpatterns = [
     path('edit-device-name/<str:pk>/', views.edit_device_name, name="edit_device_name"),
     path('get-sharedwith-devices/<str:pk>/', views.get_shared_with_devices, name="get_shared_with_devices"),
     path('get-auth-token/', views.get_auth_token, name="get_auth_token"),
+    path('terms-and-conditions/', views.terms_and_conditions, name="terms_and_conditions"),
+    path('privacy-policy/', views.privacy_policy, name="privacy_policy"),
     path('', views.index, name='index'),
 ]

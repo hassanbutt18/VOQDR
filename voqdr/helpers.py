@@ -13,6 +13,7 @@ from django.core import serializers
 
 SUCCESS_CODE = 1
 
+
 def requestAPI(method:str, url:str, headers:dict, data:dict):
     status = 400
     try:
@@ -20,6 +21,18 @@ def requestAPI(method:str, url:str, headers:dict, data:dict):
         return response.status_code, response.json()
     except Exception as e:
         return status, str(e)
+    
+import httpx
+
+async def asyncRequestAPI(url, authtoken):
+    headers = {
+        'Authorization': F"Bearer {authtoken}"
+    }
+    async with httpx.AsyncClient() as client:
+        response = await client.get(url, headers=headers)
+        return response.json()
+    
+
 
 def SuccessResponse(data):
     return JsonResult(SUCCESS_CODE, data, status.HTTP_200_OK)

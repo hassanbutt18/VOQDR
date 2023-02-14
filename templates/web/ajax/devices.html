@@ -119,7 +119,7 @@
 
             {% if role == 'admin' %}
             <svg class="cursor-pointer"
-                onclick="editDeviceDescriptionModal(event, '{{device.device_id}}', '{{device.description}}', 'editDeviceDescription');"
+                onclick="editDeviceDescriptionModal(event, '{{device.device_id}}', '{{device.name}}', '{{device.description}}', 'editDeviceDescription');"
                 width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <title>Edit Device Description</title>
                 <path
@@ -138,7 +138,7 @@
         </div>
         <div class="device-feature-container">
             <div class="device-features">
-                {% if role == 'admin' %}
+                <!-- {% if role == 'admin' %}
                 <svg class="cursor-pointer"
                     onclick="editDeviceNameModal(event, '{{device.device_id}}', '{{device.name}}', 'editDeviceName')"
                     width="35" height="35" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -163,7 +163,7 @@
                         d="M18 18H22.375V19.75H18C17.0335 19.75 16.25 20.5335 16.25 21.5V28.4952C16.25 29.4616 17.0335 30.2453 18 30.2453H22.375V31.9953H18C16.067 31.9953 14.5 30.4281 14.5 28.4952V21.5C14.5 19.567 16.067 18 18 18ZM32 30.2453H27.625V31.9953H32C33.9331 31.9953 35.5 30.4281 35.5 28.4952V21.5C35.5 19.567 33.9331 18 32 18H27.625V19.75H32C32.9665 19.75 33.75 20.5335 33.75 21.5V28.4952C33.75 29.4618 32.9665 30.2453 32 30.2453Z"
                         fill="white" />
                 </svg>
-                {% endif %}
+                {% endif %} -->
                 <svg class="cursor-pointer" onclick="getDeviceCurrentLocation('{{device.device_id}}');" width="35" height="35"
                     viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <title>Location</title>

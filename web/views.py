@@ -22,8 +22,9 @@ from users.models import InvitedOrganization, LinkDevice, OrganizationPermission
 from django.contrib.auth.decorators import login_required
 
 from web.models import Application, ProductFeature, Testimonial, ApplicationImage, ContactUs
+import tracemalloc
 
-
+tracemalloc.start()
 
 
 def otp_number():
@@ -47,7 +48,7 @@ def index(request):
     context['application_image'] = application_image
     context['testimonials'] = testimonials
     return render(request, 'web/index.html', context)
-
+import asyncio
 
 @login_required(login_url='/signin/')
 def maps_vodcur(request):
@@ -76,6 +77,18 @@ def maps_vodcur(request):
     if linked_devices:
         linked_devices = ValuesQuerySetToDict(linked_devices)
         context['linked_devices'] = linked_devices
+        devices_ids = [obj["device_id"] for obj in linked_devices]
+        multipleLocations = []
+        for device in devices_ids:
+            url = F"https://api.nrfcloud.com/v1/location/history?deviceId={device}"
+            response = asyncio.run(asyncRequestAPI(url, settings.AUTH_TOKEN))
+            if response["items"]:
+                multipleLocations.append(response["items"][0])
+                multipleLocations.append(response["items"][1])
+                multipleLocations.append(response["items"][2])
+                multipleLocations.append(response["items"][3])
+                multipleLocations.append(response["items"][4])
+        context["multipleLocations"] = json.dumps(multipleLocations)
         msg= "Got devices successfully"
         success = True
     else:
@@ -216,14 +229,16 @@ def edit_device_description(request, pk):
     org = OrganizationPermissions.objects.filter(shared_by_id=linked_devices.organization_id, shared_to_id=request.user.id).first()
     try:
         if request.user.id == linked_devices.organization_id:
+            linked_devices.name = request_data.get('name')
             linked_devices.description = request_data.get('description')
-            linked_devices.save(update_fields=['description'])
-            msg = 'Device description changed successfully'
+            linked_devices.save(update_fields=['name', 'description'])
+            msg = 'Device has been updated successfully'
             success = True
         elif org is not None and org.role == 'admin':
+            linked_devices.name = request_data.get('name')
             linked_devices.description = request_data.get('description')
-            linked_devices.save(update_fields=['description'])
-            msg = 'Device description changed successfully'
+            linked_devices.save(update_fields=['name', 'description'])
+            msg = 'Device has been updated successfully'
             success = True
         else:
             msg = "Permission Denied"
@@ -268,6 +283,14 @@ def delete_device(request, pk):
 #     context = {}
 #     return JsonResponse(context)
 
+def terms_and_conditions(request):
+    context = {}
+    return render(request, 'web/terms-and-conditions.html', context)
+
+def privacy_policy(request):
+    context = {}
+    return render(request, 'web/privacy-policy.html', context)
+
 
 @login_required(login_url='/signin/')
 def my_account(request):
@@ -304,12 +327,12 @@ def signin(request):
     success = False
     context = {}
     if request.user.is_authenticated:
-        return redirect('/')
+        return redirect('/map/')
     if request.method == "POST":
         request_data = request.body.decode('utf-8')
         request_data = json.loads(request_data)
         try:
-            user = User.objects.get(email=request_data.get('email'))
+            user = User.objects.get(email__iexact=request_data.get('email'))
         except Exception as e:
             user = None
         if user is None:

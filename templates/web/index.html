@@ -23,17 +23,20 @@
 
     {% endblock %}
 
-    <title>{% block title %}VOQDR{% endblock %}</title>
+    <title>{% block title %}VOQDR Home{% endblock %}</title>
 </head>
 
 <body>
     {% block body %}
-    <header>
+    <header class="pt-5 mt-5">
         <div class="main">
             <div class="main-heading">
-                <h1>Time Tracking website</h1>
-                <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...
-                </p>
+                <h1>VOQDR - Tracking made easy!</h1>
+                <p class="mb-1">Extreme battery lifetime</p>
+                <p class="mb-1">Heavy duty design</p>
+                <p class="mb-1">Easy-to-install, easy-to-use</p>
+                <!-- <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...
+                </p> -->
             </div>
             <div class="main-image">
                 <img src="{% static 'web/Assets/Images/HomeMainImage.svg' %}" alt="Home Main Image">
@@ -48,7 +51,8 @@
 
     <section class="product-features" id="product-features">
         <div class="feature-container">
-            <h2>Product Features</h2>
+            <!-- <h2>Product Features</h2> -->
+            <h2>VOQDR - keeps it simple!</h2>
             <div class="feature-card-container">
                 {% if product_features %}
                 {% for feature in product_features %}
@@ -65,7 +69,8 @@
     </section>
 
     <section class="applications">
-        <h2>Applications</h2>
+        <!-- <h2>Applications</h2> -->
+        <h2>VOQDR - knows where it is!</h2>
         <div class="applications-container">
             {% if application_image %}
             {% for app_img in application_image%}

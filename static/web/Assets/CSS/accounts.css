@@ -1,14 +1,35 @@
 .accounts {
     margin-bottom: 10px;
+    padding-top: 130px;
+}
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
 
 .accounts h2 {
     font-weight: 700;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     line-height: 1.5rem;
     color: #004762;
     margin: 10px 0;
     padding: 0 2%;
+}
+h1,h2,h3,h4,h5,p{
+    color: #004762;
+}
+
+.accounts p{
+    font-size: 1.15rem;
+    margin-bottom: 0.6rem;
+}
+.h4{
+    font-size: 1.3rem;
+}
+
+.accounts li {
+    font-size: 1.15rem;
 }
 
 .accounts-container {
@@ -402,6 +423,9 @@ select:focus {
 
 
 @media (max-width: 768px) {
+    .accounts{
+        padding-top: 60px;
+    }
     .accounts-container {
         flex-direction: column;
     }

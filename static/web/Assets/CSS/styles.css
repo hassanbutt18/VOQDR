@@ -16,6 +16,7 @@
     font-style: normal;
 }
 
+
 @font-face {
     font-family: 'Gotham';
     src: url("./Gotham-Font/Gotham-Book.otf");
@@ -95,4 +96,7 @@ body {
     body {
         width: 100%;
     }
+}
+.toast {
+    z-index: 100000!important;
 }
