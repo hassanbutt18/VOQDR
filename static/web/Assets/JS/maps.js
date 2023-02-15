@@ -594,10 +594,15 @@ async function getDeviceCurrentLocation(deviceId) {
     }
   });
 }
-// `${location.origin}/static/web/Assets/Images/favicon.png`,
 // Adding Circular Marker to Current Device location
 
-function deviceLocation(deviceLocation) {
+function deviceLocation(deviceLocation){
+  var markerIcon = L.icon({
+    iconUrl: location.origin+"/static/web/Assets/Images/favicon.png",
+    // iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+    iconSize: [50, 50], // set the size of the icon
+    iconAnchor: [25, 50] // set the anchor point
+  });
   if(map) {
     if(markerGroup !== null) {
       markerGroup.clearLayers();
@@ -606,39 +611,59 @@ function deviceLocation(deviceLocation) {
       map.removeControl(routes);
     }
   }
-  var lastLocation = deviceLocation;
-  var radius = lastLocation.uncertainty;
-  var innerRadius = radius / 1.25;
+  var marker = L.marker([deviceLocation.lat, deviceLocation.lon], {icon: markerIcon});
+  marker.bindPopup(
+      `<strong>Device:</strong> ${deviceLocation.deviceId} <br/><br/> <strong>Last seen:</strong> ${deviceLocation.insertedAt}`
+    );
 
-  var circleOuterRadius = L.circle([deviceLocation.lat, deviceLocation.lon], {
-    fillColor: "rgba(217, 40, 99, 0.15)",
-    fillOpacity: 1,
-    color: "transparent",
-    radius: radius,
-  });
-
-  var circleRadius = L.circle([deviceLocation.lat, deviceLocation.lon], {
-    fillColor: "rgba(217, 40, 99, 0.4)",
-    fillOpacity: 1,
-    color: "transparent",
-    radius: innerRadius,
-  });
-
-  var circle = L.circle([deviceLocation.lat, deviceLocation.lon], {
-    fillColor: "#d92863",
-    fillOpacity: 1,
-    color: "transparent",
-    radius: innerRadius / 1.25,
-    zIndex: 3,
-  });
-
-  circle.bindPopup(
-    `<strong>Device:</strong> ${deviceLocation.deviceId} <br/><br/> <strong>Last seen:</strong> ${deviceLocation.insertedAt}`
-  );
-
-  markerGroup = L.featureGroup([circleRadius, circleOuterRadius, circle]).addTo(map);
-  map.fitBounds(markerGroup.getBounds(), {padding: L.point(150, 150)});
+  marker.addTo(map);
+  var waypoints = [[deviceLocation.lat, deviceLocation.lon]];
+  var bounds = L.latLngBounds(waypoints);
+  map.fitBounds(bounds);
 }
+
+// function deviceLocation(deviceLocation) {
+//   if(map) {
+//     if(markerGroup !== null) {
+//       markerGroup.clearLayers();
+//     }
+//     if (routes) {
+//       map.removeControl(routes);
+//     }
+//   }
+//   var lastLocation = deviceLocation;
+//   var radius = lastLocation.uncertainty;
+//   var innerRadius = radius / 1.25;
+
+//   var circleOuterRadius = L.circle([deviceLocation.lat, deviceLocation.lon], {
+//     fillColor: "rgba(217, 40, 99, 0.15)",
+//     fillOpacity: 1,
+//     color: "transparent",
+//     radius: radius,
+//   });
+
+//   var circleRadius = L.circle([deviceLocation.lat, deviceLocation.lon], {
+//     fillColor: "rgba(217, 40, 99, 0.4)",
+//     fillOpacity: 1,
+//     color: "transparent",
+//     radius: innerRadius,
+//   });
+
+//   var circle = L.circle([deviceLocation.lat, deviceLocation.lon], {
+//     fillColor: "#d92863",
+//     fillOpacity: 1,
+//     color: "transparent",
+//     radius: innerRadius / 1.25,
+//     zIndex: 3,
+//   });
+
+//   circle.bindPopup(
+//     `<strong>Device:</strong> ${deviceLocation.deviceId} <br/><br/> <strong>Last seen:</strong> ${deviceLocation.insertedAt}`
+//   );
+
+//   markerGroup = L.featureGroup([circleRadius, circleOuterRadius, circle]).addTo(map);
+//   map.fitBounds(markerGroup.getBounds(), {padding: L.point(150, 150)});
+// }
 
 
 async function shareLocation(device_Id) {
