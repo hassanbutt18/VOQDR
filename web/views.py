@@ -91,6 +91,7 @@ def maps_vodcur(request):
     else:
         msg = "No devies found in your organization"
         success = False
+    context['auth_token'] = json.dumps(settings.AUTH_TOKEN)
     context['devices_ids'] = json.dumps(devices_ids)
     context["multipleLocations"] = json.dumps(multipleLocations)
     context['msg'] = msg

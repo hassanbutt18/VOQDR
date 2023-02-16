@@ -1,72 +1,80 @@
 window.onload = () => {
   initializeMap();
   loadMapControls();
-  getAuthToken();
+  // getAuthToken();
   // loadDraggableElements();
 }
 
 
+// let token = auth_token;
+
+// async function getAuthToken() {
+//   response = await requestAPI('/get-auth-token/', null, {}, 'GET');
+//   response.json().then(function(res) {
+//     token = res.token;
+//   })
+// }
+
 
 async function drawDevicesMarkers(){
-  headers = {
+  let  headers= {
     'Authorization': `Bearer ${token}`
   };
   if(devices_ids.length > 0){
     for (var i = 0; i < devices_ids.length; i++) {
-      response = await requestAPI(`https://api.nrfcloud.com/v1/location/history?deviceId=${devices_ids[0]}`, null, headers, 'GET');
+      response = await requestAPI(`https://api.nrfcloud.com/v1/location/history?deviceId=${devices_ids[i]}`, null, headers, 'GET');
       response.json().then(function (res) {
         if (res.items.length > 0) {
-          deviceLocation(res.items[0]);
+          drawMarkersOnLoad(res.items[0]);
+          // setTimeout(()=>{
+          //   drawMarkersOnLoad(res.items[0]);
+          // },1000)
+          // setTimeout(()=>{
+          //   drawMarkersOnLoad(res.items[1]);
+          // },2000)
+          // setTimeout(()=>{
+          //   drawMarkersOnLoad(res.items[2]);
+          // },3000)
+          // setTimeout(()=>{
+          //   drawMarkersOnLoad(res.items[3]);
+          // },4000)
+          // setTimeout(()=>{
+          //   drawMarkersOnLoad(res.items[4]);
+          // },5000)
         }
       });
     }
   }
-  // var markerIcon = L.icon({
-  //   iconUrl: location.origin+"/static/web/Assets/Images/favicon.png",
-  //   // iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-  //   iconSize: [50, 50], // set the size of the icon
-  //   iconAnchor: [25, 50] // set the anchor point
-  // });
-  // if(map) {
-  //   if(markerGroup !== null) {
-  //     markerGroup.clearLayers();
-  //   }
-  //   if (routes) {
-  //     map.removeControl(routes);
-  //   }
-  // }
-  // // multipleLocations
-  // for (var i = 0; i < multipleLocations.length; i++) {
-  //   // L.marker([multipleLocations[i].lat, multipleLocations[i].lon], {icon: L.icon({
-  //   //     iconUrl: location.origin+"/static/web/Assets/Images/favicon.png",
-  //   //     iconSize: [50, 50], // set the size of the icon
-  //   //     iconAnchor: [25, 50] // set the anchor point
-  //   // })}).addTo(map);
-  //   var marker = L.marker([multipleLocations[i].lat, multipleLocations[i].lon], {icon: markerIcon});
-  //   marker.bindPopup(
-  //       `<strong>Device:</strong> ${multipleLocations[i].deviceId} <br/><br/> <strong>Last seen:</strong> ${multipleLocations[i].insertedAt}`
-  //     );
-
-  //   marker.addTo(map);
-    
-  // }
-  // var waypoints = [];
-  // for(var j = 0; j < multipleLocations.length; j = j + 1) {
-  //   waypoints.push([multipleLocations[j].lat, multipleLocations[j].lon]);
-  // }
-  // var bounds = L.latLngBounds(waypoints);
-  // map.fitBounds(bounds);
 }
 
-let token = null;
 
-async function getAuthToken() {
-  response = await requestAPI('/get-auth-token/', null, {}, 'GET');
-  response.json().then(function(res) {
-    token = res.token;
-  })
+var locationsArray = []
+
+function drawMarkersOnLoad(devicelocation){
+  var markerIcon = L.icon({
+    iconUrl: location.origin+"/static/web/Assets/Images/favicon.png",
+    // iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+    iconSize: [50, 50], // set the size of the icon
+    iconAnchor: [25, 50] // set the anchor point
+  });
+  if(map) {
+    if(markerGroup !== null) {
+      markerGroup.clearLayers();
+    }
+    if (routes) {
+      map.removeControl(routes);
+    }
+  }
+  var marker = L.marker([devicelocation.lat, devicelocation.lon], {icon: markerIcon});
+  marker.bindPopup(
+      `<strong>Device:</strong> ${devicelocation.deviceId} <br/><br/> <strong>Last seen:</strong> ${devicelocation.insertedAt}`
+    );
+
+  marker.addTo(map);
+  locationsArray.push([devicelocation.lat, devicelocation.lon])
+  var bounds = L.latLngBounds(locationsArray);
+  map.fitBounds(bounds);
 }
-
 
 // Organisation Container controls
 // const orgContainer = document.querySelector(".hide-organisations");

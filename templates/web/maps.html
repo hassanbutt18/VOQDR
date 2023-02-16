@@ -13,6 +13,9 @@
         integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
     <link rel="stylesheet" href="{% static 'web/Assets/CSS/maps.css' %}">
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+    integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
     {% endblock %}
     <title>{% block title %}VOQDR Devices Locations{% endblock %}</title>
 </head>
@@ -90,16 +93,15 @@
     {{linked_devices|json_script:"linked_devices"}}
     {{multipleLocations|json_script:"multipleLocations"}}
     {{devices_ids|json_script:"devices_ids"}}
+    {{auth_token|json_script:"auth_token"}}
     {% endblock %}
 </body>
 {% block scripts %}
 
-<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
-    integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
-<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 <script>
     const multipleLocations = JSON.parse(JSON.parse(document.getElementById('multipleLocations').textContent));
     const devices_ids = JSON.parse(JSON.parse(document.getElementById('devices_ids').textContent));
+    const token = JSON.parse(JSON.parse(document.getElementById('auth_token').textContent));
     var active_user_devices = parseInt('{{active_org|safe}}');
     //document.querySelector('.organization').classList.add('active');
 </script>
