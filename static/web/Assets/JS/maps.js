@@ -7,65 +7,55 @@ window.onload = () => {
 
 
 
-function drawDevicesMarkers(){
-  var markerIcon = L.icon({
-    iconUrl: location.origin+"/static/web/Assets/Images/favicon.png",
-    // iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-    iconSize: [50, 50], // set the size of the icon
-    iconAnchor: [25, 50] // set the anchor point
-  });
-  if(map) {
-    if(markerGroup !== null) {
-      markerGroup.clearLayers();
+async function drawDevicesMarkers(){
+  headers = {
+    'Authorization': `Bearer ${token}`
+  };
+  if(devices_ids.length > 0){
+    for (var i = 0; i < devices_ids.length; i++) {
+      response = await requestAPI(`https://api.nrfcloud.com/v1/location/history?deviceId=${devices_ids[0]}`, null, headers, 'GET');
+      response.json().then(function (res) {
+        if (res.items.length > 0) {
+          deviceLocation(res.items[0]);
+        }
+      });
     }
-    if (routes) {
-      map.removeControl(routes);
-    }
   }
-  // multipleLocations
-  for (var i = 0; i < multipleLocations.length; i++) {
-    // L.marker([multipleLocations[i].lat, multipleLocations[i].lon], {icon: L.icon({
-    //     iconUrl: location.origin+"/static/web/Assets/Images/favicon.png",
-    //     iconSize: [50, 50], // set the size of the icon
-    //     iconAnchor: [25, 50] // set the anchor point
-    // })}).addTo(map);
-    var marker = L.marker([multipleLocations[i].lat, multipleLocations[i].lon], {icon: markerIcon});
-    marker.bindPopup(
-        `<strong>Device:</strong> ${multipleLocations[i].deviceId} <br/><br/> <strong>Last seen:</strong> ${multipleLocations[i].insertedAt}`
-      );
-
-    marker.addTo(map);
-    
-  }
-  var waypoints = [];
-  for(var j = 0; j < multipleLocations.length; j = j + 1) {
-    waypoints.push([multipleLocations[j].lat, multipleLocations[j].lon]);
-  }
-  var bounds = L.latLngBounds(waypoints);
-  map.fitBounds(bounds);
-
-  // Displaying route on the map from one location to another
-  // using the plugin leaflet routing machine
-
-  // routes = L.Routing.control({
-  //   waypoints: waypoints,
-  //   routeWhileDragging: false,
-  //   draggableWaypoints: false,
-  //   fitSelectedRoutes: true,
-  //   lineOptions: {
-  //     styles: [{ color: "#d92863", weight: 3 }],
-  //     addWaypoints: false,
-  //   },
-  //   fitSelectedRoutes: false,
-  //   createMarker: function () {
-  //     return null;
-  //   },
-  // }).addTo(map);
-  // if(multipleLocations.length > 0){
-  //   multipleLocations.forEach(location=>{
-  //     deviceLocation(location);
-  //   })
+  // var markerIcon = L.icon({
+  //   iconUrl: location.origin+"/static/web/Assets/Images/favicon.png",
+  //   // iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+  //   iconSize: [50, 50], // set the size of the icon
+  //   iconAnchor: [25, 50] // set the anchor point
+  // });
+  // if(map) {
+  //   if(markerGroup !== null) {
+  //     markerGroup.clearLayers();
+  //   }
+  //   if (routes) {
+  //     map.removeControl(routes);
+  //   }
   // }
+  // // multipleLocations
+  // for (var i = 0; i < multipleLocations.length; i++) {
+  //   // L.marker([multipleLocations[i].lat, multipleLocations[i].lon], {icon: L.icon({
+  //   //     iconUrl: location.origin+"/static/web/Assets/Images/favicon.png",
+  //   //     iconSize: [50, 50], // set the size of the icon
+  //   //     iconAnchor: [25, 50] // set the anchor point
+  //   // })}).addTo(map);
+  //   var marker = L.marker([multipleLocations[i].lat, multipleLocations[i].lon], {icon: markerIcon});
+  //   marker.bindPopup(
+  //       `<strong>Device:</strong> ${multipleLocations[i].deviceId} <br/><br/> <strong>Last seen:</strong> ${multipleLocations[i].insertedAt}`
+  //     );
+
+  //   marker.addTo(map);
+    
+  // }
+  // var waypoints = [];
+  // for(var j = 0; j < multipleLocations.length; j = j + 1) {
+  //   waypoints.push([multipleLocations[j].lat, multipleLocations[j].lon]);
+  // }
+  // var bounds = L.latLngBounds(waypoints);
+  // map.fitBounds(bounds);
 }
 
 let token = null;
@@ -79,15 +69,15 @@ async function getAuthToken() {
 
 
 // Organisation Container controls
-const orgContainer = document.querySelector(".hide-organisations");
-const orgHeader = document.querySelector(".organisation-container-header");
-const orgHeaderChevronUp = document.querySelector(".organisation-chevron-up");
-const orgHeaderChevronDown = document.querySelector(
-  ".organisation-chevron-down"
-);
-let orgHeaderText = document.querySelector(".organisation-header-text");
-let defaultOrg = document.querySelector(".organization");
-orgHeaderText.textContent = defaultOrg.innerText;
+// const orgContainer = document.querySelector(".hide-organisations");
+// const orgHeader = document.querySelector(".organisation-container-header");
+// const orgHeaderChevronUp = document.querySelector(".organisation-chevron-up");
+// const orgHeaderChevronDown = document.querySelector(
+//   ".organisation-chevron-down"
+// );
+// let orgHeaderText = document.querySelector(".organisation-header-text");
+// let defaultOrg = document.querySelector(".organization");
+// orgHeaderText.textContent = defaultOrg.innerText;
 
 function toggleOrganisations() {
   if (orgContainer.classList.contains("show-organisations")) {
@@ -101,7 +91,7 @@ function toggleOrganisations() {
   }
 }
 
-orgHeader.addEventListener("click", toggleOrganisations);
+// orgHeader.addEventListener("click", toggleOrganisations);
 
 
 

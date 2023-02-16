@@ -75,10 +75,11 @@ def maps_vodcur(request):
     context['role'] = 'admin'
     linked_devices = LinkDevice.objects.filter(organization=user.id).values()
     multipleLocations = []
+    devices_ids = []
     if linked_devices:
         linked_devices = ValuesQuerySetToDict(linked_devices)
         context['linked_devices'] = linked_devices
-        # devices_ids = [obj["device_id"] for obj in linked_devices]
+        devices_ids = [obj["device_id"] for obj in linked_devices]
         # if devices_ids:
         #     for device in devices_ids:
         #         url = F"https://api.nrfcloud.com/v1/location/history?deviceId={device}"
@@ -90,6 +91,7 @@ def maps_vodcur(request):
     else:
         msg = "No devies found in your organization"
         success = False
+    context['devices_ids'] = json.dumps(devices_ids)
     context["multipleLocations"] = json.dumps(multipleLocations)
     context['msg'] = msg
     context['success'] = success
@@ -336,6 +338,8 @@ def signin(request):
             msg = 'You are not registered, signup first'
         elif not user.check_password(request_data.get('password')):
             msg = 'Incorrect password, try again'
+        elif not user.is_active:
+            msg = 'You are suspended by VOQDR'
         else:
             login(request, user)
             success = True
@@ -494,7 +498,9 @@ def invite_organization(request):
             token = get_dict_token({'shared_by':user.id,'shared_to':request_data['email'], 'role':request_data['role']})
             random_password = get_random_string(length=8)
             search_invited_user = User.objects.filter(email=request_data['email'], is_organization=False)
-            if search_invited_user and OrganizationPermissions.objects.filter(shared_to=search_invited_user.first()):
+            if User.objects.filter(email=request_data['email'], is_organization=True):
+                msg = "You can not invite to an organization"
+            elif search_invited_user and OrganizationPermissions.objects.filter(shared_to=search_invited_user.first()):
                 msg = "This email is already associated to another email."
             else:
                 try:

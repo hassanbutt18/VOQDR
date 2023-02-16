@@ -3,7 +3,9 @@ from django import forms
 from django.db.models import Q
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
-from users.models import LinkDevice
+from users.models import LinkDevice, User
+from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.admin import UserAdmin
 admin.site.unregister(Group)
 
 
@@ -30,3 +32,35 @@ class AdminLinkDevice(admin.ModelAdmin):
             return []
 
 admin.site.register(LinkDevice, AdminLinkDevice)
+
+
+class UserModelAdmin(admin.ModelAdmin):
+    readonly_fields = ["email", "is_organization"]
+    list_display= ('email', 'name', 'organization')
+    # search_fields= ('device_id', 'name', 'organization__organization')
+    exclude = ('code', 'token', 'is_staff', 'is_superuser', 'user_permissions', 'groups', 'last_login')
+    def get_readonly_fields(self, request, obj=None):
+        if obj:
+            return self.readonly_fields
+        else:
+            return []
+        
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
+        return actions
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_delete_selected_permission(self, request, queryset=None):
+        return False
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            qs = qs.exclude(is_superuser=True)
+        return qs
+    
+# admin.site.register(User, UserModelAdmin)

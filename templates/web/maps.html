@@ -27,7 +27,7 @@
                     <line x1="2" y1="1.5" x2="80" y2="1.5" stroke="#004762" stroke-width="3" stroke-linecap="round" />
                 </svg>
             </div>
-            <div class="voqdr-options">
+            <!-- <div class="voqdr-options">
                 <div class="organisation-container-header">
                     <span class="organisation-header-text"></span>
                     <i class="fa-solid fa-chevron-down organisation-chevron-down"></i>
@@ -47,7 +47,7 @@
                         {% endif %}
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="devices-options">
                 <div class="device-container-header">
                     <span class="devices-header-text">Devices</span>
@@ -89,6 +89,7 @@
     </section>
     {{linked_devices|json_script:"linked_devices"}}
     {{multipleLocations|json_script:"multipleLocations"}}
+    {{devices_ids|json_script:"devices_ids"}}
     {% endblock %}
 </body>
 {% block scripts %}
@@ -98,8 +99,9 @@
 <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 <script>
     const multipleLocations = JSON.parse(JSON.parse(document.getElementById('multipleLocations').textContent));
+    const devices_ids = JSON.parse(JSON.parse(document.getElementById('devices_ids').textContent));
     var active_user_devices = parseInt('{{active_org|safe}}');
-    document.querySelector('.organization').classList.add('active');
+    //document.querySelector('.organization').classList.add('active');
 </script>
 <script src="{% static 'web/Assets/JS/maps.js' %}"></script>
 {% endblock %}
