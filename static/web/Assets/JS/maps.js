@@ -498,7 +498,84 @@ var routes = null;
 
 // Adding Routes 
 
-function routing(deviceLocations) {
+// function routing(deviceLocations) {
+//   if(map) {
+//     if(markerGroup !== null) {
+//       markerGroup.clearLayers();
+//     }
+//     if (routes) {
+//       map.removeControl(routes);
+//     }
+//   }
+
+//   var lastLocation = deviceLocations[0];
+//   var firstLocation = deviceLocations.at(-1);
+//   var marker = L.marker([firstLocation.lat, firstLocation.lon], {icon: markerIcon});
+
+//   var radius = lastLocation.uncertainty;
+//   var innerRadius = radius / 1.25;
+  
+//   var circleOuterRadius = L.circle([lastLocation.lat, lastLocation.lon], {
+//     fillColor: "rgba(217, 40, 99, 0.15)",
+//     fillOpacity: 1,
+//     color: "transparent",
+//     radius: radius,
+//   });
+
+
+//   var circleRadius = L.circle([lastLocation.lat, lastLocation.lon], {
+//     fillColor: "rgba(217, 40, 99, 0.4)",
+//     fillOpacity: 1,
+//     color: "transparent",
+//     radius: innerRadius,
+//   });
+
+//   var circle = L.circle([lastLocation.lat, lastLocation.lon], {
+//     fillColor: "#d92863",
+//     fillOpacity: 1,
+//     color: "transparent",
+//     radius: innerRadius / 1.25,
+//     zIndex: 3,
+//   });
+
+//   circle.bindPopup(
+//       `<strong>Device:</strong> ${lastLocation.deviceId} <br/><br/> <strong>Last seen:</strong> ${lastLocation.insertedAt}`
+//     );
+
+//   markerGroup = L.featureGroup([marker, circleRadius, circleOuterRadius, circle]).addTo(map);
+//   map.fitBounds(markerGroup.getBounds(), {padding: L.point(80, 80)});
+
+//   var waypoints = [];
+//   for(var j = 0; j < deviceLocations.length; j = j + 1) {
+//     waypoints.push(L.latLng(deviceLocations[j].lat, deviceLocations[j].lon));
+//   }
+
+//   // Displaying route on the map from one location to another
+//   // using the plugin leaflet routing machine
+
+//   routes = L.Routing.control({
+//     waypoints: waypoints,
+//     routeWhileDragging: false,
+//     draggableWaypoints: false,
+//     fitSelectedRoutes: true,
+//     lineOptions: {
+//       styles: [{ color: "#d92863", weight: 3 }],
+//       addWaypoints: false,
+//     },
+//     fitSelectedRoutes: false,
+//     createMarker: function () {
+//       return null;
+//     },
+//   }).addTo(map);
+// }
+
+function routing(deviceLocations){
+  var markerIcon = L.icon({
+    iconUrl: location.origin+"/static/web/Assets/Images/favicon.png",
+    // iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+    iconSize: [50, 50], // set the size of the icon
+    iconAnchor: [25, 50] // set the anchor point
+  });
   if(map) {
     if(markerGroup !== null) {
       markerGroup.clearLayers();
@@ -507,48 +584,18 @@ function routing(deviceLocations) {
       map.removeControl(routes);
     }
   }
-
-  var lastLocation = deviceLocations[0];
-  var firstLocation = deviceLocations.at(-1);
-  var marker = L.marker([firstLocation.lat, firstLocation.lon], {icon: markerIcon});
-
-  var radius = lastLocation.uncertainty;
-  var innerRadius = radius / 1.25;
-  
-  var circleOuterRadius = L.circle([lastLocation.lat, lastLocation.lon], {
-    fillColor: "rgba(217, 40, 99, 0.15)",
-    fillOpacity: 1,
-    color: "transparent",
-    radius: radius,
-  });
-
-
-  var circleRadius = L.circle([lastLocation.lat, lastLocation.lon], {
-    fillColor: "rgba(217, 40, 99, 0.4)",
-    fillOpacity: 1,
-    color: "transparent",
-    radius: innerRadius,
-  });
-
-  var circle = L.circle([lastLocation.lat, lastLocation.lon], {
-    fillColor: "#d92863",
-    fillOpacity: 1,
-    color: "transparent",
-    radius: innerRadius / 1.25,
-    zIndex: 3,
-  });
-
-  circle.bindPopup(
-      `<strong>Device:</strong> ${lastLocation.deviceId} <br/><br/> <strong>Last seen:</strong> ${lastLocation.insertedAt}`
+  var marker = L.marker([deviceLocations[0].lat, deviceLocations[0].lon], {icon: markerIcon});
+  marker.bindPopup(
+      `<strong>Device:</strong> ${deviceLocations[0].deviceId} <br/><br/> <strong>Last seen:</strong> ${deviceLocations[0].insertedAt}`
     );
 
-  markerGroup = L.featureGroup([marker, circleRadius, circleOuterRadius, circle]).addTo(map);
-  map.fitBounds(markerGroup.getBounds(), {padding: L.point(80, 80)});
-
+  marker.addTo(map);
   var waypoints = [];
   for(var j = 0; j < deviceLocations.length; j = j + 1) {
-    waypoints.push(L.latLng(deviceLocations[j].lat, deviceLocations[j].lon));
+    waypoints.push([deviceLocations[j].lat, deviceLocations[j].lon]);
   }
+  var bounds = L.latLngBounds(waypoints);
+  map.fitBounds(bounds);
 
   // Displaying route on the map from one location to another
   // using the plugin leaflet routing machine

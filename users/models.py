@@ -28,7 +28,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
-
+    is_organization = models.BooleanField(default=True)
+    # class Meta:
+    #     constraints = [
+    #         models.UniqueConstraint(fields=['email', 'is_organization'], name='Organization with same constraint already exist')
+    #     ]
 
     objects = CustomUserManager()
 
@@ -55,7 +59,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         super(User, self).save(*args, **kwargs)
 
 
-
+# User.objects.create(email="testaliaxghar@gmail.com", organization="fake", is_organization=False)
 
 class SharedOrganization(models.Model):
     shared_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='shared_by_organization')

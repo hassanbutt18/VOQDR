@@ -61,14 +61,14 @@
                 <div class="organisation-content-container">
                     <form class="organisation-form" action="" onsubmit="editOrgForm(event);">
                         {% csrf_token %}
-                        <select class="form-select select-org" name="organization_id"  onchange="changeOrganization(event);" id="select-org">
+                        <!-- <select class="form-select select-org" name="organization_id"  onchange="changeOrganization(event);" id="select-org">
                             <option value="{{request.user.id}}">{{request.user.organization}}</option>
                             {% if shared_with_us_organizations %}
                             {% for obj in shared_with_us_organizations %}
                             <option value="{{obj.shared_by.id}}">{{obj.shared_by.organization}}</option>
                             {% endfor %}
                             {% endif %}
-                        </select>
+                        </select> -->
                         <div class="organisation-group-inputs">
                             <div class="input1 org-input">
                                 <span>Organisation Name</span>

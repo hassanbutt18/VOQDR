@@ -15,7 +15,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 from voqdr.emailManager import EmailManager
 from voqdr.helpers import *
-
+from django.utils.crypto import get_random_string
 from authentications.models import OTP
 from authentications.services import *
 from users.models import InvitedOrganization, LinkDevice, OrganizationPermissions, SharedOrganization, User, UserRoles, organization_permissions
@@ -74,26 +74,23 @@ def maps_vodcur(request):
     context["shared_with_us_organizations"] = user.shared_with_organization.all()
     context['role'] = 'admin'
     linked_devices = LinkDevice.objects.filter(organization=user.id).values()
+    multipleLocations = []
     if linked_devices:
         linked_devices = ValuesQuerySetToDict(linked_devices)
         context['linked_devices'] = linked_devices
-        devices_ids = [obj["device_id"] for obj in linked_devices]
-        multipleLocations = []
-        for device in devices_ids:
-            url = F"https://api.nrfcloud.com/v1/location/history?deviceId={device}"
-            response = asyncio.run(asyncRequestAPI(url, settings.AUTH_TOKEN))
-            if response["items"]:
-                multipleLocations.append(response["items"][0])
-                multipleLocations.append(response["items"][1])
-                multipleLocations.append(response["items"][2])
-                multipleLocations.append(response["items"][3])
-                multipleLocations.append(response["items"][4])
-        context["multipleLocations"] = json.dumps(multipleLocations)
+        # devices_ids = [obj["device_id"] for obj in linked_devices]
+        # if devices_ids:
+        #     for device in devices_ids:
+        #         url = F"https://api.nrfcloud.com/v1/location/history?deviceId={device}"
+        #         response = asyncio.run(asyncRequestAPI(url, settings.AUTH_TOKEN))
+        #         if response["items"]:
+        #             multipleLocations.append(response["items"][0])
         msg= "Got devices successfully"
         success = True
     else:
         msg = "No devies found in your organization"
         success = False
+    context["multipleLocations"] = json.dumps(multipleLocations)
     context['msg'] = msg
     context['success'] = success
     return render(request, 'web/maps.html', context)
@@ -486,7 +483,6 @@ def reset_password(request, pk):
         return JsonResponse(context)
     return render(request, 'web/reset_password.html', context)
 
-
 def invite_organization(request):
     msg = "Email was not sent"
     success = False
@@ -496,20 +492,34 @@ def invite_organization(request):
         request_data = json.loads(request.body.decode('utf-8'))
         if user.email != request_data['email']:
             token = get_dict_token({'shared_by':user.id,'shared_to':request_data['email'], 'role':request_data['role']})
-            share_to = User.objects.filter(email=request_data['email']).first()
-            org = OrganizationPermissions.objects.filter(shared_by=user, shared_to=share_to).first()
-            if InvitedOrganization.objects.filter(shared_by=user, shared_to=request_data['email']).first():
-                msg = "You already invited this user before"
-            elif org:
-                msg = "Organization already shared"
+            random_password = get_random_string(length=8)
+            search_invited_user = User.objects.filter(email=request_data['email'], is_organization=False)
+            if search_invited_user and OrganizationPermissions.objects.filter(shared_to=search_invited_user.first()):
+                msg = "This email is already associated to another email."
             else:
-                InvitedOrganization.objects.create(shared_by=user, shared_to=request_data['email'], role=request_data['role'])
                 try:
-                    status = EmailManager.send_email_invite(request_data['email'], request_data['role'], user.organization, token, request)
-                    msg = 'Invitation sent successfully'
-                    success = True
-                except Exception as e:
-                    print(e)
+                    share_to = User.objects.get(email=request_data['email'])
+                    if not share_to.is_organization:
+                        share_to.set_password(random_password)
+                        share_to.save()
+                except User.DoesNotExist:
+                    share_to = User.objects.create_user(email=request_data['email'], organization=request_data['email'].split('@')[0], password=random_password, is_organization=False)
+                org = OrganizationPermissions.objects.filter(shared_by=user, shared_to=share_to).first()
+                # if InvitedOrganization.objects.filter(shared_by=user, shared_to=request_data['email']).first():
+                #     msg = "You already invited this user before"
+                if org:
+                    msg = "Organization already shared"
+                else:
+                    try:
+                        invited = InvitedOrganization.objects.get(shared_by=user, shared_to=request_data['email'], role=request_data['role'])
+                    except InvitedOrganization.DoesNotExist:
+                        invited = InvitedOrganization.objects.create(shared_by=user, shared_to=request_data['email'], role=request_data['role'])
+                    try:
+                        status = EmailManager.send_email_invite(request_data['email'], request_data['role'], user.organization, token, request, random_password=random_password)
+                        msg = 'Invitation sent successfully'
+                        success = True
+                    except Exception as e:
+                        print(e)
         else:
             msg = "You cannot invite yourself"
         context['msg'] = msg
@@ -637,6 +647,9 @@ def remove_shared_organization(request, pk):
             org = OrganizationPermissions.objects.filter(shared_by=request.user, shared_to=user)
             if org:
                 org.delete()
+            user_in_org = User.objects.filter(id=pk, is_organization=False)
+            if user_in_org:
+                user_in_org.delete()
         success = True
         
     except Exception as e:

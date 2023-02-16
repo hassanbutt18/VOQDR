@@ -48,7 +48,7 @@ class EmailManager:
 
 
   @staticmethod
-  def send_email_invite(email: str, role: str, organization: str, token:str, request=None):
+  def send_email_invite(email: str, role: str, organization: str, token:str, request=None, **kwargs):
     BASE_URL = settings.BASE_URL
     if request:
       BASE_URL = helpers.get_base_url(request)
@@ -63,7 +63,8 @@ class EmailManager:
         'email':email,
         'role':role,
         'organization':organization,
-        'token':token
+        'token':token,
+        'password':kwargs.get('random_password')
       }
       template_content = text_template.render(context_obj)
       msg = EmailMultiAlternatives(email_subject, text_content,settings.EMAIL_HOST_USER, [email])
