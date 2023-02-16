@@ -38,7 +38,7 @@ class UserModelAdmin(admin.ModelAdmin):
     readonly_fields = ["email", "is_organization"]
     list_display= ('email', 'name', 'organization')
     # search_fields= ('device_id', 'name', 'organization__organization')
-    exclude = ('code', 'token', 'is_staff', 'is_superuser', 'user_permissions', 'groups', 'last_login')
+    exclude = ('code', 'token', 'is_staff', 'is_superuser', 'user_permissions', 'groups', 'last_login', 'password')
     def get_readonly_fields(self, request, obj=None):
         if obj:
             return self.readonly_fields
@@ -63,4 +63,4 @@ class UserModelAdmin(admin.ModelAdmin):
             qs = qs.exclude(is_superuser=True)
         return qs
     
-# admin.site.register(User, UserModelAdmin)
+admin.site.register(User, UserModelAdmin)
