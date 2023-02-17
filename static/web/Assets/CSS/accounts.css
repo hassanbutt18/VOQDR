@@ -1,12 +1,13 @@
 .accounts {
     margin-bottom: 10px;
     padding-top: 130px;
+
 }
-.footer {
+/* .footer {
     position: fixed;
     bottom: 0;
     width: 100%;
-}
+} */
 
 .accounts h2 {
     font-weight: 700;
@@ -36,6 +37,7 @@ h1,h2,h3,h4,h5,p{
     display: flex;
     gap: 15px;
     padding: 0 2%;
+    /* min-height: 70vh; */
 }
 
 .account-info {
