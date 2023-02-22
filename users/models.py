@@ -19,7 +19,7 @@ class UserRolesChoices(models.TextChoices):
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True, null=True, blank=True)
-    organization = models.TextField(unique=False, null=True, blank=True)
+    organization = models.CharField(max_length=200, unique=True, null=True, blank=True)
     name = models.CharField(max_length=100, null=True, blank=True)
     code = models.CharField(max_length=100, null=True, blank=True)
     token = models.CharField(max_length=500, null=True, blank=True)

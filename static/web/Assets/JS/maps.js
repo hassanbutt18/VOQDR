@@ -50,11 +50,22 @@ async function drawDevicesMarkers(){
 
 var locationsArray = []
 
-function drawMarkersOnLoad(devicelocation){
+function drawMarkersOnLoad(deviceLocation){
+  let deviceIdentity = null;
+  linked_devices.forEach((device) => {
+    if(device.device_id == deviceLocation.deviceId) {
+      if(device.name) {
+        deviceIdentity = device.name;
+      }
+      else {
+        deviceIdentity = deviceLocation.deviceId;
+      }
+    }
+  })
   var markerIcon = L.icon({
     iconUrl: location.origin+"/static/web/Assets/Images/favicon.png",
     // iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-    iconSize: [50, 50], // set the size of the icon
+    iconSize: [50, 45], // set the size of the icon
     iconAnchor: [25, 50] // set the anchor point
   });
   if(map) {
@@ -65,13 +76,18 @@ function drawMarkersOnLoad(devicelocation){
       map.removeControl(routes);
     }
   }
-  var marker = L.marker([devicelocation.lat, devicelocation.lon], {icon: markerIcon});
+  var marker = L.marker([deviceLocation.lat, deviceLocation.lon], {icon: markerIcon});
+  const dateObj = new Date(deviceLocation.insertedAt);
+  const month = ('0' + (dateObj.getUTCMonth() + 1)).slice(-2);
+  const date = ('0' + dateObj.getUTCDate()).slice(-2);
+  const hours = ('0' + dateObj.getUTCHours()).slice(-2);
+  const minutes = ('0' + dateObj.getUTCMinutes()).slice(-2);
   marker.bindPopup(
-      `<strong>Device:</strong> ${devicelocation.deviceId} <br/><br/> <strong>Last seen:</strong> ${devicelocation.insertedAt}`
+      `<strong>Device:</strong> ${deviceIdentity} <br/><br/> <strong>Last seen:</strong> ${date}-${month}  ${hours}:${minutes}`
     );
 
   marker.addTo(map);
-  locationsArray.push([devicelocation.lat, devicelocation.lon])
+  locationsArray.push([deviceLocation.lat, deviceLocation.lon])
   var bounds = L.latLngBounds(locationsArray);
   map.fitBounds(bounds);
 }
@@ -571,7 +587,7 @@ function routing(deviceLocations){
   var markerIcon = L.icon({
     iconUrl: location.origin+"/static/web/Assets/Images/favicon.png",
     // iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-    iconSize: [50, 50], // set the size of the icon
+    iconSize: [50, 45], // set the size of the icon
     iconAnchor: [25, 50] // set the anchor point
   });
   if(map) {
@@ -583,8 +599,25 @@ function routing(deviceLocations){
     }
   }
   var marker = L.marker([deviceLocations[0].lat, deviceLocations[0].lon], {icon: markerIcon});
+  const dateObj = new Date(deviceLocations[0].insertedAt);
+  const month = ('0' + (dateObj.getUTCMonth() + 1)).slice(-2);
+  const date = ('0' + dateObj.getUTCDate()).slice(-2);
+  const hours = ('0' + dateObj.getUTCHours()).slice(-2);
+  const minutes = ('0' + dateObj.getUTCMinutes()).slice(-2);
+
+  let deviceIdentity = null;
+  linked_devices.forEach((device) => {
+    if(device.device_id == deviceLocations[0].deviceId) {
+      if(device.name) {
+        deviceIdentity = device.name;
+      }
+      else {
+        deviceIdentity = deviceLocations[0].deviceId;
+      }
+    }
+  })
   marker.bindPopup(
-      `<strong>Device:</strong> ${deviceLocations[0].deviceId} <br/><br/> <strong>Last seen:</strong> ${deviceLocations[0].insertedAt}`
+      `<strong>Device:</strong> ${deviceIdentity} <br/><br/> <strong>Last seen:</strong> ${date}-${month}  ${hours}:${minutes}`
     );
 
   marker.addTo(map);
@@ -593,7 +626,7 @@ function routing(deviceLocations){
     waypoints.push([deviceLocations[j].lat, deviceLocations[j].lon]);
   }
   var bounds = L.latLngBounds(waypoints);
-  map.fitBounds(bounds);
+  map.fitBounds(bounds, {padding: L.point(50, 50)});
 
   // Displaying route on the map from one location to another
   // using the plugin leaflet routing machine
@@ -645,7 +678,7 @@ function deviceLocation(deviceLocation){
   var markerIcon = L.icon({
     iconUrl: location.origin+"/static/web/Assets/Images/favicon.png",
     // iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-    iconSize: [50, 50], // set the size of the icon
+    iconSize: [50, 45], // set the size of the icon
     iconAnchor: [25, 50] // set the anchor point
   });
   if(map) {
@@ -657,8 +690,24 @@ function deviceLocation(deviceLocation){
     }
   }
   var marker = L.marker([deviceLocation.lat, deviceLocation.lon], {icon: markerIcon});
+  const dateObj = new Date(deviceLocation.insertedAt);
+  const month = ('0' + (dateObj.getUTCMonth() + 1)).slice(-2);
+  const date = ('0' + dateObj.getUTCDate()).slice(-2);
+  const hours = ('0' + dateObj.getUTCHours()).slice(-2);
+  const minutes = ('0' + dateObj.getUTCMinutes()).slice(-2);
+  let deviceIdentity = null;
+  linked_devices.forEach((device) => {
+    if(device.device_id == deviceLocation.deviceId) {
+      if(device.name) {
+        deviceIdentity = device.name;
+      }
+      else {
+        deviceIdentity = deviceLocation.deviceId;
+      }
+    }
+  })
   marker.bindPopup(
-      `<strong>Device:</strong> ${deviceLocation.deviceId} <br/><br/> <strong>Last seen:</strong> ${deviceLocation.insertedAt}`
+      `<strong>Device:</strong> ${deviceIdentity} <br/><br/> <strong>Last seen:</strong> ${date}-${month}  ${hours}:${minutes}`
     );
 
   marker.addTo(map);

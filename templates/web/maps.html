@@ -99,6 +99,7 @@
 {% block scripts %}
 
 <script>
+    const linked_devices = JSON.parse(document.getElementById('linked_devices').textContent);
     const multipleLocations = JSON.parse(JSON.parse(document.getElementById('multipleLocations').textContent));
     const devices_ids = JSON.parse(JSON.parse(document.getElementById('devices_ids').textContent));
     const token = JSON.parse(JSON.parse(document.getElementById('auth_token').textContent));
