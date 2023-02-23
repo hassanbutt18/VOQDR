@@ -2,7 +2,7 @@ window.onload = () => {
   initializeMap();
   loadMapControls();
   // getAuthToken();
-  // loadDraggableElements();
+  loadDraggableElements();
 }
 
 
@@ -49,6 +49,8 @@ async function drawDevicesMarkers(){
 
 
 var locationsArray = []
+var markerGroup = null;
+var routes = null;
 
 function drawMarkersOnLoad(deviceLocation){
   let deviceIdentity = null;
@@ -63,9 +65,9 @@ function drawMarkersOnLoad(deviceLocation){
     }
   })
   var markerIcon = L.icon({
-    iconUrl: location.origin+"/static/web/Assets/Images/favicon.png",
+    iconUrl: location.origin+"/static/web/Assets/Images/faviconn.png",
     // iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-    iconSize: [50, 45], // set the size of the icon
+    iconSize: [50, 50], // set the size of the icon
     iconAnchor: [25, 50] // set the anchor point
   });
   if(map) {
@@ -206,6 +208,7 @@ async function refreshDevices(event){
       let deviceContainer = document.querySelector('#devices-container');
       deviceContainer.innerHTML = res.html;
       loadMapControls();
+      loadDraggableElements();
     }
   })
 }
@@ -226,6 +229,7 @@ async function getUserDevices(event, id) {
       let deviceContainer = document.querySelector('#devices-container');
       deviceContainer.innerHTML = res.html;
       loadMapControls();
+      loadDraggableElements();
     }
   })
 }
@@ -252,6 +256,7 @@ async function searchDevices(event){
     else {
       container.innerHTML = `<p>${res.msg}</p>`;
       loadMapControls();
+      loadDraggableElements();
     }
   })
 }
@@ -506,10 +511,6 @@ async function getRouting(deviceId) {
   });
 }
 
-
-var markerGroup = null;
-var routes = null;
-
 // Adding Routes 
 
 // function routing(deviceLocations) {
@@ -585,12 +586,13 @@ var routes = null;
 
 function routing(deviceLocations){
   var markerIcon = L.icon({
-    iconUrl: location.origin+"/static/web/Assets/Images/favicon.png",
+    iconUrl: location.origin+"/static/web/Assets/Images/faviconn.png",
     // iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-    iconSize: [50, 45], // set the size of the icon
+    iconSize: [50, 50], // set the size of the icon
     iconAnchor: [25, 50] // set the anchor point
   });
   if(map) {
+    console.log("marker group", markerGroup)
     if(markerGroup !== null) {
       markerGroup.clearLayers();
     }
@@ -676,9 +678,9 @@ async function getDeviceCurrentLocation(deviceId) {
 
 function deviceLocation(deviceLocation){
   var markerIcon = L.icon({
-    iconUrl: location.origin+"/static/web/Assets/Images/favicon.png",
+    iconUrl: location.origin+"/static/web/Assets/Images/faviconn.png",
     // iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-    iconSize: [50, 45], // set the size of the icon
+    iconSize: [50, 50], // set the size of the icon
     iconAnchor: [25, 50] // set the anchor point
   });
   if(map) {
@@ -798,45 +800,50 @@ async function shareLocation(device_Id) {
 }
 
 
-// function handleDragStart(e) {
-//   this.style.opacity = '0.4';
-//   dragSrcEl = this;
-//   e.dataTransfer.effectAllowed = 'move';
-//   e.dataTransfer.setData('text/html', this.innerHTML);
-//   console.log("in drag start");
-// }
+function handleDragStart(e) {
+  this.style.opacity = '0.4';
+  dragSrcEl = this;
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/html', this.innerHTML);
+  // console.log("in drag start");
+}
 
-// function handleDragEnd(e) {
-//   this.style.opacity = '1';
-//   console.log("in drag end");
-//   loadMapControls();
-// }
+function handleDragEnd(e) {
+  this.style.opacity = '1';
+  // console.log("in drag end");
+  loadMapControls();
+}
 
-// function handleDragOver(e) {
-//   e.preventDefault();
-//   return false;
-// }
+function handleDragOver(e) {
+  e.preventDefault();
+  return false;
+}
 
-// async function handleDrop(e) {
-//   e.stopPropagation();
-//   if (dragSrcEl !== this) {
-//     dragSrcEl.innerHTML = this.innerHTML;
-//     this.innerHTML = e.dataTransfer.getData('text/html');
-//   }
-//   console.log(this.id, dragSrcEl.id);
-//   response = await requestAPI(`/save-device-order/${this.id}/${dragSrcEl.id}`, null, {}, 'PUT');
-//   response.json().then(function(res) {
-//     console.log(res);
-//   })
-//   return false;
-// }
+async function handleDrop(e) {
+  e.stopPropagation();
+  if (dragSrcEl !== this) {
+    dragSrcEl.innerHTML = this.innerHTML;
+    this.innerHTML = e.dataTransfer.getData('text/html');
+  }
+  // console.log(this.children[0].id, dragSrcEl.children[0].id);
+  response = await requestAPI(`/save-device-order/${this.children[0].id}/${dragSrcEl.children[0].id}/`, null, {}, 'GET');
+  response.json().then(function(res) {
+    if(res.success) {
+      let deviceContainer = document.querySelector('#devices-container');
+      deviceContainer.innerHTML = res.html;
+      loadMapControls();
+      loadDraggableElements();
+    }
+  })
+  return false;
+}
 
-// function loadDraggableElements() {
-//   let items = document.querySelectorAll('.device');
-//   items.forEach(function (item) {
-//     item.addEventListener('dragstart', handleDragStart);
-//     item.addEventListener('dragover', handleDragOver);
-//     item.addEventListener('dragend', handleDragEnd);
-//     item.addEventListener('drop', handleDrop);
-//   });
-// }
+function loadDraggableElements() {
+  let items = document.querySelectorAll('.device');
+  items.forEach(function (item) {
+    item.addEventListener('dragstart', handleDragStart);
+    item.addEventListener('dragover', handleDragOver);
+    item.addEventListener('dragend', handleDragEnd);
+    item.addEventListener('drop', handleDrop);
+  });
+}

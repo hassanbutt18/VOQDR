@@ -73,7 +73,7 @@ def maps_vodcur(request):
             pass
     context["shared_with_us_organizations"] = user.shared_with_organization.all()
     context['role'] = 'admin'
-    linked_devices = LinkDevice.objects.filter(organization=user.id).values()
+    linked_devices = LinkDevice.objects.filter(organization=user.id).order_by('device_order_id').values()
     multipleLocations = []
     devices_ids = []
     if linked_devices:
@@ -131,6 +131,7 @@ def get_shared_with_devices(request, pk):
 
 
 def refresh_devices(request, pk):
+    print('device reorder')
     context = {}
     devices = {}
     msg = None
@@ -138,7 +139,7 @@ def refresh_devices(request, pk):
     linked_devices = None
     org = OrganizationPermissions.objects.filter(shared_by_id=pk, shared_to_id=request.user.id).first()
     try:
-        linked_devices = LinkDevice.objects.filter(organization=pk).values()
+        linked_devices = LinkDevice.objects.filter(organization=pk).order_by('device_order_id').values()
         linked_devices = ValuesQuerySetToDict(linked_devices)
         if request.user.id == pk:
             devices['role'] = 'admin'
@@ -275,13 +276,27 @@ def delete_device(request, pk):
     return JsonResponse(context)
 
 
-# def save_device_order(request, pk1, pk2):
-#     msg = None
-#     success = False
-#     context['msg'] = msg
-#     context['success'] = success
-#     context = {}
-#     return JsonResponse(context)
+def save_device_order(request, pk1, pk2):
+    msg = None
+    success = False
+    context = {}
+    try:
+        device1 = LinkDevice.objects.filter(device_order_id=pk1).first()
+        device2 = LinkDevice.objects.filter(device_order_id=pk2).first()
+        temp = device1.device_order_id
+        device1.device_order_id = device2.device_order_id
+        device2.device_order_id = temp
+        device1.save(update_fields=['device_order_id'])
+        device2.save(update_fields=['device_order_id'])
+        response = refresh_devices(request=request, pk=device1.organization_id)
+        context = json.loads(response.content)
+        msg = "Device order changed successfully"
+        success = True
+    except Exception as e:
+        print(e)
+    context['msg'] = msg
+    context['success'] = success
+    return JsonResponse(context)
 
 def terms_and_conditions(request):
     context = {}
