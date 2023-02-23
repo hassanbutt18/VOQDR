@@ -1,6 +1,7 @@
 from django.contrib import admin
-from web.models import ProductFeature, Testimonial, Application, ApplicationImage, ContactUs
-
+from django.db import models
+from web.models import Home, PrivacyPolicy, ProductFeature, TermsAndConditions, Testimonial, Application, ApplicationImage, ContactUs
+from ckeditor.widgets import CKEditorWidget
 
 
 class AdminProductFeature(admin.ModelAdmin):
@@ -29,11 +30,48 @@ class AdminApplicationImage(admin.ModelAdmin):
         else:
             return True
 
+
+class AdminTermsAndConditions(admin.ModelAdmin):
+    formfield_overrides = {
+        models.TextField: {'widget': CKEditorWidget}
+    }
+    def has_add_permission(self, request):
+        terms = TermsAndConditions.objects.count()
+        if terms == 1:
+            return False
+        else:
+            return True
+
+
+class AdminPrivacyPolicy(admin.ModelAdmin):
+    formfield_overrides = {
+        models.TextField: {'widget': CKEditorWidget}
+    }
+    def has_add_permission(self, request):
+        policies = PrivacyPolicy.objects.count()
+        if policies == 1:
+            return False
+        else:
+            return True
+
+
+class AdminHome(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        obj = Home.objects.count()
+        if obj == 3:
+            return False
+        else:
+            return True
+
+
 admin.site.register(ProductFeature, AdminProductFeature)
 admin.site.register(Testimonial)
 admin.site.register(Application, AdminApplication)
 admin.site.register(ApplicationImage, AdminApplicationImage)
 admin.site.register(ContactUs)
+admin.site.register(TermsAndConditions, AdminTermsAndConditions)
+admin.site.register(PrivacyPolicy, AdminPrivacyPolicy)
+admin.site.register(Home, AdminHome)
 
 
 admin.site.site_header  =  "VOQDR Administration" 

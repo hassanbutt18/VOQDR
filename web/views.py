@@ -21,7 +21,7 @@ from authentications.services import *
 from users.models import InvitedOrganization, LinkDevice, OrganizationPermissions, SharedOrganization, User, UserRoles, organization_permissions
 from django.contrib.auth.decorators import login_required
 
-from web.models import Application, ProductFeature, Testimonial, ApplicationImage, ContactUs
+from web.models import Application, Home, PrivacyPolicy, ProductFeature, TermsAndConditions, Testimonial, ApplicationImage, ContactUs
 import tracemalloc
 
 tracemalloc.start()
@@ -39,10 +39,12 @@ def get_auth_token(request):
 
 def index(request):
     context = {}
+    main_descriptions = Home.objects.all()
     product_features = ProductFeature.objects.all()
     applications = Application.objects.all()
     application_image = ApplicationImage.objects.all()
     testimonials = Testimonial.objects.all()
+    context['main_descriptions'] = main_descriptions
     context['product_features'] = product_features
     context['applications'] = applications
     context['application_image'] = application_image
@@ -73,7 +75,7 @@ def maps_vodcur(request):
             pass
     context["shared_with_us_organizations"] = user.shared_with_organization.all()
     context['role'] = 'admin'
-    linked_devices = LinkDevice.objects.filter(organization=user.id).order_by('device_order_id').values()
+    linked_devices = LinkDevice.objects.filter(organization=user.id).values()
     multipleLocations = []
     devices_ids = []
     if linked_devices:
@@ -131,7 +133,6 @@ def get_shared_with_devices(request, pk):
 
 
 def refresh_devices(request, pk):
-    print('device reorder')
     context = {}
     devices = {}
     msg = None
@@ -139,7 +140,7 @@ def refresh_devices(request, pk):
     linked_devices = None
     org = OrganizationPermissions.objects.filter(shared_by_id=pk, shared_to_id=request.user.id).first()
     try:
-        linked_devices = LinkDevice.objects.filter(organization=pk).order_by('device_order_id').values()
+        linked_devices = LinkDevice.objects.filter(organization=pk).values()
         linked_devices = ValuesQuerySetToDict(linked_devices)
         if request.user.id == pk:
             devices['role'] = 'admin'
@@ -276,34 +277,40 @@ def delete_device(request, pk):
     return JsonResponse(context)
 
 
-def save_device_order(request, pk1, pk2):
-    msg = None
-    success = False
-    context = {}
-    try:
-        device1 = LinkDevice.objects.filter(device_order_id=pk1).first()
-        device2 = LinkDevice.objects.filter(device_order_id=pk2).first()
-        temp = device1.device_order_id
-        device1.device_order_id = device2.device_order_id
-        device2.device_order_id = temp
-        device1.save(update_fields=['device_order_id'])
-        device2.save(update_fields=['device_order_id'])
-        response = refresh_devices(request=request, pk=device1.organization_id)
-        context = json.loads(response.content)
-        msg = "Device order changed successfully"
-        success = True
-    except Exception as e:
-        print(e)
-    context['msg'] = msg
-    context['success'] = success
-    return JsonResponse(context)
+# def save_device_order(request, pk1, pk2):
+#     msg = None
+#     success = False
+#     context = {}
+#     try:
+#         device1 = LinkDevice.objects.filter(device_order_id=pk1).first()
+#         device2 = LinkDevice.objects.filter(device_order_id=pk2).first()
+#         temp = device1.device_order_id
+#         device1.device_order_id = device2.device_order_id
+#         device2.device_order_id = temp
+#         device1.save(update_fields=['device_order_id'])
+#         device2.save(update_fields=['device_order_id'])
+#         response = refresh_devices(request=request, pk=device1.organization_id)
+#         context = json.loads(response.content)
+#         msg = "Device order changed successfully"
+#         success = True
+#     except Exception as e:
+#         print(e)
+#     context['msg'] = msg
+#     context['success'] = success
+#     return JsonResponse(context)
 
 def terms_and_conditions(request):
     context = {}
+    terms_and_conditions = TermsAndConditions.objects.all().values()
+    terms_and_conditions = ValuesQuerySetToDict(terms_and_conditions)
+    context['terms_and_conditions'] = terms_and_conditions
     return render(request, 'web/terms-and-conditions.html', context)
 
 def privacy_policy(request):
     context = {}
+    privacy_policy = PrivacyPolicy.objects.all().values()
+    privacy_policy = ValuesQuerySetToDict(privacy_policy)
+    context['privacy_policy'] = privacy_policy
     return render(request, 'web/privacy-policy.html', context)
 
 

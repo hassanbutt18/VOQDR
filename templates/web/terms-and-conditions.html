@@ -21,7 +21,14 @@
 
     <section class="accounts mb-5 pb-5">
         <div class="accounts-container">
+            {% if terms_and_conditions %}
+            {% for terms in terms_and_conditions %}
             <div class="content">
+                {{terms.terms_conditions|safe}}
+            </div>
+            {% endfor %}
+            {% endif %}
+            <!-- <div class="content">
                 <h2 class="h1 p-0">Terms and conditions</h2>
                 <p>
                     Welcome to our website. If you continue to browse and use this website, you are agreeing to
@@ -68,7 +75,7 @@
                     <li>Your use of this website and any dispute arising out of such use of the website is
                         subject to the laws of Norway</li>
                 </ul>
-            </div>
+            </div> -->
         </div>
     </section>
     {% endblock %}

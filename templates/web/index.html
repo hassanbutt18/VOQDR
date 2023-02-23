@@ -32,9 +32,30 @@
         <div class="main">
             <div class="main-heading">
                 <h1>VOQDR - Tracking made easy!</h1>
-                <p class="mb-1">Extreme battery lifetime</p>
-                <p class="mb-1">Heavy duty design</p>
-                <p class="mb-1">Easy-to-install, easy-to-use</p>
+                <div class="main-content">
+                    {% if main_descriptions %}
+                    {% for description in main_descriptions %}
+                    <div class="main-line">
+                        <img src="{{description.image.url}}" alt="description">
+                        <p>{{description.description}}</p>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    <!-- <div class="main-line">
+                        <img src="{% static 'web/Assets/Images/faviconn.png' %}" alt="">
+                        <p>Extreme battery lifetime</p>
+                    </div>
+                    <div class="main-line">
+                        <img src="{% static 'web/Assets/Images/faviconn.png' %}" alt="">
+                        <p>Heavy Duty Design</p>
+                    </div>
+                    <div class="main-line">
+                        <img src="{% static 'web/Assets/Images/faviconn.png' %}" alt="">
+                        <p>Easy-to-install, easy-to-use</p>
+                    </div> -->
+                    <!-- <p class="mb-1">Heavy duty design</p>
+                    <p class="mb-1">Easy-to-install, easy-to-use</p> -->
+                </div>
                 <!-- <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...
                 </p> -->
             </div>
@@ -84,11 +105,11 @@
                 {% for apps in applications%}
                 <div class="applications-card">
                     <div class="app-card-heading">
-                        {% if apps.image %}
+                        <!-- {% if apps.image %}
                         <img src="{{apps.image.url}}" alt="Applications">
                         {% else %}
                         <img src="{% static 'web/Assets/Images/random.png' %}" alt="Applications">
-                        {% endif %}
+                        {% endif %} -->
                         <h3>{{apps.title}}</h3>
                     </div>
                     <p class="app-card-description">{{apps.description}}</p>

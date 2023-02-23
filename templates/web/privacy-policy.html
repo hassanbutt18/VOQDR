@@ -21,7 +21,14 @@
 
     <section class="accounts mb-5 pb-5">
         <div class="accounts-container">
+            {% if privacy_policy %}
+            {% for policies in privacy_policy %}
             <div class="content">
+                {{policies.privacy_policies|safe}}
+            </div>
+            {% endfor %}
+            {% endif %}
+            <!-- <div class="content">
                 <h2 class="h1 p-0">Privacy Policy</h2>
                 <p>Voqdr AS operates the voqdr.com website, which provides the SERVICE.</p>
                 <p>
@@ -99,7 +106,7 @@
                 <p>If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact
                     us.</p>
                 
-            </div>
+            </div> -->
         </div>
     </section>
     {% endblock %}

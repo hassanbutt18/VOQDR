@@ -57,7 +57,8 @@ INSTALLED_APPS = [
 
     'web',
     'users',
-    'authentications'
+    'authentications',
+    'ckeditor'
 ]
 
 MIDDLEWARE = [

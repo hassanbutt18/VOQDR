@@ -32,7 +32,7 @@ class ProductFeature(models.Model):
 class Application(models.Model):
     title = models.CharField(max_length=500, null=False, blank=False)
     description = models.TextField(null=False, blank=False)
-    image = models.ImageField(upload_to='applications/', null=False ,blank=False)
+    # image = models.ImageField(upload_to='applications/', null=False ,blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -107,8 +107,48 @@ class ContactUs(models.Model):
 
 
 
+class TermsAndConditions(models.Model):
+    terms_conditions = models.TextField(null=False, blank=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    # def __str__(self) -> str:
+    #     return self.terms_conditions
+
+    class Meta:
+        verbose_name_plural = "Terms and Conditions"
+
+
+
+class PrivacyPolicy(models.Model):
+    privacy_policies = models.TextField(null=False, blank=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    # def __str__(self) -> str:
+    #     return self.privacy_policies
+
+    class Meta:
+        verbose_name_plural = "Privacy Policy"
+
+
+
+class Home(models.Model):
+    description = models.CharField(max_length=100, null=False, blank=False)
+    image = models.ImageField(upload_to='home/', null=False, blank=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return self.description
+
+    class Meta:
+        verbose_name_plural = "Main"
+
+
+# @receiver(models.signals.pre_save, sender=Application)
+@receiver(models.signals.pre_save, sender=Home)
 @receiver(models.signals.pre_save, sender=ProductFeature)
-@receiver(models.signals.pre_save, sender=Application)
 @receiver(models.signals.pre_save, sender=ApplicationImage)
 @receiver(models.signals.pre_save, sender=Testimonial)
 def auto_update_file_on_change(sender, instance, **kwargs):
@@ -124,8 +164,10 @@ def auto_update_file_on_change(sender, instance, **kwargs):
             if os.path.isfile(old_image_file.path):
                 os.remove(old_image_file.path)
 
+
+# @receiver(models.signals.post_delete, sender=Application)
+@receiver(models.signals.post_delete, sender=Home)
 @receiver(models.signals.post_delete, sender=ProductFeature)
-@receiver(models.signals.post_delete, sender=Application)
 @receiver(models.signals.post_delete, sender=ApplicationImage)
 @receiver(models.signals.post_delete, sender=Testimonial)
 def auto_delete_file_on_delete(sender, instance, **kwargs):

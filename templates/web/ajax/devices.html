@@ -1,8 +1,8 @@
 {% load static %}
 {% if linked_devices %}
 {% for device in linked_devices %}
-<div class="device" draggable="true">
-    <div class="device-header" id="{{device.device_order_id}}">
+<div class="device">
+    <div class="device-header">
         <div class="device-heading">
             <div class="battery-indicator">
                 {% if device.battery_voltage >= 3.4 %}

@@ -119,7 +119,7 @@ class LinkDevice(models.Model):
     device_id = models.CharField(unique=True, max_length=100, null=False, blank=False)
     description = models.TextField(null=True, blank=True)
     battery_voltage = models.FloatField(null=True, blank=True, default=0.0)
-    device_order_id = models.IntegerField(null=True, blank=True)
+    favourite = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
