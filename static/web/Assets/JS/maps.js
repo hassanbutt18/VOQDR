@@ -1,6 +1,7 @@
 window.onload = () => {
   initializeMap();
   loadMapControls();
+  loadFavouriteElements();
   // getAuthToken();
   // loadDraggableElements();
 }
@@ -157,8 +158,9 @@ function loadMapControls() {
 
   for (i = 0; i < devices.length; i++) {
     devices[i].addEventListener("click", function () {
-      const chevronDown = this.children[1];
-      const chevronUp = this.children[2];
+      const chevronDown = this.children[1].children[2];
+      const chevronUp = this.children[1].children[3];
+      // console.log(this.children[1].children[2]);
       var panel = this.nextElementSibling;
       if (panel.style.display === "block") {
         panel.style.display = "none";
@@ -208,6 +210,7 @@ async function refreshDevices(event){
       let deviceContainer = document.querySelector('#devices-container');
       deviceContainer.innerHTML = res.html;
       loadMapControls();
+      loadFavouriteElements();
       // loadDraggableElements();
     }
   })
@@ -229,6 +232,7 @@ async function getUserDevices(event, id) {
       let deviceContainer = document.querySelector('#devices-container');
       deviceContainer.innerHTML = res.html;
       loadMapControls();
+      loadFavouriteElements();
       // loadDraggableElements();
     }
   })
@@ -252,10 +256,12 @@ async function searchDevices(event){
     if(res.success) {
       container.innerHTML = res.html;
       loadMapControls();
+      loadFavouriteElements();
     }
     else {
       container.innerHTML = `<p>${res.msg}</p>`;
       loadMapControls();
+      loadFavouriteElements();
       // loadDraggableElements();
     }
   })
@@ -797,6 +803,30 @@ async function shareLocation(device_Id) {
       alert('Device location not available', 'danger')
     }
   });
+}
+
+
+// Toggle Favourite Devices
+
+function loadFavouriteElements() {
+  let favourites = document.querySelectorAll('.star');
+  // console.log(favourites);
+  favourites.forEach(function(fav) {
+    fav.addEventListener('click', async function(e) {
+      e.stopPropagation();
+      // console.log(e.target);
+      response = await requestAPI(`/toggle-favourite-device/${this.id}/`, null, {}, 'GET');
+      response.json().then(function(res) {
+        // console.log(res);
+        if(res.success) {
+          let deviceContainer = document.querySelector('#devices-container');
+          deviceContainer.innerHTML = res.html;
+          loadMapControls();
+          loadFavouriteElements();
+        }
+      })
+    })
+  })
 }
 
 // Handling Draggable Devices

@@ -22,6 +22,7 @@ urlpatterns = [
     path('successful-checkout/', views.successful_checkout, name='successful_checkout'),
     path('check-signin/', views.check_signin, name='check_signin'),
     # path('save-device-order/<int:pk1>/<int:pk2>/', views.save_device_order, name="save_device_order"),
+    path('toggle-favourite-device/<str:pk>/', views.toggle_favourite_device, name="toggle_favourite_device"),
     path('search-devices/<int:pk>/', views.search_devices, name="search_devices"),
     path('refresh-devices/<int:pk>/', views.refresh_devices, name='refresh_devices'),
     path('webhook/', views.webhook_received, name="webhook_received"),

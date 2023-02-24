@@ -457,7 +457,6 @@ i {
     font-size: .875rem;
 }
 
-/* The close button */
 .closebtn {
   margin-left: 15px;
   color: white;
@@ -469,7 +468,6 @@ i {
   transition: 0.3s;
 }
 
-/* When moving the mouse over the close button */
 .closebtn:hover {
   color: black;
 }
@@ -550,4 +548,55 @@ i {
         bottom: unset;
     }
 
+}
+
+.device-options {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.toggle {
+    position: relative;
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+}
+
+.toggle input[type=checkbox] {
+    display: none;
+}
+
+.favourite-checkbox {
+    display: none;
+}
+
+.star {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    transition: all 0.3s ease-in-out;
+    pointer-events: all;
+    cursor: pointer;
+}
+
+
+
+/* .star {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 28px;
+    height: 28px;
+    background-color: #ddd;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+*/
+.favourite-checkbox:checked + .star path {
+    fill: #ffc107;
 }

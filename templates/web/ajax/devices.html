@@ -106,8 +106,21 @@
             </div>
             <h3>{{device.name}}</h3>
         </div>
-        <i class="fa-solid fa-chevron-down single-device-chevron-down"></i>
-        <i class="fa-solid fa-chevron-up single-device-chevron-up"></i>
+        <div class="device-options">
+            {% if device.favourite == True %}
+            <input type="checkbox" class="favourite-checkbox" checked>
+            {% else %}
+            <input type="checkbox" class="favourite-checkbox">
+            {% endif %}
+            <svg class="star" id="{{device.device_id}}" width="28" height="28" viewBox="0 0 28 28"
+                xmlns="http://www.w3.org/2000/svg">
+                <title>Favourite Device</title>
+                <path stroke="black" fill="none"
+                    d="M14 0 L17.321 9.45 L27.223 9.45 L18.659 15.29 L21.98 24.75 L14 19.59 L6.02 24.75 L9.341 15.29 L0.777 9.45 L10.679 9.45 Z" />
+            </svg>
+            <i class="fa-solid fa-chevron-down single-device-chevron-down"></i>
+            <i class="fa-solid fa-chevron-up single-device-chevron-up"></i>
+        </div>
     </div>
     <div class="device-content">
         <div class="device-text">
@@ -164,8 +177,8 @@
                         fill="white" />
                 </svg>
                 {% endif %} -->
-                <svg class="cursor-pointer" onclick="getDeviceCurrentLocation('{{device.device_id}}');" width="35" height="35"
-                    viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg class="cursor-pointer" onclick="getDeviceCurrentLocation('{{device.device_id}}');" width="35"
+                    height="35" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <title>Location</title>
                     <rect width="50" height="50" rx="25" fill="#46879F" />
                     <g clip-path="url(#clip0_298_631)">
@@ -194,8 +207,8 @@
                         </clipPath>
                     </defs>
                 </svg>
-                <svg class="cursor-pointer" onclick="getRouting('{{device.device_id}}');" width="35" height="35" viewBox="0 0 50 50"
-                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg class="cursor-pointer" onclick="getRouting('{{device.device_id}}');" width="35" height="35"
+                    viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <title>Movement</title>
                     <rect width="50" height="50" rx="25" fill="#46879F" />
                     <path fill-rule="evenodd" clip-rule="evenodd"
@@ -218,8 +231,8 @@
         </div>
         <div class="device-additional-features">
             <div>
-                <svg class="cursor-pointer" onclick="shareLocation('{{device.device_id}}');" width="35" height="35" viewBox="0 0 51 51"
-                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg class="cursor-pointer" onclick="shareLocation('{{device.device_id}}');" width="35" height="35"
+                    viewBox="0 0 51 51" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <title>Share Location</title>
                     <rect x="0.75" y="0.984375" width="50" height="50" rx="25" fill="#46879F" />
                     <g clip-path="url(#clip0_345_416)">

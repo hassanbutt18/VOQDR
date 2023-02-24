@@ -277,6 +277,28 @@ def delete_device(request, pk):
     return JsonResponse(context)
 
 
+def toggle_favourite_device(request, pk):
+    msg = None
+    success = False
+    context = {}
+    try:
+        device = LinkDevice.objects.filter(device_id=pk).first()
+        if device.favourite == False:
+            device.favourite = True
+            msg = "Device added to favourites"
+        else:
+            device.favourite = False
+            msg = "Device excluded from favourites"
+        device.save(update_fields=['favourite'])
+        res = refresh_devices(request=request, pk=device.organization_id)
+        context = json.loads(res.content)
+        success = True
+    except Exception as e:
+        print(e)
+    context['msg'] = msg
+    context['success'] = success
+    return JsonResponse(context)
+
 # def save_device_order(request, pk1, pk2):
 #     msg = None
 #     success = False

@@ -128,6 +128,7 @@ class LinkDevice(models.Model):
     
     class Meta:
         verbose_name_plural = "Linked Devices"
+        ordering = ['-favourite', 'name']
     
     def clean(self):
         try:

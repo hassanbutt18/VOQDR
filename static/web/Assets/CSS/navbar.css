@@ -233,7 +233,6 @@ nav>a:first-of-type {
 @media (max-width: 768px) {
     nav {
         padding: 0 0 0 0!important;
-        position: relative!important;
         margin-bottom: 0px;
     }
 
