@@ -145,6 +145,11 @@ class LinkDevice(models.Model):
         super(LinkDevice, self).save(*args, **kwargs)
 
 
+class Transactions(models.Model):
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='bought_by')
+    payment_intent = models.CharField(max_length=100, null=False, blank=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
 @receiver(models.signals.post_save, sender=User)

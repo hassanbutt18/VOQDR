@@ -19,7 +19,7 @@ class AdminLinkDevice(admin.ModelAdmin):
     readonly_fields = ["device_id", "battery_voltage"]
     list_display= ('device_id', 'name', 'organization')
     search_fields= ('device_id', 'name', 'organization__organization')
-    exclude = ('battery_voltage', 'device_order_id')
+    exclude = ('battery_voltage', 'favourite')
     form = MyModelForm
     # def get_organization_name(self, obj):
     #     return obj.organization.organization

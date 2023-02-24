@@ -18,7 +18,7 @@ from voqdr.helpers import *
 from django.utils.crypto import get_random_string
 from authentications.models import OTP
 from authentications.services import *
-from users.models import InvitedOrganization, LinkDevice, OrganizationPermissions, SharedOrganization, User, UserRoles, organization_permissions
+from users.models import InvitedOrganization, LinkDevice, OrganizationPermissions, SharedOrganization, Transactions, User, UserRoles, organization_permissions
 from django.contrib.auth.decorators import login_required
 
 from web.models import Application, Home, PrivacyPolicy, ProductFeature, TermsAndConditions, Testimonial, ApplicationImage, ContactUs
@@ -778,10 +778,15 @@ def webhook_received(request):
     if event['type'] == 'checkout.session.completed':
         print("Payment was successful.")
         session = event['data']['object']
+        try:
+            Transactions.objects.create(buyer_id=session.get('client_reference_id'), payment_intent=session.get('payment_intent'))
+        except Exception as e:
+            print(e)
+
         # print("payment_intent id:", session['id'])
         # print("charged id: ", session['payment_intent'])
-        client_reference_id = session.get('client_reference_id')
-        customer_email = session.get('customer_email')
+        # client_reference_id = session.get('client_reference_id')
+        # customer_email = session.get('customer_email')
         # print(client_reference_id, customer_email)
 
     return HttpResponse(status=200)
