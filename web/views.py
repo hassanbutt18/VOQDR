@@ -749,6 +749,8 @@ def product_checkout(request, qty):
             mode='payment',
             success_url = settings.BASE_URL + 'successful-checkout',  
             cancel_url = settings.BASE_URL,
+            shipping_address_collection = {"allowed_countries": ["PK", "US", "CA", "NO"]}
+            # billing_address_collection = 'required',
         )
         context['checkout_session_id'] = checkout_session['id']
         return JsonResponse(context)
@@ -776,8 +778,11 @@ def webhook_received(request):
     if event['type'] == 'checkout.session.completed':
         print("Payment was successful.")
         session = event['data']['object']
+        # print("payment_intent id:", session['id'])
+        # print("charged id: ", session['payment_intent'])
         client_reference_id = session.get('client_reference_id')
         customer_email = session.get('customer_email')
+        # print(client_reference_id, customer_email)
 
     return HttpResponse(status=200)
 

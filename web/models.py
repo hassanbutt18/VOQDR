@@ -144,6 +144,7 @@ class Home(models.Model):
 
     class Meta:
         verbose_name_plural = "Main"
+        
 
 
 # @receiver(models.signals.pre_save, sender=Application)

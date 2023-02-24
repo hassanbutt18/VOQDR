@@ -194,9 +194,9 @@ def presave_handler(sender, instance, **kwargs):
     instance.full_clean()
 
 
-@receiver(models.signals.post_save, sender=LinkDevice)
-def postsave_handler(sender, instance, created, **kwargs):
-    if created:
-        print(instance.id)
-        instance.device_order_id = instance.id
-        instance.save(update_fields=['device_order_id'])
+# @receiver(models.signals.post_save, sender=LinkDevice)
+# def postsave_handler(sender, instance, created, **kwargs):
+#     if created:
+#         print(instance.id)
+#         instance.device_order_id = instance.id
+#         instance.save(update_fields=['device_order_id'])
