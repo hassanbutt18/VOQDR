@@ -380,10 +380,6 @@ i {
     gap: 10px;
 }
 
-.device-features svg {
-    /* width: 20%; */
-}
-
 .device-additional-features {
     margin-top: 5px;
     width: 100%;
