@@ -705,6 +705,7 @@ function deviceLocation(deviceLocation){
     iconSize: [50, 50], // set the size of the icon
     iconAnchor: [25, 50] // set the anchor point
   });
+
   if(map) {
     if(markerGroup !== null) {
       markerGroup.clearLayers();
