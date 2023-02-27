@@ -144,6 +144,7 @@ class Home(models.Model):
 
     class Meta:
         verbose_name_plural = "Main"
+        ordering = ['created_at']
         
 
 

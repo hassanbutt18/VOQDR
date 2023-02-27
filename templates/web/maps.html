@@ -13,6 +13,7 @@
         integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
     <link rel="stylesheet" href="{% static 'web/Assets/CSS/maps.css' %}">
+    <link rel="stylesheet" href="{% static 'web/Assets/CSS/edit_device_modal.css' %}">
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
     integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
     <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
@@ -54,22 +55,21 @@
             <div class="devices-options">
                 <div class="device-container-header">
                     <span class="devices-header-text">Devices</span>
-                    <i class="fa-solid fa-chevron-down devices-chevron-down"></i>
-                    <i class="fa-solid fa-chevron-up devices-chevron-up"></i>
-                </div>
-                <div class="hide-devices">
-                    <div class="refresh-icon" onclick="refreshDevices(event);">
-                        <p class="refresh-text">Refresh All</p>
-                        <i class="fa-solid fa-rotate-right"></i>
-                    </div>
-                    <form action="" onsubmit="searchDevices(event);">
+                    <form action="" onsubmit="searchDevices(event);" onclick="handleDeviceContainer(event);">
                         {% csrf_token %}
                         <div class="search-bar">
                             <input type="text" required placeholder="Search devices..." name="device" class="search-input" />
                             <button type="submit"><i class="fa-solid fa-magnifying-glass search-icon" id="search-icon"></i></button>
                         </div>
                     </form>
-
+                    <!-- <i class="fa-solid fa-chevron-down devices-chevron-down"></i>
+                    <i class="fa-solid fa-chevron-up devices-chevron-up"></i> -->
+                </div>
+                <div class="hide-devices">
+                    <div class="refresh-icon" onclick="refreshDevices(event);">
+                        <p class="refresh-text">Refresh All</p>
+                        <i class="fa-solid fa-rotate-right"></i>
+                    </div>
                     <div class="devices-container" id="devices-container">
                         {% include './ajax/devices.html' %}
                     </div>

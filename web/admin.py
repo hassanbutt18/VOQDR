@@ -58,7 +58,7 @@ class AdminPrivacyPolicy(admin.ModelAdmin):
 class AdminHome(admin.ModelAdmin):
     def has_add_permission(self, request):
         obj = Home.objects.count()
-        if obj == 3:
+        if obj == 4:
             return False
         else:
             return True

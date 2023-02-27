@@ -1,0 +1,67 @@
+.modal-content {
+    border-radius: 20px;
+}
+
+.modal-content > svg:first-of-type {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border: 1px solid transparent;
+    border-top-left-radius: 20px;
+    top: -1px;
+    left: -1px;
+}
+
+.modal-content > svg:last-of-type {
+    position: absolute;
+    bottom: -1px;
+    right: -1px;
+    width: 80px;
+    height: 80px;
+    border: 1px solid transparent;
+    border-bottom-right-radius: 20px;
+}
+
+.modal-header {
+    justify-content: center;
+}
+
+.modal-title {
+    color: black;
+    font-weight: 600;
+}
+
+label {
+    color: #004762;
+    font-weight: 600;
+}
+
+.modal-body input,
+.modal-body textarea {
+    color: #525252!important;
+    font-weight: 600!important;
+    border: 1px solid #00000017!important;
+    background-color: #F8FEFC!important;
+}
+
+textarea {
+    resize: none;
+}
+
+.modal-body svg:hover rect {
+    fill: #004762;
+}
+
+#closeEditDescriptionModal {
+    color: #46879F; 
+    border: 1px solid #46879F;
+    border-radius: 40px; 
+    width: 100px;
+}
+
+.save-device {
+    background-color: #46879F;
+    border: 1px solid #46879F;
+    border-radius: 40px;
+    width: 100px;
+}
