@@ -8,7 +8,7 @@ db.sqlite3
 *.pyc
 .env
 venv/*
-stripe
+
 
 byte-compiled / optimized / DLL files
 __pycache__/
