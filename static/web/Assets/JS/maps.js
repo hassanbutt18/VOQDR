@@ -295,7 +295,7 @@ function editDeviceDescriptionModal(event, id, device_name, device_description, 
   let getRouteBtn = form.querySelector("#get-route");
   getRouteBtn.setAttribute('onclick', `getRouting(event, '${id}')`);
   let shareLocationBtn = form.querySelector("#share-location");
-  shareLocationBtn.setAttribute('onclick', `shareLocation(event, '${id}')`);
+  shareLocationBtn.setAttribute('onclick', `shareLocation('${id}')`);
   let delDeviceBtn = form.querySelector("#delete-device");
   delDeviceBtn.setAttribute('onclick', `deleteDeviceModal(event, '${id}', 'deleteDevice')`);
   document.querySelector(`.${modal_id}`).click();
@@ -794,15 +794,14 @@ function deviceLocation(deviceLocation){
 // }
 
 
-async function shareLocation(event, device_Id) {
-  event.preventDefault();
+async function shareLocation(device_Id) {
+  // event.preventDefault();
   let form = document.querySelector("#device-functions");
   let error = form.querySelector('.alert');
-  showMsg(error, '', 'bg-danger', 'hide');
+  showMsg(error, 'Wait...', 'bg-danger', 'show');
   headers = {
     'Authorization': `Bearer ${token}`
   };
-  showMsg(error, 'Wait...', 'bg-danger', 'show');
   response = await requestAPI(`https://api.nrfcloud.com/v1/location/history?deviceId=${device_Id}`, null, headers, 'GET');
   response.json().then(async function (res) {
     if (res.items.length > 0) {
@@ -815,9 +814,7 @@ async function shareLocation(event, device_Id) {
 
       if(navigator.share) {
         try {
-          await navigator.share(shareData).then(() => {
-            showMsg(error, '', 'bg-danger', 'hide');
-          }); 
+          await navigator.share(shareData); 
         } catch (error) {
           console.log(error);
         }
@@ -828,17 +825,17 @@ async function shareLocation(event, device_Id) {
         temp.value = url;
         temp.select();
         document.execCommand('copy');
-        // alert('Device Location URL Copied!', 'success');
-        showMsg(error, 'Device Location URL Copied!', 'bg-success', 'show');
+        alert('Device Location URL Copied!', 'success');
+        // showMsg(error, 'Device Location URL Copied!', 'bg-success', 'show');
         document.body.removeChild(temp);
       }
     }
     else{
-      // alert('Device location not available', 'danger');
-      showMsg(error, 'Device location not available', 'bg-danger', 'show');
+      alert('Device location not available', 'danger');
+      // showMsg(error, 'Device location not available', 'bg-danger', 'show');
     }
   });
-  // document.querySelector('#closeEditDescriptionModal').click();
+  document.querySelector('#closeEditDescriptionModal').click();
 }
 
 
