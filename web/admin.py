@@ -41,6 +41,8 @@ class AdminTermsAndConditions(admin.ModelAdmin):
             return False
         else:
             return True
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
 class AdminPrivacyPolicy(admin.ModelAdmin):
@@ -53,6 +55,8 @@ class AdminPrivacyPolicy(admin.ModelAdmin):
             return False
         else:
             return True
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
 class AdminHome(admin.ModelAdmin):

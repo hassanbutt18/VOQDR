@@ -15,7 +15,7 @@
     line-height: 1.5rem;
     color: #004762;
     margin: 10px 0;
-    padding: 0 0;
+    padding: 0 2%;
 }
 h1,h2,h3,h4,h5,p{
     color: #004762;
@@ -421,6 +421,13 @@ select:focus {
 
 .modal-content {
     border-radius: 20px;
+}
+
+
+@media (max-width: 1024px) {
+    .accounts {
+        padding-top: 90px;
+    }
 }
 
 

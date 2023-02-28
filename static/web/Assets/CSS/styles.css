@@ -62,6 +62,10 @@ html {
 body {
     background-color: white;
     overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
 }
 
 ::-webkit-scrollbar {

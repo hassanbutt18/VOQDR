@@ -220,7 +220,7 @@ i {
 
 .devices-container {
     width: 100%;
-    height: 160px;
+    max-height: calc(100vh - 250px);
     padding-right: 1%;
     overflow-y: scroll;
 }
@@ -435,7 +435,14 @@ i {
     padding-right: 3rem!important;
     padding-top: 1rem!important;
     padding-bottom: 1rem!important;
-    color: unset!important;
+}
+
+.alert-danger {
+    background-color: #dc3545;
+}
+
+.alert-success {
+    background-color: #198754;
 }
 
 .hide{
@@ -522,7 +529,7 @@ i {
 }
 
 .more-options {
-    margin-right: 5px;
+    padding: 8px 8px;
 }
 
 

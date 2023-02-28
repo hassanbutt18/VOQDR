@@ -65,3 +65,15 @@ textarea {
     border-radius: 40px;
     width: 100px;
 }
+
+.save-device:hover {
+    background-color: #3c758a;
+}
+
+.save-device:focus {
+    background-color: #336274!important;
+}
+
+.save-device:active {
+    background-color: #336274!important;
+}

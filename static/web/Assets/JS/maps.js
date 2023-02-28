@@ -201,15 +201,15 @@ function loadMapControls() {
 // Refreshing Devices of Currently Selected Organization
 
 async function refreshDevices(event){
-  let element = event.currentTarget;
-  let textElement = element.querySelector('.refresh-text');
-  let textElementText = textElement.innerText;
-  let searchIcon = element.querySelector('.fa-rotate-right');
-  beforeLoad(textElement, "Refreshing...");
-  searchIcon.classList.add('hide');
+  // let element = event.currentTarget;
+  // let textElement = element.querySelector('.refresh-text');
+  // let textElementText = textElement.innerText;
+  // let searchIcon = element.querySelector('.fa-rotate-right');
+  // beforeLoad(textElement, "Refreshing...");
+  // searchIcon.classList.add('hide');
   response = await requestAPI(`/refresh-devices/${active_user_devices}`, null, {}, 'GET');
-  afterLoad(textElement, textElementText);
-  searchIcon.classList.remove('hide');
+  // afterLoad(textElement, textElementText);
+  // searchIcon.classList.remove('hide');
   response.json().then(function(res) {
     if(res) {
       let deviceContainer = document.querySelector('#devices-container');
@@ -220,6 +220,8 @@ async function refreshDevices(event){
     }
   })
 }
+
+setInterval(refreshDevices, 3600000);
 
 
 // Obtaining Devices of Shared Organizations
