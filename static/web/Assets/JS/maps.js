@@ -298,6 +298,9 @@ function editDeviceDescriptionModal(event, id, device_name, device_description, 
   shareLocationBtn.setAttribute('onclick', `shareLocation('${id}')`);
   let delDeviceBtn = form.querySelector("#delete-device");
   delDeviceBtn.setAttribute('onclick', `deleteDeviceModal(event, '${id}', 'deleteDevice')`);
+  if(window.innerWidth < 768 && deviceContainer.classList.contains('show-devices')) {
+    toggleDevices();
+  }
   document.querySelector(`.${modal_id}`).click();
 }
 
