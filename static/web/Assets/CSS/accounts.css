@@ -424,6 +424,13 @@ select:focus {
 }
 
 
+@media (max-width: 1280px) {
+    .accounts h2 {
+        width: 30%;
+    }
+}
+
+
 @media (max-width: 1024px) {
     .accounts {
         padding-top: 90px;
@@ -435,6 +442,11 @@ select:focus {
     .accounts{
         padding-top: 60px;
     }
+
+    .accounts h2 {
+        width: 100%;
+    }
+
     .accounts-container {
         flex-direction: column;
     }

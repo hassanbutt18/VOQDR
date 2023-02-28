@@ -293,9 +293,9 @@ function editDeviceDescriptionModal(event, id, device_name, device_description, 
   deviceDescription.value = device_description;
   form.setAttribute('onsubmit', `editDeviceDescriptionForm(event, '${id}')`)
   let getRouteBtn = form.querySelector("#get-route");
-  getRouteBtn.setAttribute('onclick', `getRouting('${id}')`);
+  getRouteBtn.setAttribute('onclick', `getRouting(event, '${id}')`);
   let shareLocationBtn = form.querySelector("#share-location");
-  shareLocationBtn.setAttribute('onclick', `shareLocation('${id}')`);
+  shareLocationBtn.setAttribute('onclick', `shareLocation(event, '${id}')`);
   let delDeviceBtn = form.querySelector("#delete-device");
   delDeviceBtn.setAttribute('onclick', `deleteDeviceModal(event, '${id}', 'deleteDevice')`);
   document.querySelector(`.${modal_id}`).click();
@@ -512,17 +512,24 @@ var markerIcon = L.icon({
 
 // Get Locations for routing
 
-async function getRouting(deviceId) {
+async function getRouting(event, deviceId) {
+  event.preventDefault();
+  let form = document.querySelector("#device-functions");
+  let error = form.querySelector('.alert');
+  showMsg(error, '', 'bg-danger', 'hide');
   headers = {
     'Authorization': `Bearer ${token}`
   };
+  showMsg(error, 'Wait...', 'bg-danger', 'show')
   response = await requestAPI(`https://api.nrfcloud.com/v1/location/history?deviceId=${deviceId}`, null, headers, 'GET');
   response.json().then(function (res) {
     if (res.items.length > 0) {
+      document.querySelector('#closeEditDescriptionModal').click();
       routing(sortServiceType(res.items));
     }
     else{
-      alert('Device routes not available', 'danger');
+      // alert('Device routes not available', 'danger');
+      showMsg(error, 'Device routes not available', 'bg-danger', 'show');
       if(map) {
         if(markerGroup !== null) {
           markerGroup.clearLayers();
@@ -533,7 +540,7 @@ async function getRouting(deviceId) {
       }
     }
   });
-  document.querySelector('#closeEditDescriptionModal').click();
+  // document.querySelector('#closeEditDescriptionModal').click();
 }
 
 // Adding Routes 
@@ -787,10 +794,15 @@ function deviceLocation(deviceLocation){
 // }
 
 
-async function shareLocation(device_Id) {
+async function shareLocation(event, device_Id) {
+  event.preventDefault();
+  let form = document.querySelector("#device-functions");
+  let error = form.querySelector('.alert');
+  showMsg(error, '', 'bg-danger', 'hide');
   headers = {
     'Authorization': `Bearer ${token}`
   };
+  showMsg(error, 'Wait...', 'bg-danger', 'show');
   response = await requestAPI(`https://api.nrfcloud.com/v1/location/history?deviceId=${device_Id}`, null, headers, 'GET');
   response.json().then(async function (res) {
     if (res.items.length > 0) {
@@ -803,7 +815,9 @@ async function shareLocation(device_Id) {
 
       if(navigator.share) {
         try {
-          await navigator.share(shareData); 
+          await navigator.share(shareData).then(() => {
+            showMsg(error, '', 'bg-danger', 'hide');
+          }); 
         } catch (error) {
           console.log(error);
         }
@@ -814,15 +828,17 @@ async function shareLocation(device_Id) {
         temp.value = url;
         temp.select();
         document.execCommand('copy');
-        alert('Device Location URL Copied!', 'success')
+        // alert('Device Location URL Copied!', 'success');
+        showMsg(error, 'Device Location URL Copied!', 'bg-success', 'show');
         document.body.removeChild(temp);
       }
     }
     else{
-      alert('Device location not available', 'danger')
+      // alert('Device location not available', 'danger');
+      showMsg(error, 'Device location not available', 'bg-danger', 'show');
     }
   });
-  document.querySelector('#closeEditDescriptionModal').click();
+  // document.querySelector('#closeEditDescriptionModal').click();
 }
 
 
