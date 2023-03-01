@@ -61,6 +61,19 @@
                 <div class="organisation-content-container">
                     <form class="organisation-form" action="" onsubmit="editOrgForm(event);">
                         {% csrf_token %}
+                        {% if request.user.is_organization == True %}
+                        <input type="hidden" value="{{request.user.id}}" name="organization_id">
+                        <div class="organisation-group-inputs">
+                            <div class="input1 org-input">
+                                <span>Organisation Name</span>
+                                <input type="text" required name="organization" class="org-name" value="{{request.user.organization}}" />
+                            </div>
+                            <div class="input2 org-input">
+                                <span>Organisation Address</span>
+                                <input type="text" name="address" value="{{request.user.address}}">
+                            </div>
+                        </div>
+                        <button type="submit" class="submit-btn pt-3 pb-3">Save Changes</button>
                         <!-- <select class="form-select select-org" name="organization_id"  onchange="changeOrganization(event);" id="select-org">
                             <option value="{{request.user.id}}">{{request.user.organization}}</option>
                             {% if shared_with_us_organizations %}
@@ -69,18 +82,34 @@
                             {% endfor %}
                             {% endif %}
                         </select> -->
-                        <input type="hidden" value="{{request.user.id}}" name="organization_id">
+                        {% elif shared_with_us_organizations %}
+                        {% for obj in shared_with_us_organizations %}
+                        <input type="hidden" value="{{obj.shared_by.id}}" name="organization_id">
                         <div class="organisation-group-inputs">
                             <div class="input1 org-input">
                                 <span>Organisation Name</span>
-                                <input type="text" required name="organization" class="org-name" value="{{request.user.organization|title}}" />
+                                {% if obj.role == 'admin' %}
+                                <input type="text" required name="organization" class="org-name" value="{{obj.shared_by.organization}}" />
+                                {% else %}
+                                <input type="text" readonly required name="organization" class="org-name" value="{{obj.shared_by.organization}}" />
+                                {% endif %}
                             </div>
                             <div class="input2 org-input">
                                 <span>Organisation Address</span>
-                                <input type="text" name="address" value="{{request.user.address|title}}">
+                                {% if obj.role == 'admin' %}
+                                <input type="text" name="address" value="{{obj.shared_by.address}}">
+                                {% else %}
+                                <input type="text" readonly name="address" value="{{obj.shared_by.address}}">
+                                {% endif %}
                             </div>
                         </div>
+                        {% if obj.role == 'admin' %}
                         <button type="submit" class="submit-btn pt-3 pb-3">Save Changes</button>
+                        {% else %}
+                        {% endif %}
+                        {% endfor %}
+                        {% else %}
+                        {% endif %}
                     </form>
 
                     <div class="add-user-container">

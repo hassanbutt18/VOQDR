@@ -58,7 +58,8 @@ INSTALLED_APPS = [
     'web',
     'users',
     'authentications',
-    'ckeditor'
+    'ckeditor',
+    'django_toggle_switch_widget',
 ]
 
 MIDDLEWARE = [

@@ -126,23 +126,26 @@ function toggleOrganisations() {
 
 const deviceContainer = document.querySelector(".hide-devices");
 const devicesHeader = document.querySelector(".device-container-header");
-// const devicesHeaderText = document.querySelector(".devices-header-text");
-// const devicesHeaderChevronUp = document.querySelector(".devices-chevron-up");
-// const devicesHeaderChevronDown = document.querySelector(
-//   ".devices-chevron-down"
-// );
+const searchContainer = document.querySelector("#search-form");
+const devicesHeaderText = document.querySelector(".devices-header-text");
+const devicesHeaderChevronUp = document.querySelector(".devices-chevron-up");
+const devicesHeaderChevronDown = document.querySelector(
+  ".devices-chevron-down"
+);
 
 function toggleDevices() {
   if (deviceContainer.classList.contains("show-devices")) {
     deviceContainer.classList.remove("show-devices");
-    // devicesHeaderText.textContent = "Devices";
-    // devicesHeaderChevronDown.classList.remove("hide-chevron");
-    // devicesHeaderChevronUp.classList.remove("show-chevron");
+    searchContainer.classList.add('hide');
+    devicesHeaderText.textContent = "Devices";
+    devicesHeaderChevronDown.classList.remove("hide-chevron");
+    devicesHeaderChevronUp.classList.remove("show-chevron");
   } else {
     deviceContainer.classList.add("show-devices");
-    // devicesHeaderText.textContent = "Devices";
-    // devicesHeaderChevronDown.classList.add("hide-chevron");
-    // devicesHeaderChevronUp.classList.add("show-chevron");
+    searchContainer.classList.remove('hide');
+    devicesHeaderText.textContent = "Devices";
+    devicesHeaderChevronDown.classList.add("hide-chevron");
+    devicesHeaderChevronUp.classList.add("show-chevron");
   }
 }
 
@@ -282,7 +285,7 @@ async function searchDevices(event){
 
 // Opening Edit Device Description Modal
 
-function editDeviceDescriptionModal(event, id, device_name, device_description, modal_id) {
+function editDeviceDescriptionModal(event, id, device_name, device_description, role, modal_id) {
   let modal = document.querySelector(`#${modal_id}`);
   let form = modal.querySelector('form');
   let error = form.querySelector('.alert');
@@ -296,8 +299,10 @@ function editDeviceDescriptionModal(event, id, device_name, device_description, 
   getRouteBtn.setAttribute('onclick', `getRouting(event, '${id}')`);
   let shareLocationBtn = form.querySelector("#share-location");
   shareLocationBtn.setAttribute('onclick', `shareLocation('${id}')`);
-  let delDeviceBtn = form.querySelector("#delete-device");
-  delDeviceBtn.setAttribute('onclick', `deleteDeviceModal(event, '${id}', 'deleteDevice')`);
+  if(role == 'admin') {
+    let delDeviceBtn = form.querySelector("#delete-device");
+    delDeviceBtn.setAttribute('onclick', `deleteDeviceModal(event, '${id}', 'deleteDevice')`);
+  }
   if(window.innerWidth < 768 && deviceContainer.classList.contains('show-devices')) {
     toggleDevices();
   }

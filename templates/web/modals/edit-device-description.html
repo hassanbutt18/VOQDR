@@ -20,12 +20,21 @@
                     {% csrf_token %}
                     <div class=" w-100">
                         <label for="name" class="col-form-label">Device Name:</label>
+                        {% if role == 'admin' %}
                         <input type="text" id="name" required class="form-control" name="name" />
+                        {% else %}
+                        <input type="text" id="name" readonly required class="form-control" name="name" />
+                        {% endif %}
                     </div>
                     <div class="mb-3 w-100">
                         <label for="description" class="col-form-label">Device Description:</label>
+                        {% if role == 'admin' %}
                         <textarea type="text" id="description" required class="form-control" name="description">
                         </textarea>
+                        {% else %}
+                        <textarea type="text" id="description" readonly required class="form-control" name="description">
+                        </textarea>
+                        {% endif %}
                     </div>
                     <div class="mb-3 w-100 d-flex justify-content-center gap-3">
                         <svg id="get-route" class="cursor-pointer" onclick="getRouting('{{device.device_id}}');" width="35" height="35"
@@ -67,6 +76,7 @@
                                 </clipPath>
                             </defs>
                         </svg>
+                        {% if role == 'admin' %}
                         <svg id="delete-device" class="cursor-pointer"
                             onclick="deleteDeviceModal(event, '{{device.device_id}}', 'deleteDevice');" width="35"
                             height="35" viewBox="0 0 51 51" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -82,10 +92,29 @@
                                 d="M29.6875 36.4402H21.8125C20.7625 36.4402 19.8438 35.5652 19.7563 34.5152L18.5312 18.7652L19.8438 18.6777L21.0688 34.4277C21.1125 34.8215 21.4625 35.1277 21.8125 35.1277H29.6875C30.0813 35.1277 30.4312 34.7777 30.4312 34.4277L31.6562 18.6777L32.9688 18.7652L31.7437 34.5152C31.6562 35.609 30.7375 36.4402 29.6875 36.4402Z"
                                 fill="white" />
                         </svg>
+                        {% else %}
+                        <!-- <svg id="delete-device" class="cursor-not-allowed" width="35"
+                            height="35" viewBox="0 0 51 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <title>Delete Device</title>
+                            <rect x="0.75" y="0.984375" width="50" height="50" rx="25" fill="#46879F" />
+                            <path
+                                d="M22.4688 22.0029H23.7812V32.5029H22.4688V22.0029ZM25.0938 22.0029H26.4062V32.5029H25.0938V22.0029ZM27.7188 22.0029H29.0312V32.5029H27.7188V22.0029ZM17.2188 18.0654H34.2812V19.3779H17.2188V18.0654Z"
+                                fill="white" />
+                            <path
+                                d="M28.9867 18.7219H27.7617V17.4094C27.7617 17.0156 27.4555 16.7094 27.0617 16.7094H24.4367C24.043 16.7094 23.7367 17.0156 23.7367 17.4094V18.7219H22.5117V17.4094C22.5117 16.3594 23.3867 15.4844 24.4367 15.4844H27.0617C28.1117 15.4844 28.9867 16.3594 28.9867 17.4094V18.7219Z"
+                                fill="white" />
+                            <path
+                                d="M29.6875 36.4402H21.8125C20.7625 36.4402 19.8438 35.5652 19.7563 34.5152L18.5312 18.7652L19.8438 18.6777L21.0688 34.4277C21.1125 34.8215 21.4625 35.1277 21.8125 35.1277H29.6875C30.0813 35.1277 30.4312 34.7777 30.4312 34.4277L31.6562 18.6777L32.9688 18.7652L31.7437 34.5152C31.6562 35.609 30.7375 36.4402 29.6875 36.4402Z"
+                                fill="white" />
+                        </svg> -->
+                        {% endif %}
                     </div>
                     <div class="w-100 d-flex justify-content-center gap-4">
                         <button type="button" id="closeEditDescriptionModal" class="btn bg-white" data-bs-dismiss="modal">Cancel</button>
+                        {% if role == 'admin' %}
                         <button type="submit" class="text-white save-device">Save</button>
+                        {% else %}
+                        {% endif %}
                     </div>
                 </form>
             </div>

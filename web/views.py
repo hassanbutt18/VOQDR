@@ -74,8 +74,14 @@ def maps_vodcur(request):
         except Exception as e:
             pass
     context["shared_with_us_organizations"] = user.shared_with_organization.all()
-    context['role'] = 'admin'
-    linked_devices = LinkDevice.objects.filter(organization=user.id).values()
+    if user.is_organization == True:
+        linked_devices = LinkDevice.objects.filter(organization=user.id).values()
+        context['role'] = 'admin'
+    else:
+        org = OrganizationPermissions.objects.filter(shared_to_id=user.id).first()
+        if org:
+            linked_devices = LinkDevice.objects.filter(organization_id=org.shared_by_id).values()
+            context['role'] = org.role
     multipleLocations = []
     devices_ids = []
     if linked_devices:
@@ -135,17 +141,26 @@ def get_shared_with_devices(request, pk):
 def refresh_devices(request, pk):
     context = {}
     devices = {}
+    user = request.user
     msg = None
     success = False
     linked_devices = None
-    org = OrganizationPermissions.objects.filter(shared_by_id=pk, shared_to_id=request.user.id).first()
+    # org = OrganizationPermissions.objects.filter(shared_by_id=pk, shared_to_id=request.user.id).first()
     try:
-        linked_devices = LinkDevice.objects.filter(organization=pk).values()
-        linked_devices = ValuesQuerySetToDict(linked_devices)
-        if request.user.id == pk:
-            devices['role'] = 'admin'
+        if user.is_organization == True:
+            linked_devices = LinkDevice.objects.filter(organization=user.id).values()
+            context['role'] = 'admin'
         else:
-            devices['role'] = org.role
+            org = OrganizationPermissions.objects.filter(shared_to_id=user.id).first()
+            if org:
+                linked_devices = LinkDevice.objects.filter(organization_id=org.shared_by_id).values()
+                context['role'] = org.role
+        # linked_devices = LinkDevice.objects.filter(organization=pk).values()
+        linked_devices = ValuesQuerySetToDict(linked_devices)
+        # if request.user.id == pk:
+        #     devices['role'] = 'admin'
+        # else:
+        #     devices['role'] = org.role
         devices['linked_devices'] = linked_devices
         text_template = loader.get_template('web/ajax/devices.html')
         html = text_template.render(devices)
@@ -168,21 +183,29 @@ def search_devices(request, pk):
     success = False
     context = {}
     devices = {}
+    user = request.user
     request_data = json.loads(request.body.decode('utf-8'))
     linked_devices = None
-    org = OrganizationPermissions.objects.filter(shared_by_id=pk, shared_to_id=request.user.id).first()
+    # org = OrganizationPermissions.objects.filter(shared_by_id=pk, shared_to_id=request.user.id).first()
     try:
-        linked_devices = LinkDevice.objects.filter(Q(name__icontains=request_data.get('device')) | Q(description__icontains=request_data.get('device')), organization_id=pk).values()
+        if user.is_organization == True:
+            linked_devices = LinkDevice.objects.filter(Q(name__icontains=request_data.get('device')) | Q(description__icontains=request_data.get('device')), organization_id=pk).values()
+            context['role'] = 'admin'
+        else:
+            org = OrganizationPermissions.objects.filter(shared_to_id=user.id).first()
+            if org:
+                linked_devices = LinkDevice.objects.filter(Q(name__icontains=request_data.get('device')) | Q(description__icontains=request_data.get('device')), organization_id=org.shared_by_id).values()
+                context['role'] = org.role
         linked_devices = ValuesQuerySetToDict(linked_devices)
         if len(linked_devices) == 0:
             msg = "No such device found"
         else:
             success = True
             msg = "Searched successfully"
-        if request.user.id == pk:
-            devices['role'] = 'admin'
-        else:
-            devices['role'] = org.role
+        # if request.user.id == pk:
+        #     devices['role'] = 'admin'
+        # else:
+        #     devices['role'] = org.role
         devices['linked_devices'] = linked_devices
         text_template = loader.get_template('web/ajax/devices.html')
         html = text_template.render(devices)
@@ -344,6 +367,7 @@ def my_account(request):
     user = request.user
     context["shared_with_us_organizations"] = user.shared_with_organization.all()
     context['shared_to_organizations'] = user.shared_from_organization.all()
+    # print(context['shared_to_organizations'])
     if request.method == 'POST':
         context = {}
         request_data = request.POST.copy()

@@ -117,6 +117,11 @@ i {
     display: none !important;
 }
 
+#search-form {
+    margin-right: auto;
+    margin-left: 10px;
+}
+
 .refresh-icon {
     display: flex;
     justify-content: flex-end;
@@ -543,6 +548,10 @@ i {
 @media (max-width: 1280px) {
     .group-dropdown-container {
         width: 350px;
+    }
+
+    .search-bar {
+        width: 210px;
     }
 }
 

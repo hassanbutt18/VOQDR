@@ -55,15 +55,15 @@
             <div class="devices-options">
                 <div class="device-container-header">
                     <span class="devices-header-text">Devices</span>
-                    <form action="" onsubmit="searchDevices(event);" onclick="handleDeviceContainer(event);">
+                    <form action="" onsubmit="searchDevices(event);" onclick="handleDeviceContainer(event);" id="search-form" class="hide">
                         {% csrf_token %}
                         <div class="search-bar">
                             <input type="text" required placeholder="Search devices..." name="device" class="search-input" />
                             <button type="submit"><i class="fa-solid fa-magnifying-glass search-icon" id="search-icon"></i></button>
                         </div>
                     </form>
-                    <!-- <i class="fa-solid fa-chevron-down devices-chevron-down"></i>
-                    <i class="fa-solid fa-chevron-up devices-chevron-up"></i> -->
+                    <i class="fa-solid fa-chevron-down devices-chevron-down"></i>
+                    <i class="fa-solid fa-chevron-up devices-chevron-up"></i>
                 </div>
                 <div class="hide-devices">
                     <div class="refresh-icon" onclick="refreshDevices(event);" style="display: none;">

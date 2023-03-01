@@ -18,8 +18,8 @@ class UserRolesChoices(models.TextChoices):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(unique=True, null=True, blank=True)
-    organization = models.CharField(max_length=200, unique=True, null=True, blank=True)
+    email = models.EmailField(unique=True, null=False, blank=False)
+    organization = models.CharField(max_length=200, unique=True, null=False, blank=False)
     name = models.CharField(max_length=100, null=True, blank=True)
     code = models.CharField(max_length=100, null=True, blank=True)
     token = models.CharField(max_length=500, null=True, blank=True)
@@ -38,6 +38,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return str(self.organization)
+    
+    class Meta:
+        verbose_name_plural = "Organizations"
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['organization']
