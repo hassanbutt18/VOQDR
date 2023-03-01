@@ -57,6 +57,7 @@ def maps_vodcur(request):
     msg = None 
     success = False
     user = request.user
+    linked_devices = None
     context={'nbar':'map'}
     context['active_org'] = user.id
     header = {"Authorization": f"Bearer {settings.AUTH_TOKEN}"}
