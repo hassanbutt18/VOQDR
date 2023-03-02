@@ -1,6 +1,7 @@
 nav {
     display: flex;
     position: sticky!important;
+    position: -webkit-sticky;
     top: 0;
     z-index: 1000;
     justify-content: space-between;
