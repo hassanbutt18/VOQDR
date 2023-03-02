@@ -825,7 +825,7 @@ async function shareLocation(device_Id) {
         url: url
       }
 
-      if(!navigator.share) {
+      if(navigator.share) {
         try {
           await navigator.share(shareData); 
         } catch (error) {
