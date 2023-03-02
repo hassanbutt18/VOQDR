@@ -825,49 +825,24 @@ async function shareLocation(device_Id) {
         url: url
       }
 
-      if(navigator.share) {
+      if(navigator.clipboard) {
         try {
-          await navigator.share(shareData); 
+          await navigator.clipboard.writeText(url).then(() => {
+            alert('Device Location URL Copied!', 'success');
+          }); 
         } catch (error) {
           console.log(error);
         }
       }
       else {
-        try {
-          textarea = document.createElement('textarea');
-          textarea.setAttribute('readonly', true);
-          textarea.setAttribute('contenteditable', true);
-          textarea.style.position = 'fixed'; // prevent scroll from jumping to the bottom when focus is set.
-          textarea.value = url;
-      
-          document.body.appendChild(textarea);
-      
-          textarea.focus();
-          textarea.select();
-      
-          const range = document.createRange();
-          range.selectNodeContents(textarea);
-      
-          const sel = window.getSelection();
-          sel.removeAllRanges();
-          sel.addRange(range);
-      
-          textarea.setSelectionRange(0, textarea.value.length);
-          result = document.execCommand('copy');
-        } catch (err) {
-          console.error(err);
-          result = null;
-        } finally {
-          document.body.removeChild(textarea);
-        }
-        // var temp = document.createElement('input');
-        // document.body.appendChild(temp);
-        // temp.value = url;
-        // temp.select();
-        // document.execCommand('copy');
+        var temp = document.createElement('input');
+        document.body.appendChild(temp);
+        temp.value = url;
+        temp.select();
+        document.execCommand('copy');
         alert('Device Location URL Copied!', 'success');
         // showMsg(error, 'Device Location URL Copied!', 'bg-success', 'show');
-        // document.body.removeChild(temp);
+        document.body.removeChild(temp);
       }
     }
     else{
