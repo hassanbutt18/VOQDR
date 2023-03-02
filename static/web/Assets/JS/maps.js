@@ -52,6 +52,7 @@ async function drawDevicesMarkers(){
 var locationsArray = []
 var markerGroup = null;
 var routes = null;
+var marker = null;
 
 function drawMarkersOnLoad(deviceLocation){
   let deviceIdentity = null;
@@ -88,8 +89,8 @@ function drawMarkersOnLoad(deviceLocation){
   marker.bindPopup(
       `<strong>Device:</strong> ${deviceIdentity} <br/><br/> <strong>Last seen:</strong> ${date}-${month}  ${hours}:${minutes}`
     );
-
-  marker.addTo(map);
+  markerGroup = L.featureGroup([marker]).addTo(map);
+  // marker.addTo(map);
   locationsArray.push([deviceLocation.lat, deviceLocation.lon])
   var bounds = L.latLngBounds(locationsArray);
   map.fitBounds(bounds);
@@ -660,8 +661,8 @@ function routing(deviceLocations){
   marker.bindPopup(
       `<strong>Device:</strong> ${deviceIdentity} <br/><br/> <strong>Last seen:</strong> ${date}-${month}  ${hours}:${minutes}`
     );
-
-  marker.addTo(map);
+  markerGroup = L.featureGroup([marker]).addTo(map);
+  // marker.addTo(map);
   var waypoints = [];
   for(var j = 0; j < deviceLocations.length; j = j + 1) {
     waypoints.push([deviceLocations[j].lat, deviceLocations[j].lon]);
@@ -692,6 +693,9 @@ function routing(deviceLocations){
 // Get Last Known Location Of Device
 
 async function getDeviceCurrentLocation(deviceId) {
+  if(window.innerWidth < 768 && deviceContainer.classList.contains('show-devices')) {
+    toggleDevices();
+  }
   headers = {
     'Authorization': `Bearer ${token}`
   };
@@ -752,7 +756,8 @@ function deviceLocation(deviceLocation){
       `<strong>Device:</strong> ${deviceIdentity} <br/><br/> <strong>Last seen:</strong> ${date}-${month}  ${hours}:${minutes}`
     );
 
-  marker.addTo(map);
+  markerGroup = L.featureGroup([marker]).addTo(map);
+  // marker.addTo(map);
   var waypoints = [[deviceLocation.lat, deviceLocation.lon]];
   var bounds = L.latLngBounds(waypoints);
   map.fitBounds(bounds);
@@ -851,14 +856,11 @@ async function shareLocation(device_Id) {
 
 function loadFavouriteElements() {
   let favourites = document.querySelectorAll('.star');
-  // console.log(favourites);
   favourites.forEach(function(fav) {
     fav.addEventListener('click', async function(e) {
       e.stopPropagation();
-      // console.log(e.target);
       response = await requestAPI(`/toggle-favourite-device/${this.id}/`, null, {}, 'GET');
       response.json().then(function(res) {
-        // console.log(res);
         if(res.success) {
           let deviceContainer = document.querySelector('#devices-container');
           deviceContainer.innerHTML = res.html;

@@ -1,6 +1,6 @@
 .accounts {
     margin-bottom: 10px;
-    padding-top: 130px;
+    padding-top: 85px;
 
 }
 /* .footer {
@@ -163,6 +163,7 @@ select:focus {
     background-color: white;
     border: 0.5px solid #46879F;
     border-radius: 10px;
+    height: fit-content;
 }
 
 .organisation-info>div:first-of-type {
@@ -178,6 +179,7 @@ select:focus {
 .organisation-info h2 {
     width: 100%;
     margin-top: 0;
+    padding: 0 .5%;
 }
 
 .organisation-info>div:first-of-type svg {
@@ -424,6 +426,20 @@ select:focus {
 }
 
 
+@media (min-width: 1920px) {
+    .accounts {
+        padding-top: 120px;
+    }
+}
+
+
+@media (min-width: 1536px) and (max-width: 1919px) {
+    .accounts {
+        padding-top: 108px;
+    }
+}
+
+
 @media (max-width: 1280px) {
     .accounts h2 {
         width: 30%;
@@ -433,14 +449,14 @@ select:focus {
 
 @media (max-width: 1024px) {
     .accounts {
-        padding-top: 90px;
+        padding-top: 75px;
     }
 }
 
 
 @media (max-width: 768px) {
     .accounts{
-        padding-top: 60px;
+        padding-top: 70px;
     }
 
     .accounts h2 {

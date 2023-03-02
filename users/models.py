@@ -6,6 +6,9 @@ from django.db import models
 from django.dispatch import receiver
 from users.managers import CustomUserManager
 from django.contrib.auth.models import PermissionsMixin
+# from django.db.models import UniqueConstraint
+# from django.db.models.functions import Lower
+from django.db.models import Q
 
 
 class UserRoles():
@@ -19,7 +22,7 @@ class UserRolesChoices(models.TextChoices):
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True, null=False, blank=False)
-    organization = models.CharField(max_length=200, unique=True, null=False, blank=False)
+    organization = models.CharField(max_length=200, unique=True, null=False, blank=False, verbose_name='Organization Name')
     name = models.CharField(max_length=100, null=True, blank=True)
     code = models.CharField(max_length=100, null=True, blank=True)
     token = models.CharField(max_length=500, null=True, blank=True)
@@ -41,6 +44,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     
     class Meta:
         verbose_name_plural = "Organizations"
+        # constraints = [
+        #     UniqueConstraint(
+        #         Lower('organization'),
+        #         name='Unique_Organization_Name',
+        #         violation_error_message='Organization name is not unique',
+        #     ),
+        # ]
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['organization']
@@ -56,6 +66,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         else:
             return 'https://www.w3schools.com/howto/img_avatar.png'
         
+    def clean(self):
+        if User.objects.filter(Q(organization__icontains=self.organization)).exclude(id=self.id).exists():
+            raise ValidationError({'organization':"Organization name must be unique"})
+
     def save(self, *args, **kwargs):
         if self.email:
             self.email = self.email.lower()

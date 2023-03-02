@@ -9,7 +9,7 @@
     {% load static %}
     {% block links %}
     
-    <!-- <link rel="stylesheet" href="{% static 'web/Assets/CSS/accounts.css' %}"> -->
+    <link rel="stylesheet" href="{% static 'web/Assets/CSS/terms_policies.css' %}">
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
 
     {% endblock %}
@@ -18,11 +18,11 @@
 
 <body>
     {% block body %}
-    <section class="accounts mt-5 pt-5 mb-3 pb-3" style="padding-top: 60px!important; padding-left: 10px; padding-right: 10px;">
-        <div class="accounts-container">
+    <section class="terms_policies mb-3 pb-3">
+        <div class="">
             {% if terms_and_conditions %}
             {% for terms in terms_and_conditions %}
-            <div class="content ">
+            <div class="content">
                 {{terms.terms_conditions|safe}}
             </div>
             {% endfor %}

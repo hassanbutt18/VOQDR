@@ -48,10 +48,10 @@ admin.site.register(LinkDevice, AdminLinkDevice)
 
 class UserModelAdmin(admin.ModelAdmin):
     readonly_fields = ["email", "is_organization"]
-    list_display = ('email', 'name', 'organization', 'is_organization', 'is_active')
+    list_display = ('email', 'name', 'organization', 'is_active')
     # list_editable = ('is_active',)
     # search_fields= ('device_id', 'name', 'organization__organization')
-    exclude = ('code', 'token', 'is_staff', 'is_superuser', 'user_permissions', 'groups', 'last_login', 'password')
+    exclude = ('code', 'token', 'is_staff', 'is_superuser', 'is_organization', 'user_permissions', 'groups', 'last_login', 'password')
     # form = UserModelForm
     formfield_overrides = {
         models.BooleanField: {'widget': DjangoToggleSwitchWidget(round=True, klass="django-toggle-switch-dark-primary")},
@@ -76,6 +76,7 @@ class UserModelAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
+        qs = qs.exclude(is_organization=False)
         if request.user.is_superuser:
             qs = qs.exclude(is_superuser=True)
         return qs

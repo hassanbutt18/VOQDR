@@ -1,5 +1,8 @@
 nav {
     display: flex;
+    position: sticky!important;
+    top: 0;
+    z-index: 1000;
     justify-content: space-between;
     align-items: center;
     width: 100%;
@@ -238,7 +241,7 @@ nav>a:first-of-type {
 
     nav>a:first-of-type {
         order: 2;
-        width: auto;
+        width: 145px;
         height: 50px;
         min-height: fit-content;
     }

@@ -88,6 +88,7 @@ def maps_vodcur(request):
     if linked_devices:
         linked_devices = ValuesQuerySetToDict(linked_devices)
         context['linked_devices'] = linked_devices
+        # print(context['linked_devices'])
         devices_ids = [obj["device_id"] for obj in linked_devices]
         # if devices_ids:
         #     for device in devices_ids:
@@ -151,11 +152,13 @@ def refresh_devices(request, pk):
         if user.is_organization == True:
             linked_devices = LinkDevice.objects.filter(organization=user.id).values()
             context['role'] = 'admin'
+            devices['role'] = 'admin'
         else:
             org = OrganizationPermissions.objects.filter(shared_to_id=user.id).first()
             if org:
                 linked_devices = LinkDevice.objects.filter(organization_id=org.shared_by_id).values()
                 context['role'] = org.role
+                devices['role'] = org.role
         # linked_devices = LinkDevice.objects.filter(organization=pk).values()
         linked_devices = ValuesQuerySetToDict(linked_devices)
         # if request.user.id == pk:
@@ -192,11 +195,13 @@ def search_devices(request, pk):
         if user.is_organization == True:
             linked_devices = LinkDevice.objects.filter(Q(name__icontains=request_data.get('device')) | Q(description__icontains=request_data.get('device')), organization_id=pk).values()
             context['role'] = 'admin'
+            devices['role'] = 'admin'
         else:
             org = OrganizationPermissions.objects.filter(shared_to_id=user.id).first()
             if org:
                 linked_devices = LinkDevice.objects.filter(Q(name__icontains=request_data.get('device')) | Q(description__icontains=request_data.get('device')), organization_id=org.shared_by_id).values()
                 context['role'] = org.role
+                devices['role'] = org.role
         linked_devices = ValuesQuerySetToDict(linked_devices)
         if len(linked_devices) == 0:
             msg = "No such device found"

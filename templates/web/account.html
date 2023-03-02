@@ -114,6 +114,7 @@
 
                     <div class="add-user-container">
                         <h2>Users</h2>
+                        {% if request.user.is_organization == True %}
                         <form action="" id="add-user-form" onsubmit="addUserForm(event)">
                             {% csrf_token %}
                             <div class="user-group-inputs">
@@ -135,6 +136,26 @@
                                 <span class="error-text"></span>
                             </div>
                         </form>
+                        {% else %}
+                        <div class="user-group-inputs">
+                            <div class="input1 user-input">
+                                <span>Email</span>
+                                <input type="email" readonly required name="email" />
+                            </div>
+                            <div class="input2 user-input">
+                                <span>Role</span>
+                                <select name="role" id="roles" class="form-select select-role">
+                                    <option value="viewer">Viewer</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- <button type="submit" form="add-user-form" value="Submit" class="add-user-btn pt-3 pb-3">Add User</button> -->
+                        <div class="alert hide">
+                            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                            <span class="error-text"></span>
+                        </div>
+                        {% endif %}
                     </div>
 
                     <div>
