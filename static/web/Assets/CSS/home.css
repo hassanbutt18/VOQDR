@@ -5,17 +5,16 @@ header {
     align-items: center;
 }
 
+nav {
+    margin-bottom: 45px;
+}
+
 .main {
     position: relative;
     display: flex;
     justify-content: center;
-    max-width: 1920px;
-}
-
-@media (min-width: 1800px) {
-    .main{
-        padding-top: 30px!important;
-    }
+    max-width: 1800px;
+    width: 100%;
 }
 
 .main-heading {
@@ -51,15 +50,15 @@ header {
 }
 
 .main-line img {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
 }
 
 .main-heading p {
     margin-bottom: 0px;
     font-weight: 600;
-    font-size: 1.75rem;
-    line-height: 3rem;
+    font-size: 1.6rem;
+    line-height: 2rem;
     color: #46879F;
     text-align: left;
 }
@@ -67,7 +66,7 @@ header {
 .main-image {
     width: 48%;
     display: flex;
-
+    max-width: 850px;
 }
 
 .main-image img {
@@ -92,7 +91,7 @@ header {
 }
 
 .group-buttons > button:first-child {
-    width: 45%;
+    width: 43%;
     aspect-ratio: 1 / .31;
     background-color: #46879F;
     border: 1px solid white;
@@ -105,7 +104,7 @@ header {
 }
 
 .group-buttons a {
-    width: 45%;
+    width: 43%;
     aspect-ratio: 1 / .31;
     color: #46879F;
     border: 1px solid #46879F;
@@ -122,6 +121,14 @@ header {
 
 
 @media (min-width: 1920px) {
+    .main-heading h1 {
+        font-size: 3rem;
+    }
+    
+    .main-heading p {
+        font-size: 2rem;
+    }
+
     .group-buttons{
         font-size: 1.5rem;
         line-height: 1.5rem;
@@ -143,11 +150,6 @@ header {
         text-align: left;
     }
 
-    .main-line img {
-        width: 40px;
-        height: 40px;
-    }
-
     .group-buttons {
         font-size: 1rem;
         line-height: 1rem;
@@ -155,7 +157,18 @@ header {
 }
 
 
+@media (max-width: 900px) {
+    .group-buttons {
+        font-size: .875rem;
+    }
+}
+
+
 @media (max-width: 768px) {
+    nav {
+        margin-bottom: 35px;
+    }
+
     .main {
         flex-direction: column;
         align-items: center;
@@ -179,8 +192,7 @@ header {
 
     .main-heading p {
         font-size: 1.375rem;
-        line-height: 2rem;
-        font-weight: 700;
+        line-height: 1.75rem;
     }
 
     .main-image {
@@ -207,11 +219,11 @@ header {
     }
 
     .main-line {
-        gap: 5px;
+        gap: 10px;
     }
 
     .main-line img {
-        width: 30px;
-        height: 30px;
+        width: 35px;
+        height: 35px;
     }
 }

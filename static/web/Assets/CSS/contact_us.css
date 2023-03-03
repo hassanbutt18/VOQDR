@@ -75,7 +75,7 @@
 
 .contact-input-container button {
     width: 29.4%;
-    aspect-ratio: 1 / .27;
+    aspect-ratio: 1 / .28;
     background-color: #46879F;
     border: 1px solid transparent;
     border-radius: 40px;
@@ -124,8 +124,8 @@
 
 @media (min-width: 1920px) {
     .contact-input-container button {
-        font-size: 1.5rem;
-        line-height: 1.5rem;
+        font-size: 1.8rem;
+        line-height: 1.8rem;
     }
 }
 

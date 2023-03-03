@@ -1,8 +1,11 @@
 .accounts {
     margin-bottom: 10px;
-    padding-top: 85px;
-
 }
+
+nav {
+    margin-bottom: 35px;
+}
+
 /* .footer {
     position: fixed;
     bottom: 0;
@@ -426,19 +429,6 @@ select:focus {
 }
 
 
-@media (min-width: 1920px) {
-    .accounts {
-        padding-top: 120px;
-    }
-}
-
-
-@media (min-width: 1536px) and (max-width: 1919px) {
-    .accounts {
-        padding-top: 108px;
-    }
-}
-
 
 @media (max-width: 1280px) {
     .accounts h2 {
@@ -448,17 +438,13 @@ select:focus {
 
 
 @media (max-width: 1024px) {
-    .accounts {
-        padding-top: 75px;
+    nav {
+        margin-bottom: 20px;
     }
 }
 
 
 @media (max-width: 768px) {
-    .accounts{
-        padding-top: 70px;
-    }
-
     .accounts h2 {
         width: 100%;
     }

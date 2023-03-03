@@ -8,12 +8,11 @@ nav {
     align-items: center;
     width: 100%;
     aspect-ratio: 1 / .05;
-    min-height: 55px;
     text-align: center;
-    margin-bottom: 65px;
     background-color: #F8FCFE;
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
-    padding: 0 2%!important;
+    padding-left: 2%!important;
+    padding-right: 2%!important;
 }
 
 .navbar-collapse {
@@ -219,6 +218,10 @@ nav>a:first-of-type {
 
 
 @media (max-width: 1024px) {
+    nav {
+        min-height: 55px;
+    }
+
     .logo {
         min-height: 35px;
     }
@@ -237,7 +240,6 @@ nav>a:first-of-type {
 @media (max-width: 767px) {
     nav {
         padding: 0 0 0 0!important;
-        margin-bottom: 0px;
     }
 
     nav>a:first-of-type {
@@ -367,7 +369,6 @@ nav>a:first-of-type {
 @media (max-width: 480px) {
     nav {
         min-height: 55px;
-        margin-bottom: 15px;
     }
 
     nav>a:first-of-type {
