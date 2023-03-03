@@ -462,22 +462,22 @@ def signup(request):
     return render(request, 'web/signup.html', context)
 
 
-def generate_email(email):
-    secret_key = str(randint(1000, 9999))
-    verification_token = get_otp_verified_token(email=email)
-    update_code = User.objects.filter(email=email).update(code=secret_key, token=verification_token)
-    if update_code:
-        try:
-            status = send_mail(
-                'Use the following code to get to the next step and reset your password.',
-                secret_key,
-                'voqdr.site@gmail.com',
-                [email],
-                fail_silently=False,
-            )
-        except Exception as e:
-            print(e)
-    return verification_token
+# def generate_email(email):
+#     secret_key = str(randint(1000, 9999))
+#     verification_token = get_otp_verified_token(email=email)
+#     update_code = User.objects.filter(email=email).update(code=secret_key, token=verification_token)
+#     if update_code:
+#         try:
+#             status = send_mail(
+#                 'Use the following code to get to the next step and reset your password.',
+#                 secret_key,
+#                 'voqdr.site@gmail.com',
+#                 [email],
+#                 fail_silently=False,
+#             )
+#         except Exception as e:
+#             print(e)
+#     return verification_token
     
 
 def forgot_password(request):
@@ -492,7 +492,7 @@ def forgot_password(request):
         if user is None:
             msg = "Enter your registered email." 
         else:
-            token = generate_email(email)
+            token = EmailManager.send_verification_code_email(email)
             success = True
         context["success"] = success
         context["msg"] = msg
@@ -506,7 +506,7 @@ def forgot_password(request):
 
 def resend_code(request, token):
     code, email = decrypt_token(token)
-    token = generate_email(email)
+    token = EmailManager.send_verification_code_email(email)
     return JsonResponse({'token':token})
 
 

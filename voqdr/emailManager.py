@@ -1,9 +1,11 @@
 import os
 from pydoc import Helper
+from random import randint
 from django.template.loader import get_template
 from django.template import Context
 from users.models import User
 from voqdr import helpers
+from authentications.services import get_otp_verified_token
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 
@@ -46,7 +48,6 @@ class EmailManager:
         return str(e)
 
 
-
   @staticmethod
   def send_email_invite(email: str, role: str, organization: str, token:str, request=None, **kwargs):
     BASE_URL = settings.BASE_URL
@@ -73,6 +74,7 @@ class EmailManager:
       return True
     except Exception as e:
       return str(e)
+
 
   @staticmethod
   def send_approval_status_email(invited_by, invited_to, status, role):
@@ -102,10 +104,36 @@ class EmailManager:
     except Exception as e:
       return str(e)
 
+
+  
+  @staticmethod
+  def send_verification_code_email(email: str):
+    secret_key = str(randint(1000, 9999))
+    verification_token = get_otp_verified_token(email=email)
+    update_code = User.objects.filter(email=email).update(code=secret_key, token=verification_token)
+    if update_code:
+      try:
+        email_subject = 'VOQDR Organization Verification Code.'
+        text_content = settings.PROJECT_NAME + email_subject
+        text_template = get_template('email_templates/verify-code-email.html')
+        context_obj = {
+          'project_name': settings.PROJECT_NAME,
+          'LOGO': settings.LOGO,
+          'verification_code': secret_key
+        }
+        template_content = text_template.render(context_obj)
+        msg = EmailMultiAlternatives(email_subject, text_content, settings.EMAIL_HOST_USER, [email])
+        msg.attach_alternative(template_content, 'text/html')
+        msg.send()
+        return verification_token
+      except Exception as e:
+        print(e)
+
+
   @staticmethod
   def send_contact_us_email(user_name, user_email, user_message):
     try:
-      email_subject = 'VOQDR Organization Contact Us Email'
+      email_subject = 'VOQDR Organization Contact Us Email.'
       text_content = settings.PROJECT_NAME + email_subject
       text_template = get_template('email_templates/contact-us-email.html')
       context_obj = {
