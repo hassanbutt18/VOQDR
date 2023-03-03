@@ -30,6 +30,7 @@ nav {
 
 .menuIcon {
     color: #004762;
+    font-size: 20px;
 }
 
 .closeIcon {
@@ -317,7 +318,7 @@ nav>a:first-of-type {
 
     .sign-in-btn {
         font-size: .875rem;
-        padding: 5px 10px;
+        padding: 7px 13px;
     }
 
     /* .hamburger {

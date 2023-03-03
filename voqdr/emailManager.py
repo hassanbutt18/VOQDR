@@ -116,7 +116,7 @@ class EmailManager:
         'message': user_message
       }
       template_content = text_template.render(context_obj)
-      msg = EmailMultiAlternatives(email_subject, text_content, settings.EMAIL_HOST_USER, [settings.EMAIL_HOST_USER])
+      msg = EmailMultiAlternatives(email_subject, text_content, settings.EMAIL_HOST_USER, [settings.LIVE_EMAIL])
       msg.attach_alternative(template_content, 'text/html')
       msg.send()
       return True
