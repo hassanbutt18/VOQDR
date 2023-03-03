@@ -143,6 +143,10 @@ nav>a:first-of-type {
     padding: 10px 21px;
 }
 
+.sign-in-btn:hover {
+    background-color: #3c758a;    
+}
+
 .nav-links button a {
     color: white;
 }

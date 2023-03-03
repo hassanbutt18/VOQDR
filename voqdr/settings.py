@@ -103,15 +103,15 @@ if PROJECT_MODE:
     # For Development Server
     DATABASES = {
         'default': {
-            "ENGINE": env('DEVELOPMENT_DATABASE_ENGINE'),
-            "NAME": env('DEVELOPMENT_DATABASE_NAME'),
-            "USER": env('DEVELOPMENT_DATABASE_USER'),
-            "PASSWORD": env('DEVELOPMENT_DATABASE_PASSWORD'),
-            "HOST": env('DEVELOPMENT_DATABASE_HOST'),
-            "PORT": env('DEVELOPMENT_DATABASE_PORT')
+            "ENGINE": env('PRODUCTION_DATABASE_ENGINE'),
+            "NAME": env('PRODUCTION_DATABASE_NAME'),
+            "USER": env('PRODUCTION_DATABASE_USER'),
+            "PASSWORD": env('PRODUCTION_DATABASE_PASSWORD'),
+            "HOST": env('PRODUCTION_DATABASE_HOST'),
+            "PORT": env('PRODUCTION_DATABASE_PORT')
         }
     }
-    BASE_URL = env('DEVELOPMENT_BASE_URL')
+    BASE_URL = env('PRODUCTION_BASE_URL')
 else:
     # For local machine
     DATABASES = {
