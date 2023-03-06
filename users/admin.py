@@ -56,6 +56,16 @@ class UserModelAdmin(admin.ModelAdmin):
     formfield_overrides = {
         models.BooleanField: {'widget': DjangoToggleSwitchWidget(round=True, klass="django-toggle-switch-dark-primary")},
     }
+
+    def change_view(self, request, object_id, extra_context=None):
+        extra_context = {'title': 'Change Organization'}
+        return super().change_view(request, object_id, extra_context=extra_context)
+
+    def changelist_view(self, request, extra_context=None):
+        extra_context = {'title': 'Select organization to change'}
+        return super().changelist_view(request, extra_context=extra_context)
+        
+            
     def get_readonly_fields(self, request, obj=None):
         if obj:
             return self.readonly_fields
