@@ -99,6 +99,7 @@ WSGI_APPLICATION = 'voqdr.wsgi.application'
 
 PROJECT_MODE = env('PROJECT_MODE')
 
+
 if PROJECT_MODE:
     # For Development Server
     DATABASES = {

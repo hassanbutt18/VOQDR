@@ -18,7 +18,7 @@ from voqdr.helpers import *
 from django.utils.crypto import get_random_string
 from authentications.models import OTP
 from authentications.services import *
-from users.models import InvitedOrganization, LinkDevice, OrganizationPermissions, SharedOrganization, Transactions, User, UserRoles, organization_permissions
+from users.models import FavouriteDevice, InvitedOrganization, LinkDevice, OrganizationPermissions, SharedOrganization, Transactions, User, UserRoles, organization_permissions
 from django.contrib.auth.decorators import login_required
 
 from web.models import Application, Home, PrivacyPolicy, ProductFeature, TermsAndConditions, Testimonial, ApplicationImage, ContactUs
@@ -58,6 +58,7 @@ def maps_vodcur(request):
     success = False
     user = request.user
     linked_devices = None
+    favourite_devices = None
     context={'nbar':'map'}
     context['active_org'] = user.id
     header = {"Authorization": f"Bearer {settings.AUTH_TOKEN}"}
@@ -74,13 +75,16 @@ def maps_vodcur(request):
                     pass  
         except Exception as e:
             pass
-    context["shared_with_us_organizations"] = user.shared_with_organization.all()
+    # context["shared_with_us_organizations"] = user.shared_with_organization.all()
     if user.is_organization == True:
+        favourite_devices = FavouriteDevice.objects.filter(user=user, device__id__in=[obj.id for obj in LinkDevice.objects.filter(organization_id=user.id)])
         linked_devices = LinkDevice.objects.filter(organization=user.id).values()
+        # print(linked_devices)
         context['role'] = 'admin'
     else:
         org = OrganizationPermissions.objects.filter(shared_to_id=user.id).first()
         if org:
+            favourite_devices = FavouriteDevice.objects.filter(user=user, device__id__in=[obj.id for obj in LinkDevice.objects.filter(organization_id=org.shared_by_id)])
             linked_devices = LinkDevice.objects.filter(organization_id=org.shared_by_id).values()
             context['role'] = org.role
     multipleLocations = []
@@ -101,6 +105,7 @@ def maps_vodcur(request):
     else:
         msg = "No devies found in your organization"
         success = False
+    context["favourite_devices"] = favourite_devices
     context['auth_token'] = json.dumps(settings.AUTH_TOKEN)
     context['devices_ids'] = json.dumps(devices_ids)
     context["multipleLocations"] = json.dumps(multipleLocations)
@@ -131,7 +136,7 @@ def get_shared_with_devices(request, pk):
         success = True 
     except Exception as e:
         text_template = loader.get_template('web/ajax/devices.html')
-        html = text_template.render({'linked_devices':devices})
+        html = text_template.render({'favourite_devices':devices})
         context["html"] = html
         msg = "No device available in this organization"
         success = False
@@ -150,22 +155,24 @@ def refresh_devices(request, pk):
     # org = OrganizationPermissions.objects.filter(shared_by_id=pk, shared_to_id=request.user.id).first()
     try:
         if user.is_organization == True:
-            linked_devices = LinkDevice.objects.filter(organization=user.id).values()
-            context['role'] = 'admin'
+            favourite_devices = FavouriteDevice.objects.filter(user=user, device__id__in=[obj.id for obj in LinkDevice.objects.filter(organization_id=user.id)])
+            # linked_devices = LinkDevice.objects.filter(organization=user.id).values()
+            # context['role'] = 'admin'
             devices['role'] = 'admin'
         else:
             org = OrganizationPermissions.objects.filter(shared_to_id=user.id).first()
             if org:
+                favourite_devices = FavouriteDevice.objects.filter(user=user, device__id__in=[obj.id for obj in LinkDevice.objects.filter(organization_id=org.shared_by_id)])
                 linked_devices = LinkDevice.objects.filter(organization_id=org.shared_by_id).values()
-                context['role'] = org.role
+                # context['role'] = org.role
                 devices['role'] = org.role
         # linked_devices = LinkDevice.objects.filter(organization=pk).values()
-        linked_devices = ValuesQuerySetToDict(linked_devices)
+        # linked_devices = ValuesQuerySetToDict(linked_devices)
         # if request.user.id == pk:
         #     devices['role'] = 'admin'
         # else:
         #     devices['role'] = org.role
-        devices['linked_devices'] = linked_devices
+        devices['favourite_devices'] = favourite_devices
         text_template = loader.get_template('web/ajax/devices.html')
         html = text_template.render(devices)
         context["html"] = html
@@ -173,7 +180,7 @@ def refresh_devices(request, pk):
         success = True
     except Exception as e:
         text_template = loader.get_template('web/ajax/devices.html')
-        html = text_template.render({'linked_devices':devices})
+        html = text_template.render({'favourite_devices':devices})
         context["html"] = html
         msg = "No device available in this organization"
         success = False
@@ -193,17 +200,19 @@ def search_devices(request, pk):
     # org = OrganizationPermissions.objects.filter(shared_by_id=pk, shared_to_id=request.user.id).first()
     try:
         if user.is_organization == True:
-            linked_devices = LinkDevice.objects.filter(Q(name__icontains=request_data.get('device')) | Q(description__icontains=request_data.get('device')), organization_id=pk).values()
-            context['role'] = 'admin'
+            favourite_devices = FavouriteDevice.objects.filter(user=user, device__id__in=[obj.id for obj in LinkDevice.objects.filter(Q(name__icontains=request_data.get('device')) | Q(description__icontains=request_data.get('device')), organization_id=user.id)])
+            # linked_devices = LinkDevice.objects.filter(Q(name__icontains=request_data.get('device')) | Q(description__icontains=request_data.get('device')), organization_id=pk).values()
+            # context['role'] = 'admin'
             devices['role'] = 'admin'
         else:
             org = OrganizationPermissions.objects.filter(shared_to_id=user.id).first()
             if org:
-                linked_devices = LinkDevice.objects.filter(Q(name__icontains=request_data.get('device')) | Q(description__icontains=request_data.get('device')), organization_id=org.shared_by_id).values()
-                context['role'] = org.role
+                favourite_devices = FavouriteDevice.objects.filter(user=user, device__id__in=[obj.id for obj in LinkDevice.objects.filter(Q(name__icontains=request_data.get('device')) | Q(description__icontains=request_data.get('device')), organization_id=org.shared_by_id)])
+                # linked_devices = LinkDevice.objects.filter(Q(name__icontains=request_data.get('device')) | Q(description__icontains=request_data.get('device')), organization_id=org.shared_by_id).values()
+                # context['role'] = org.role
                 devices['role'] = org.role
-        linked_devices = ValuesQuerySetToDict(linked_devices)
-        if len(linked_devices) == 0:
+        # linked_devices = ValuesQuerySetToDict(linked_devices)
+        if len(favourite_devices) == 0:
             msg = "No such device found"
         else:
             success = True
@@ -212,7 +221,7 @@ def search_devices(request, pk):
         #     devices['role'] = 'admin'
         # else:
         #     devices['role'] = org.role
-        devices['linked_devices'] = linked_devices
+        devices['favourite_devices'] = favourite_devices
         text_template = loader.get_template('web/ajax/devices.html')
         html = text_template.render(devices)
         context["html"] = html
@@ -311,7 +320,7 @@ def toggle_favourite_device(request, pk):
     success = False
     context = {}
     try:
-        device = LinkDevice.objects.filter(device_id=pk).first()
+        device = FavouriteDevice.objects.filter(user=request.user, device_id=int(pk)).first()
         if device.favourite == False:
             device.favourite = True
             msg = "Device added to favourites"
@@ -319,7 +328,7 @@ def toggle_favourite_device(request, pk):
             device.favourite = False
             msg = "Device excluded from favourites"
         device.save(update_fields=['favourite'])
-        res = refresh_devices(request=request, pk=device.organization_id)
+        res = refresh_devices(request=request, pk=request.user.id)
         context = json.loads(res.content)
         success = True
     except Exception as e:
@@ -628,6 +637,12 @@ def invitation_approval(request, token, status):
             org = SharedOrganization.objects.create(shared_to=data['shared_to'], shared_by_id=data['shared_by'], role=data['role'], is_verified=True)
         else:
             org = SharedOrganization.objects.create(shared_to=data['shared_to'], shared_by_id=data['shared_by'], role=data['role'])
+        share_to = User.objects.filter(email=data['shared_to']).first()
+        devices = FavouriteDevice.objects.filter(user=data['shared_by'])
+        if devices:
+            for obj in devices:
+                FavouriteDevice.objects.create(user=share_to, device_id=obj.device_id)
+
         invitation = InvitedOrganization.objects.filter(shared_to=data['shared_to'], shared_by_id=data['shared_by'])
         if invitation:
             invitation.delete()

@@ -37,7 +37,7 @@
                         {% endif %}
                     </div>
                     <div class="mb-3 w-100 d-flex justify-content-center gap-3">
-                        <svg id="get-route" class="cursor-pointer" onclick="getRouting('{{device.device_id}}');" width="35" height="35"
+                        <svg id="get-route" class="cursor-pointer" onclick="getRouting('{{device.device.device_id}}');" width="35" height="35"
                             viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <title>Movement</title>
                             <rect width="50" height="50" rx="25" fill="#46879F" />
@@ -54,7 +54,7 @@
                                 d="M35.0194 17.4866C35.0194 15.8953 33.5185 14.5312 31.6257 14.5312C29.7333 14.5312 28.2324 15.8386 28.2324 17.4866C28.2324 19.1346 29.7334 20.4416 31.6257 20.4416C33.5186 20.4416 35.0194 19.0776 35.0194 17.4866ZM30.1901 17.4866C30.1901 16.8044 30.8427 16.2361 31.6256 16.2361C32.409 16.2361 33.0616 16.8045 33.0616 17.4866C33.0616 18.1684 32.409 18.7367 31.6256 18.7367C30.8427 18.7367 30.1901 18.1684 30.1901 17.4866Z"
                                 fill="white" />
                         </svg>
-                        <svg id="share-location" class="cursor-pointer" onclick="shareLocation('{{device.device_id}}');" width="35"
+                        <svg id="share-location" class="cursor-pointer" onclick="shareLocation('{{device.device.device_id}}');" width="35"
                             height="35" viewBox="0 0 51 51" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <title>Share Location</title>
                             <rect x="0.75" y="0.984375" width="50" height="50" rx="25" fill="#46879F" />
@@ -78,7 +78,7 @@
                         </svg>
                         {% if role == 'admin' %}
                         <svg id="delete-device" class="cursor-pointer"
-                            onclick="deleteDeviceModal(event, '{{device.device_id}}', 'deleteDevice');" width="35"
+                            onclick="deleteDeviceModal(event, '{{device.device.device_id}}', 'deleteDevice');" width="35"
                             height="35" viewBox="0 0 51 51" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <title>Delete Device</title>
                             <rect x="0.75" y="0.984375" width="50" height="50" rx="25" fill="#46879F" />
