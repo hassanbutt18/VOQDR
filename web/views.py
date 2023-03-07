@@ -716,13 +716,22 @@ def edit_organization_role(request, pk):
     request_data = json.loads(request.body.decode('utf-8'))
     try:
         user = User.objects.get(id=pk)
-        if user:
+        if request.user.is_organization == True and request.user.id != pk:
             shared_org = SharedOrganization.objects.filter(shared_by=request.user, shared_to=user.email).first()
             if shared_org:
                 shared_org.role = request_data.get('role')
                 shared_org.save(update_fields=['role'])
                 msg = "Organization role updated"
                 success = True
+        else:
+            shared_org = SharedOrganization.objects.filter(shared_to=user.email).first()
+            if shared_org.role == 'admin':
+                shared_org.role = request_data.get('role')
+                shared_org.save(update_fields=['role'])
+                msg = "Organization role updated"
+                success = True
+            else:
+                msg = "Access denied"
     except Exception as e:
         print(e) 
     context['msg'] = msg
@@ -736,7 +745,7 @@ def remove_shared_organization(request, pk):
     context = {}
     try:
         user = User.objects.get(id=pk)
-        if user:
+        if request.user.is_organization == True and request.user.id != pk:
             shared_org = SharedOrganization.objects.filter(shared_by=request.user, shared_to=user.email)
             if shared_org:
                 shared_org.delete()
@@ -746,7 +755,30 @@ def remove_shared_organization(request, pk):
             user_in_org = User.objects.filter(id=pk, is_organization=False)
             if user_in_org:
                 user_in_org.delete()
-        success = True
+            success = True
+        else:
+            shared_org = SharedOrganization.objects.filter(shared_to=user.email).first()
+            if shared_org.role == 'admin':
+                shared_org.delete()
+                org = OrganizationPermissions.objects.filter(shared_to=user)
+                if org:
+                    org.delete()
+                user_in_org = User.objects.filter(id=pk, is_organization=False)
+                if user_in_org:
+                    user_in_org.delete()
+                success = True
+            else:
+                msg = "Permission denied"
+        # if user:
+        #     shared_org = SharedOrganization.objects.filter(shared_by=request.user, shared_to=user.email)
+        #     if shared_org:
+        #         shared_org.delete()
+        #     org = OrganizationPermissions.objects.filter(shared_by=request.user, shared_to=user)
+        #     if org:
+        #         org.delete()
+        #     user_in_org = User.objects.filter(id=pk, is_organization=False)
+        #     if user_in_org:
+        #         user_in_org.delete()
         
     except Exception as e:
         org = None

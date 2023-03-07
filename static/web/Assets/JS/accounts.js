@@ -161,9 +161,7 @@ async function editOrganizationRole(event, id){
   response = await requestAPI(`/edit-organization-role/${id}`, JSON.stringify(data), headers, 'POST' );
   afterLoad(button, button_text);
   response.json().then(function (res) {
-    console.log(res);
     if (!res.success) {
-      console.log(res.msg);
     }
     else{
       location.pathname = `${location.pathname}`;

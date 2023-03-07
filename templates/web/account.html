@@ -48,8 +48,11 @@
                     </div>
                     <button class="submit-btn pt-3 pb-3" value="submit" type="submit">Save Changes</button>
                 </form>
+                {% if role == 'admin' %}
                 <button class="payments-btn">Manage Payments</button>
                 <span>Go to Stripe to manage payment</span>
+                {% else %}
+                {% endif %}
             </div>
             <div class="organisation-info">
                 <div>
@@ -112,9 +115,9 @@
                         {% endif %}
                     </form>
 
+                    {% if request.user.is_organization == True %}
                     <div class="add-user-container">
                         <h2>Users</h2>
-                        {% if request.user.is_organization == True %}
                         <form action="" id="add-user-form" onsubmit="addUserForm(event)">
                             {% csrf_token %}
                             <div class="user-group-inputs">
@@ -136,28 +139,11 @@
                                 <span class="error-text"></span>
                             </div>
                         </form>
-                        {% else %}
-                        <div class="user-group-inputs">
-                            <div class="input1 user-input">
-                                <span>Email</span>
-                                <input type="email" readonly required name="email" />
-                            </div>
-                            <div class="input2 user-input">
-                                <span>Role</span>
-                                <select name="role" id="roles" class="form-select select-role">
-                                    <option value="viewer">Viewer</option>
-                                    <option value="admin">Admin</option>
-                                </select>
-                            </div>
-                        </div>
-                        <!-- <button type="submit" form="add-user-form" value="Submit" class="add-user-btn pt-3 pb-3">Add User</button> -->
-                        <div class="alert hide">
-                            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                            <span class="error-text"></span>
-                        </div>
-                        {% endif %}
                     </div>
-
+                    {% else %}
+                    {% endif %}
+                    
+                    {% if request.user.is_organization == True %}
                     <div>
                         <table class="user-table" id="shared_organization">
                             <thead>
@@ -165,6 +151,10 @@
                                 <th>Roles</th>
                                 <th>Actions</th>
                             </thead>
+                            <tr>
+                                <td>{{request.user.email}}</td>
+                                <td>Owner</td>
+                            </tr>
                             {% if shared_to_organizations %}
                             {% for obj in shared_to_organizations %}
                             <tr>
@@ -197,6 +187,53 @@
                             {% endif %}
                         </table>
                     </div>
+                    {% elif shared_with_us_organizations %}
+                    {% for obj in shared_with_us_organizations %}
+                    {% if obj.role == 'admin' %}
+                    <div>
+                        <table class="user-table" id="shared_organization">
+                            <thead>
+                                <th>Name</th>
+                                <th>Roles</th>
+                                <th>Actions</th>
+                            </thead>
+                            <tr>
+                                <td>{{obj.shared_by.email}}</td>
+                                <td>Owner</td>
+                            </tr>
+                            <tr>
+                                <td>{{obj.shared_to.email}}</td>
+                                <td>{{obj.role|title}}</td>
+                                <td>
+                                    <svg class="cursor-pointer" onclick="editOrganizationRoleModal(event, '{{obj.shared_to.id}}', 'editOrganizationRole')" width="23" height="23" viewBox="0 0 23 23" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <rect x="0.5" y="0.677734" width="22" height="22" rx="11" fill="#46879F" />
+                                        <path
+                                            d="M15.8942 15.6564H7.10611C6.92591 15.6564 6.77344 15.8089 6.77344 15.9891C6.77344 16.1693 6.92591 16.3217 7.10611 16.3217H15.8942C16.0744 16.3217 16.2269 16.1693 16.2269 15.9891C16.2269 15.8089 16.0744 15.6564 15.8942 15.6564ZM6.7873 12.7455L6.77344 14.3118C6.77344 14.395 6.80116 14.492 6.87047 14.5475C6.93977 14.6029 7.02294 14.6445 7.10611 14.6445L8.67245 14.6307C8.75562 14.6307 8.83878 14.5891 8.90809 14.5336L14.2863 9.15541C14.4111 9.03066 14.4111 8.80888 14.2863 8.68413L12.7338 7.13165C12.6091 7.0069 12.3873 7.0069 12.2625 7.13165L11.1814 8.21284L6.88433 12.5099C6.81502 12.5792 6.7873 12.6623 6.7873 12.7455ZM13.5794 8.91977L12.9695 9.52967L11.8883 8.44848L12.4982 7.83858L13.5794 8.91977ZM7.45265 12.8841L11.417 8.91977L12.4982 10.001L8.53383 13.9653H7.45265V12.8841Z"
+                                            fill="white" />
+                                    </svg>
+                                    <svg class="cursor-pointer" onclick="deleteOrganizationModal(event, '{{obj.shared_to.id}}', 'delOrganization');" width="23" height="23" viewBox="0 0 23 23" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <rect x="0.5" y="0.677734" width="22" height="22" rx="11" fill="#FB3B3B" />
+                                        <path
+                                            d="M9.85938 9.6875H10.5156V14.9375H9.85938V9.6875ZM11.1719 9.6875H11.8281V14.9375H11.1719V9.6875ZM12.4844 9.6875H13.1406V14.9375H12.4844V9.6875ZM7.23438 7.71875H15.7656V8.375H7.23438V7.71875Z"
+                                            fill="white" />
+                                        <path
+                                            d="M13.1203 8.04648H12.5078V7.39023C12.5078 7.19336 12.3547 7.04024 12.1578 7.04024H10.8453C10.6484 7.04024 10.4953 7.19336 10.4953 7.39023V8.04648H9.88281V7.39023C9.88281 6.86523 10.3203 6.42773 10.8453 6.42773H12.1578C12.6828 6.42773 13.1203 6.86523 13.1203 7.39023V8.04648Z"
+                                            fill="white" />
+                                        <path
+                                            d="M13.4688 16.9057H9.53125C9.00625 16.9057 8.54688 16.4682 8.50313 15.9432L7.89062 8.06816L8.54688 8.02441L9.15938 15.8994C9.18125 16.0963 9.35625 16.2494 9.53125 16.2494H13.4688C13.6656 16.2494 13.8406 16.0744 13.8406 15.8994L14.4531 8.02441L15.1094 8.06816L14.4969 15.9432C14.4531 16.49 13.9938 16.9057 13.4688 16.9057Z"
+                                            fill="white" />
+                                    </svg>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    {% else %}
+                    {% endif %}
+                    {% endfor %}
+                    {% else %}
+                    {% endif %}
                 </div>
             </div>
         </div>
