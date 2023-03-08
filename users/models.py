@@ -89,6 +89,7 @@ class SharedOrganization(models.Model):
     def __str__(self):
         return self.shared_to
 
+
 class Dummy(models.Model):
     role = models.CharField(max_length=15, default=UserRoles.VIEWER)
 
@@ -111,9 +112,13 @@ class OrganizationPermissions(models.Model):
     shared_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='shared_from_organization')
     shared_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name='shared_with_organization')
     role = models.CharField(max_length=15, default=UserRoles.VIEWER)
-    def __str__(self):
-        return self.shared_to
-
+    
+    class Meta:
+        verbose_name_plural = "Users"
+    
+    # def __str__(self):
+    #     return self.shared_to
+    
     @staticmethod
     def create_organization_permissions(instance):
         try:
@@ -234,3 +239,10 @@ def postsave_handler(sender, instance, created, **kwargs):
         if org:
             for obj in org:
                 FavouriteDevice.objects.create(user_id=obj.shared_to_id, device_id=instance.id)
+
+
+@receiver(models.signals.post_delete, sender=OrganizationPermissions)
+def postdelete_handler(sender, instance, **kwargs):
+    SharedOrganization.objects.filter(shared_to=instance.shared_to.email).delete()
+    FavouriteDevice.objects.filter(user=instance.shared_to).delete()
+    User.objects.filter(id=instance.shared_to_id).delete()

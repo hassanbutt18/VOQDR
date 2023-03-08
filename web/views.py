@@ -654,7 +654,7 @@ def invitation_approval(request, token, status):
         EmailManager.send_approval_status_email(share_by.email, data['shared_to'], status, data['role'])
     except Exception as e:
         print(e)
-    return redirect('/')
+    return redirect('/signin/')
 
 
 def get_organization_details(request, pk):
