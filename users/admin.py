@@ -6,8 +6,6 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from users.models import LinkDevice, User, OrganizationPermissions
 from django.utils.translation import gettext_lazy as _
-from django.db.models import ForeignKey
-from django.forms.widgets import Select
 from django.urls import reverse_lazy
 from django_toggle_switch_widget.widgets import DjangoToggleSwitchWidget
 admin.site.unregister(Group)
@@ -92,6 +90,8 @@ class UserAdmin(admin.ModelAdmin):
         return qs
 
 
+
+
 class OrganizationPermissionForm(forms.ModelForm):
     role_dropdown = [
         ('viewer', 'Viewer'),
@@ -99,27 +99,29 @@ class OrganizationPermissionForm(forms.ModelForm):
     ]
     role = forms.ChoiceField(choices=role_dropdown)
 
-    # status_dropdown = [
-    #     (False, 'Suspend'),
-    #     (True, 'Active'),
-    # ]
-    # is_active = forms.ChoiceField(choices=status_dropdown)
+    class Meta:
+        model = OrganizationPermissions
+        fields = ('role',)
 
     class Meta:
         model = OrganizationPermissions
         fields = '__all__'
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['shared_by'].queryset = User.objects.filter(is_organization=True, is_superuser=False)
+
 
 class AdminOrganizationPermission(admin.ModelAdmin):
-    list_display = ('shared_to', 'shared_by', 'role')
-    readonly_fields = ["shared_to",]
+    list_display = ('shared_to_email', 'shared_by', 'role')
+    readonly_fields = ["shared_to_email",]
+    exclude = ['shared_to',]
     form = OrganizationPermissionForm
 
-    # def get_form(self, request, obj=None, **kwargs):
-    #     form = super().get_form(request, obj, **kwargs)
-    #     if obj:
-    #         form.base_fields['is_active'].initial = obj.shared_to.is_active # Set the initial value of the custom field to the name field of the related object
-    #     return form
+    def shared_to_email(self, obj):
+        return obj.shared_to.email
+
+    shared_to_email.short_description = "Email"
 
     def get_readonly_fields(self, request, obj=None):
         if obj:
@@ -129,7 +131,16 @@ class AdminOrganizationPermission(admin.ModelAdmin):
 
     def has_add_permission(self, request):
         return False
-
+    
+    def formfield_for_dbfield(self, db_field, request, **kwargs):
+        # optionally set Field attributes here, by adding them to kwargs
+        formfield = super().formfield_for_dbfield(db_field, request, **kwargs)
+        if db_field.name == 'shared_by':
+            formfield.widget.can_add_related = False
+            formfield.widget.can_change_related = False
+            formfield.widget.can_delete_related = False
+            formfield.widget.can_view_related = False
+        return formfield
 
 
 admin.site.register(LinkDevice, AdminLinkDevice)
