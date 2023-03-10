@@ -842,17 +842,20 @@ def webhook_received(request):
     endpoint_secret = settings.STRIPE_ENDPOINT_SECRET
     payload = request.body
     sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+    print(sig_header, "***********************")
     event = None
     try:
         event = stripe.Webhook.construct_event(
             payload, sig_header, endpoint_secret
         )
+        print(event, "********************r4")
     except ValueError as e:
         # Invalid payload
         return HttpResponse(status=400)
     except stripe.error.SignatureVerificationError as e:
         # Invalid signature
         return HttpResponse(status=400)
+    print(event['type'], "??????????????????????")
     if event['type'] == 'checkout.session.completed':
         print("Payment was successful.")
         session = event['data']['object']
