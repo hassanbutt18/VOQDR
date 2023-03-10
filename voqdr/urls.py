@@ -24,4 +24,9 @@ urlpatterns = [
     path('', include('web.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'ckeditor', 'static'),
+]
+
 urlpatterns += staticfiles_urlpatterns()
