@@ -825,7 +825,7 @@ def product_checkout(request, qty):
                 'quantity': qty
             }],
             mode='payment',
-            success_url = settings.BASE_URL + 'successful-checkout',  
+            success_url = settings.BASE_URL + 'successful-checkout/',  
             cancel_url = settings.BASE_URL,
             shipping_address_collection = {"allowed_countries": ["PK", "US", "CA", "NO"]}
             # billing_address_collection = 'required',
@@ -842,26 +842,22 @@ def webhook_received(request):
     endpoint_secret = settings.STRIPE_ENDPOINT_SECRET
     payload = request.body
     sig_header = request.META['HTTP_STRIPE_SIGNATURE']
-    print(sig_header, "***********************")
     event = None
     try:
         event = stripe.Webhook.construct_event(
             payload, sig_header, endpoint_secret
         )
-        print(event, "********************r4")
     except ValueError as e:
         # Invalid payload
         return HttpResponse(status=400)
     except stripe.error.SignatureVerificationError as e:
         # Invalid signature
         return HttpResponse(status=400)
-    print(event['type'], "??????????????????????")
     if event['type'] == 'checkout.session.completed':
         print("Payment was successful.")
         session = event['data']['object']
         try:
             transaction = Transactions.objects.create(buyer_id=session.get('client_reference_id'), payment_intent=session.get('payment_intent'))
-            print(transaction, "here is transaction//////")
         except Exception as e:
             print(e)
 
