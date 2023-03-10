@@ -33,6 +33,18 @@ async function signinForm(event) {
     "X-CSRFToken": data.csrfmiddlewaretoken,
   };
 
+  // fetch('/signin/', {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //     'X-CSRFToken': data.csrfmiddlewaretoken
+  //   },
+  //   body: JSON.stringify({
+  //     data
+  //   })
+  // }).then(response => {
+  //   console.log(response);
+  // });
   beforeLoad(button, "Processing");
   response = await requestAPI('/signin/', JSON.stringify(data), headers, 'POST' );
   afterLoad(button, button_text)

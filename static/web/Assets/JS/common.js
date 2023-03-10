@@ -54,12 +54,11 @@ function formDataToObject(formData) {
 }
 
 async function requestAPI(url, data, headers, method) {
-
     // Default options are marked with *
     const response = await fetch(url, {
         method: method,
-        mode: 'no-cors',
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        // mode: 'no-cors',
+        // cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         headers: headers,
         body: data,
     });

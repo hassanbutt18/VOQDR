@@ -404,7 +404,6 @@ def my_account(request):
         return JsonResponse(context)
     return render(request, 'web/account.html', context)
 
-@csrf_exempt
 def signin(request):
     msg = None
     success = False
