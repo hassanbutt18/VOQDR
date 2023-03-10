@@ -649,6 +649,8 @@ def invitation_approval(request, token, status):
         invitation = InvitedOrganization.objects.filter(shared_to=data['shared_to'], shared_by_id=data['shared_by'])
         if invitation:
             invitation.delete()
+        shared_to_user = User.objects.filter(email=data['shared_to']).delete()
+        
     try:
         EmailManager.send_approval_status_email(share_by.email, data['shared_to'], status, data['role'])
     except Exception as e:
@@ -855,7 +857,8 @@ def webhook_received(request):
         print("Payment was successful.")
         session = event['data']['object']
         try:
-            Transactions.objects.create(buyer_id=session.get('client_reference_id'), payment_intent=session.get('payment_intent'))
+            transaction = Transactions.objects.create(buyer_id=session.get('client_reference_id'), payment_intent=session.get('payment_intent'))
+            print(transaction, "here is transaction//////")
         except Exception as e:
             print(e)
 
