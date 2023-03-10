@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.db import models
+from django import forms
 from web.models import Home, PrivacyPolicy, ProductFeature, TermsAndConditions, Testimonial, Application, ApplicationImage, ContactUs
 from ckeditor.widgets import CKEditorWidget
 
@@ -31,10 +32,18 @@ class AdminApplicationImage(admin.ModelAdmin):
             return True
 
 
+class TermsAndConditionsForm(forms.ModelForm):
+    content = forms.CharField(widget=CKEditorWidget())
+
+    class Meta:
+        model = TermsAndConditions
+        fields = ['content']
+
+
 class AdminTermsAndConditions(admin.ModelAdmin):
-    formfield_overrides = {
-        models.TextField: {'widget': CKEditorWidget}
-    }
+    # formfield_overrides = {
+    #     models.TextField: {'widget': CKEditorWidget}
+    # }
     def has_add_permission(self, request):
         terms = TermsAndConditions.objects.count()
         if terms == 1:
@@ -45,10 +54,17 @@ class AdminTermsAndConditions(admin.ModelAdmin):
         return False
 
 
+class PrivacyPolicyForm(forms.ModelForm):
+    content = forms.CharField(widget=CKEditorWidget())
+
+    class Meta:
+        model = PrivacyPolicy
+        fields = ['content']
+
 class AdminPrivacyPolicy(admin.ModelAdmin):
-    formfield_overrides = {
-        models.TextField: {'widget': CKEditorWidget}
-    }
+    # formfield_overrides = {
+    #     models.TextField: {'widget': CKEditorWidget}
+    # }
     def has_add_permission(self, request):
         policies = PrivacyPolicy.objects.count()
         if policies == 1:

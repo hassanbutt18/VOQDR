@@ -19,7 +19,6 @@ import environ
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Reading enviroment variables
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 env = environ.Env(
@@ -211,4 +210,5 @@ STRIPE_PUBLIC_KEY = env('STRIPE_PUBLIC_KEY')
 STRIPE_ENDPOINT_SECRET = env('STRIPE_ENDPOINT_SECRET')
 PRICE_ID = env('PRICE_ID')
 
-CKEDITOR_BASEPATH = '//cdn.ckeditor.com/4.14.0/standard/'
+# CKEDITOR_BASEPATH = '//cdn.ckeditor.com/4.14.0/standard/'
+CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"

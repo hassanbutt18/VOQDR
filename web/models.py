@@ -2,6 +2,7 @@ import os
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.dispatch import receiver
+from ckeditor.fields import RichTextField
 
 
  
@@ -108,7 +109,7 @@ class ContactUs(models.Model):
 
 
 class TermsAndConditions(models.Model):
-    terms_conditions = models.TextField(null=False, blank=False)
+    terms_conditions = RichTextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -121,7 +122,7 @@ class TermsAndConditions(models.Model):
 
 
 class PrivacyPolicy(models.Model):
-    privacy_policies = models.TextField(null=False, blank=False)
+    privacy_policies = RichTextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
