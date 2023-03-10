@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+import os
 from django.urls import path, include  # add this
 from django.conf import settings
 from django.conf.urls.static import static
@@ -25,8 +26,8 @@ urlpatterns = [
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-    os.path.join(BASE_DIR, 'ckeditor', 'static'),
+    os.path.join(settings.BASE_DIR, 'static'),
+    os.path.join(settings.BASE_DIR, 'ckeditor', 'static'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
