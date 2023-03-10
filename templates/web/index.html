@@ -193,7 +193,7 @@
             <form action="" onsubmit="contactUsForm(event);">
                 {% csrf_token %}
                 <div class="alert hide">
-                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                    <span class="closebtn" onclick="this.parentElement.classList.add('hide');">&times;</span>
                     <span class="error-text"></span>
                 </div>
                 <div class="group-inputs">

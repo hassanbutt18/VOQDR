@@ -39,7 +39,7 @@
                 <form method="" action="" id="sign-in-form" onsubmit="signinForm(event)">
                     {% csrf_token %}
                     <div class="alert hide">
-                        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                        <span class="closebtn" onclick="this.parentElement.classList.add('hide');">&times;</span>
                         <span class="error-text">{{msg}}</span>
                     </div>
                     <div class="sign-in-inputs">
