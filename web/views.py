@@ -838,7 +838,6 @@ def product_checkout(request, qty):
 
 @csrf_exempt
 def webhook_received(request):
-    print("inside webhook")
     stripe.api_key = settings.STRIPE_SECRET_KEY
     endpoint_secret = settings.STRIPE_ENDPOINT_SECRET
     payload = request.body
