@@ -126,6 +126,7 @@ else:
     }
     BASE_URL = env('LOCAL_BASE_URL')   
 
+print(BASE_URL)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
