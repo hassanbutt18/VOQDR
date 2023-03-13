@@ -250,6 +250,7 @@ def postdelete_handler(sender, instance, **kwargs):
 
 @receiver(models.signals.pre_save, sender=OrganizationPermissions)
 def on_shared_by_update_handler(sender, instance, **kwargs):
+    print("pre_save event called")
     org = OrganizationPermissions.objects.filter(shared_to=instance.shared_to).first()
     if org:
         if org.shared_by_id is not instance.shared_by_id:
@@ -261,6 +262,7 @@ def on_shared_by_update_handler(sender, instance, **kwargs):
 
 @receiver(models.signals.post_save, sender=OrganizationPermissions)
 def on_shared_by_update_handler(sender, instance, created, **kwargs):
+    print("post_save event called")
     shared_org = SharedOrganization.objects.filter(shared_to=instance.shared_to.email).first()
     if shared_org:
         if shared_org.shared_by != instance.shared_by:
@@ -269,8 +271,3 @@ def on_shared_by_update_handler(sender, instance, created, **kwargs):
         if shared_org.role != instance.role:
             shared_org.role = instance.role
             shared_org.save(update_fields=['role'])
-            # FavouriteDevice.objects.filter(user_id=instance.shared_to_id).delete()
-            # devices = FavouriteDevice.objects.filter(user=instance.shared_by)
-            # if devices:
-            #     for obj in devices:
-            #         FavouriteDevice.objects.create(user=instance.shared_to, device_id=obj.device_id)
